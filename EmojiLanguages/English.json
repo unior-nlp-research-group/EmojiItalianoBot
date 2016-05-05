@@ -1,0 +1,5929 @@
+{
+    "#⃣": [
+        "pound", 
+        "keycap number", 
+        "keycap", 
+        "hash"
+    ], 
+    "*⃣": [
+        "star", 
+        "asterisk", 
+        "keycap asterisk", 
+        "keycap"
+    ], 
+    "0⃣": [
+        "0", 
+        "zero", 
+        "keycap digit zero", 
+        "keycap"
+    ], 
+    "1⃣": [
+        "1", 
+        "one", 
+        "keycap digit one", 
+        "keycap"
+    ], 
+    "2⃣": [
+        "keycap digit two", 
+        "2", 
+        "keycap", 
+        "two"
+    ], 
+    "3⃣": [
+        "3", 
+        "keycap digit three", 
+        "keycap", 
+        "three"
+    ], 
+    "4⃣": [
+        "4", 
+        "four", 
+        "keycap", 
+        "keycap digit four"
+    ], 
+    "5⃣": [
+        "5", 
+        "keycap digit five", 
+        "five", 
+        "keycap"
+    ], 
+    "6⃣": [
+        "six", 
+        "6", 
+        "keycap", 
+        "keycap digit six"
+    ], 
+    "7⃣": [
+        "7", 
+        "seven", 
+        "keycap digit seven", 
+        "keycap"
+    ], 
+    "8⃣": [
+        "8", 
+        "keycap digit eight", 
+        "keycap", 
+        "eight"
+    ], 
+    "9⃣": [
+        "nine", 
+        "9", 
+        "keycap", 
+        "keycap digit nine"
+    ], 
+    "©": [
+        "copyright"
+    ], 
+    "®": [
+        "registered"
+    ], 
+    "‼": [
+        "punctuation", 
+        "double exclamation mark", 
+        "exclamation", 
+        "bangbang"
+    ], 
+    "⁉": [
+        "exclamation question mark", 
+        "question", 
+        "punctuation", 
+        "exclamation", 
+        "interrobang"
+    ], 
+    "™": [
+        "trade mark", 
+        "tm", 
+        "trademark"
+    ], 
+    "ℹ": [
+        "information source", 
+        "i", 
+        "information"
+    ], 
+    "↔": [
+        "arrow", 
+        "left-right arrow"
+    ], 
+    "↕": [
+        "arrow", 
+        "up-down arrow"
+    ], 
+    "↖": [
+        "arrow", 
+        "northwest", 
+        "up-left arrow", 
+        "intercardinal", 
+        "direction"
+    ], 
+    "↗": [
+        "arrow", 
+        "northeast", 
+        "up-right arrow", 
+        "intercardinal", 
+        "direction"
+    ], 
+    "↘": [
+        "arrow", 
+        "down-right arrow", 
+        "intercardinal", 
+        "southeast", 
+        "direction"
+    ], 
+    "↙": [
+        "southwest", 
+        "down-left arrow", 
+        "arrow", 
+        "intercardinal", 
+        "direction"
+    ], 
+    "↩": [
+        "right arrow curving left", 
+        "arrow"
+    ], 
+    "↪": [
+        "arrow", 
+        "left arrow curving right"
+    ], 
+    "⌚": [
+        "watch", 
+        "clock"
+    ], 
+    "⌛": [
+        "sand", 
+        "timer", 
+        "hourglass"
+    ], 
+    "⌨": [
+        "keyboard", 
+        "computer"
+    ], 
+    "⏏": [
+        "eject", 
+        "eject button"
+    ], 
+    "⏩": [
+        "fast", 
+        "arrow", 
+        "double", 
+        "forward", 
+        "fast-forword button"
+    ], 
+    "⏪": [
+        "rewind", 
+        "arrow", 
+        "fast reverse button", 
+        "double"
+    ], 
+    "⏫": [
+        "arrow", 
+        "double", 
+        "fast up button"
+    ], 
+    "⏬": [
+        "fast down button", 
+        "arrow", 
+        "double", 
+        "down"
+    ], 
+    "⏭": [
+        "next scene", 
+        "arrow", 
+        "next track button", 
+        "triangle", 
+        "next track"
+    ], 
+    "⏮": [
+        "previous scene", 
+        "previous track", 
+        "arrow", 
+        "last track button", 
+        "triangle"
+    ], 
+    "⏯": [
+        "play", 
+        "arrow", 
+        "right", 
+        "play or pause button", 
+        "pause", 
+        "triangle"
+    ], 
+    "⏰": [
+        "alarm clock", 
+        "alarm", 
+        "clock"
+    ], 
+    "⏱": [
+        "clock", 
+        "stopwatch"
+    ], 
+    "⏲": [
+        "timer", 
+        "timer clock", 
+        "clock"
+    ], 
+    "⏳": [
+        "sand", 
+        "timer", 
+        "hourglass", 
+        "hourglass with flowing sand"
+    ], 
+    "⏸": [
+        "pause button", 
+        "bar", 
+        "double", 
+        "vertical", 
+        "pause"
+    ], 
+    "⏹": [
+        "square", 
+        "stop", 
+        "stop button"
+    ], 
+    "⏺": [
+        "record button", 
+        "record", 
+        "circle"
+    ], 
+    "Ⓜ": [
+        "circled letter m", 
+        "circle", 
+        "m"
+    ], 
+    "▪": [
+        "square", 
+        "black small square"
+    ], 
+    "▫": [
+        "square", 
+        "white small square"
+    ], 
+    "▶": [
+        "play", 
+        "play button", 
+        "arrow", 
+        "right", 
+        "triangle"
+    ], 
+    "◀": [
+        "reverse button", 
+        "arrow", 
+        "left", 
+        "reverse", 
+        "triangle"
+    ], 
+    "◻": [
+        "square", 
+        "white medium square"
+    ], 
+    "◼": [
+        "square", 
+        "black medium square"
+    ], 
+    "◽": [
+        "square", 
+        "white medium-small square"
+    ], 
+    "◾": [
+        "square", 
+        "black medium-small square"
+    ], 
+    "☀": [
+        "bright", 
+        "rays", 
+        "sunny", 
+        "sun", 
+        "space"
+    ], 
+    "☁": [
+        "cloud"
+    ], 
+    "☂": [
+        "rain", 
+        "umbrella"
+    ], 
+    "☃": [
+        "snowman", 
+        "snow", 
+        "cold"
+    ], 
+    "☄": [
+        "comet", 
+        "space"
+    ], 
+    "☎": [
+        "phone", 
+        "telephone"
+    ], 
+    "☑": [
+        "ballot", 
+        "box", 
+        "check", 
+        "ballot box with check"
+    ], 
+    "☔": [
+        "umbrella with rain drops", 
+        "drop", 
+        "rain", 
+        "umbrella"
+    ], 
+    "☕": [
+        "hot beverage", 
+        "tea", 
+        "beverage", 
+        "coffee", 
+        "hot", 
+        "drink", 
+        "steaming"
+    ], 
+    "☘": [
+        "plant", 
+        "shamrock"
+    ], 
+    "☝": [
+        "finger", 
+        "index", 
+        "up", 
+        "index pointing up", 
+        "point", 
+        "hand"
+    ], 
+    "☠": [
+        "face", 
+        "death", 
+        "skull and crossbones", 
+        "crossbones", 
+        "skull", 
+        "monster"
+    ], 
+    "☢": [
+        "radioactive"
+    ], 
+    "☣": [
+        "biohazard"
+    ], 
+    "☦": [
+        "orthodox cross", 
+        "christian", 
+        "cross", 
+        "religion"
+    ], 
+    "☪": [
+        "islam", 
+        "muslim", 
+        "star and crescent", 
+        "religion"
+    ], 
+    "☮": [
+        "peace", 
+        "peace symbol"
+    ], 
+    "☯": [
+        "tao", 
+        "taoist", 
+        "yang", 
+        "yin yang", 
+        "religion", 
+        "yin"
+    ], 
+    "☸": [
+        "dharma", 
+        "wheel", 
+        "buddhist", 
+        "wheel of dharma", 
+        "religion"
+    ], 
+    "☹": [
+        "face", 
+        "frowning face", 
+        "frown"
+    ], 
+    "☺": [
+        "relaxed", 
+        "smiling face", 
+        "face", 
+        "outlined", 
+        "smile"
+    ], 
+    "♈": [
+        "zodiac", 
+        "aries", 
+        "ram"
+    ], 
+    "♉": [
+        "zodiac", 
+        "taurus", 
+        "ox", 
+        "bull"
+    ], 
+    "♊": [
+        "gemini", 
+        "twins", 
+        "zodiac"
+    ], 
+    "♋": [
+        "zodiac", 
+        "cancer", 
+        "crab"
+    ], 
+    "♌": [
+        "zodiac", 
+        "leo", 
+        "lion"
+    ], 
+    "♍": [
+        "maiden", 
+        "virgin", 
+        "zodiac", 
+        "virgo"
+    ], 
+    "♎": [
+        "balance", 
+        "zodiac", 
+        "libra", 
+        "scales", 
+        "justice"
+    ], 
+    "♏": [
+        "zodiac", 
+        "scorpio", 
+        "scorpius", 
+        "scorpion"
+    ], 
+    "♐": [
+        "sagittarius", 
+        "zodiac", 
+        "archer"
+    ], 
+    "♑": [
+        "capricorn", 
+        "zodiac", 
+        "goat"
+    ], 
+    "♒": [
+        "aquarius", 
+        "zodiac", 
+        "bearer", 
+        "water"
+    ], 
+    "♓": [
+        "zodiac", 
+        "fish", 
+        "pisces"
+    ], 
+    "♠": [
+        "game", 
+        "spade suit", 
+        "suit", 
+        "spade", 
+        "card"
+    ], 
+    "♣": [
+        "game", 
+        "club suit", 
+        "club", 
+        "clubs", 
+        "suit", 
+        "card"
+    ], 
+    "♥": [
+        "game", 
+        "hearts", 
+        "suit", 
+        "heart suit", 
+        "card", 
+        "heart"
+    ], 
+    "♦": [
+        "diamonds", 
+        "diamond", 
+        "game", 
+        "suit", 
+        "card", 
+        "diamond suit"
+    ], 
+    "♨": [
+        "hotsprings", 
+        "springs", 
+        "hot springs", 
+        "hot", 
+        "steaming"
+    ], 
+    "♻": [
+        "recycling symbol", 
+        "recycle"
+    ], 
+    "♿": [
+        "wheelchair", 
+        "access"
+    ], 
+    "⚒": [
+        "hammer", 
+        "pick", 
+        "hammer and pick", 
+        "tool"
+    ], 
+    "⚓": [
+        "anchor", 
+        "ship", 
+        "tool"
+    ], 
+    "⚔": [
+        "weapon", 
+        "swords", 
+        "crossed", 
+        "crossed swords"
+    ], 
+    "⚖": [
+        "balance scale", 
+        "balance", 
+        "zodiac", 
+        "libra", 
+        "scales", 
+        "justice", 
+        "weight", 
+        "tool"
+    ], 
+    "⚗": [
+        "chemistry", 
+        "alembic", 
+        "tool"
+    ], 
+    "⚙": [
+        "tool", 
+        "gear"
+    ], 
+    "⚛": [
+        "atom symbol", 
+        "atom", 
+        "atheist"
+    ], 
+    "⚜": [
+        "fleur-de-lis"
+    ], 
+    "⚠": [
+        "warning"
+    ], 
+    "⚡": [
+        "lightning", 
+        "electric", 
+        "zap", 
+        "high voltage", 
+        "electricity", 
+        "danger", 
+        "voltage"
+    ], 
+    "⚪": [
+        "circle", 
+        "white circle"
+    ], 
+    "⚫": [
+        "black circle", 
+        "circle"
+    ], 
+    "⚰": [
+        "death", 
+        "coffin"
+    ], 
+    "⚱": [
+        "urn", 
+        "death", 
+        "funeral urn", 
+        "funeral"
+    ], 
+    "⚽": [
+        "ball", 
+        "soccer", 
+        "soccer ball"
+    ], 
+    "⚾": [
+        "ball", 
+        "baseball"
+    ], 
+    "⛄": [
+        "snowman", 
+        "snow", 
+        "cold", 
+        "snowman without snow"
+    ], 
+    "⛅": [
+        "cloud", 
+        "sun behind cloud", 
+        "sun"
+    ], 
+    "⛈": [
+        "cloud", 
+        "rain", 
+        "thunder", 
+        "cloud with lightning and rain"
+    ], 
+    "⛎": [
+        "ophiuchus", 
+        "zodiac", 
+        "snake", 
+        "bearer", 
+        "serpent"
+    ], 
+    "⛏": [
+        "pick", 
+        "mining", 
+        "tool"
+    ], 
+    "⛑": [
+        "face", 
+        "helmet", 
+        "helmet with white cross", 
+        "cross", 
+        "hat", 
+        "aid"
+    ], 
+    "⛓": [
+        "chain", 
+        "chains"
+    ], 
+    "⛔": [
+        "no entry", 
+        "entry", 
+        "no", 
+        "not", 
+        "prohibited", 
+        "forbidden", 
+        "traffic"
+    ], 
+    "⛩": [
+        "shinto shrine", 
+        "shinto", 
+        "religion", 
+        "shrine"
+    ], 
+    "⛪": [
+        "christian", 
+        "church", 
+        "cross", 
+        "building", 
+        "religion"
+    ], 
+    "⛰": [
+        "mountain"
+    ], 
+    "⛱": [
+        "umbrella on ground", 
+        "rain", 
+        "umbrella", 
+        "sun"
+    ], 
+    "⛲": [
+        "fountain"
+    ], 
+    "⛳": [
+        "hole", 
+        "golf", 
+        "flag in hole"
+    ], 
+    "⛴": [
+        "ferry", 
+        "boat"
+    ], 
+    "⛵": [
+        "sailboat", 
+        "yacht", 
+        "resort", 
+        "boat", 
+        "sea"
+    ], 
+    "⛷": [
+        "ski", 
+        "snow", 
+        "skier"
+    ], 
+    "⛸": [
+        "ice skate", 
+        "ice", 
+        "skate"
+    ], 
+    "⛹": [
+        "ball", 
+        "person with ball"
+    ], 
+    "⛺": [
+        "tent", 
+        "camping"
+    ], 
+    "⛽": [
+        "fuel pump", 
+        "fuel", 
+        "gas", 
+        "station", 
+        "pump", 
+        "fuelpump"
+    ], 
+    "✂": [
+        "scissors", 
+        "tool"
+    ], 
+    "✅": [
+        "check", 
+        "white heavy check mark"
+    ], 
+    "✈": [
+        "airplane"
+    ], 
+    "✉": [
+        "envelope", 
+        "e-mail", 
+        "email"
+    ], 
+    "✊": [
+        "fist", 
+        "raised fist", 
+        "clenched", 
+        "hand", 
+        "punch"
+    ], 
+    "✋": [
+        "raised hand", 
+        "hand"
+    ], 
+    "✌": [
+        "victory hand", 
+        "v", 
+        "victory", 
+        "hand"
+    ], 
+    "✍": [
+        "write", 
+        "writing hand", 
+        "hand"
+    ], 
+    "✏": [
+        "pencil"
+    ], 
+    "✒": [
+        "nib", 
+        "black nib", 
+        "pen"
+    ], 
+    "✔": [
+        "heavy check mark", 
+        "check"
+    ], 
+    "✖": [
+        "cancel", 
+        "heavy multiplication x", 
+        "x", 
+        "multiplication", 
+        "multiply"
+    ], 
+    "✝": [
+        "christian", 
+        "cross", 
+        "latin cross", 
+        "religion"
+    ], 
+    "✡": [
+        "star of david", 
+        "star", 
+        "jewish", 
+        "david", 
+        "jew", 
+        "religion"
+    ], 
+    "✨": [
+        "sparkle", 
+        "sparkles", 
+        "star"
+    ], 
+    "✳": [
+        "eight-spoked asterisk", 
+        "asterisk"
+    ], 
+    "✴": [
+        "star", 
+        "eight-pointed star"
+    ], 
+    "❄": [
+        "snowflake", 
+        "snow", 
+        "cold"
+    ], 
+    "❇": [
+        "sparkle"
+    ], 
+    "❌": [
+        "cancel", 
+        "x", 
+        "multiplication", 
+        "multiply", 
+        "cross mark"
+    ], 
+    "❎": [
+        "square", 
+        "cross mark button"
+    ], 
+    "❓": [
+        "question", 
+        "punctuation", 
+        "question mark"
+    ], 
+    "❔": [
+        "white question mark", 
+        "outlined", 
+        "question", 
+        "punctuation"
+    ], 
+    "❕": [
+        "outlined", 
+        "punctuation", 
+        "white exclamation mark", 
+        "exclamation"
+    ], 
+    "❗": [
+        "exclamation mark", 
+        "punctuation", 
+        "exclamation"
+    ], 
+    "❣": [
+        "heavy heart exclamation mark ornament", 
+        "punctuation", 
+        "exclamation", 
+        "heart"
+    ], 
+    "❤": [
+        "red heart", 
+        "heart"
+    ], 
+    "➕": [
+        "heavy plus sign", 
+        "math", 
+        "plus"
+    ], 
+    "➖": [
+        "heavy minus sign", 
+        "minus", 
+        "math"
+    ], 
+    "➗": [
+        "division", 
+        "heavy division sign", 
+        "math"
+    ], 
+    "➡": [
+        "right arrow", 
+        "east", 
+        "arrow", 
+        "cardinal", 
+        "direction"
+    ], 
+    "➰": [
+        "curl", 
+        "curly loop", 
+        "loop"
+    ], 
+    "➿": [
+        "curl", 
+        "double curly loop", 
+        "double", 
+        "loop"
+    ], 
+    "⤴": [
+        "right arrow curving up", 
+        "arrow"
+    ], 
+    "⤵": [
+        "arrow", 
+        "down", 
+        "right arrow curving down"
+    ], 
+    "⬅": [
+        "arrow", 
+        "west", 
+        "cardinal", 
+        "left arrow", 
+        "direction"
+    ], 
+    "⬆": [
+        "arrow", 
+        "north", 
+        "cardinal", 
+        "up arrow", 
+        "direction"
+    ], 
+    "⬇": [
+        "arrow", 
+        "south", 
+        "down arrow", 
+        "cardinal", 
+        "down", 
+        "direction"
+    ], 
+    "⬛": [
+        "square", 
+        "black large square"
+    ], 
+    "⬜": [
+        "square", 
+        "white large square"
+    ], 
+    "⭐": [
+        "star", 
+        "white medium star"
+    ], 
+    "⭕": [
+        "heavy large circle", 
+        "circle", 
+        "o"
+    ], 
+    "〰": [
+        "wavy dash", 
+        "punctuation", 
+        "wavy", 
+        "dash"
+    ], 
+    "〽": [
+        "part alternation mark", 
+        "part"
+    ], 
+    "㊗": [
+        "circled congratulate ideograph", 
+        "chinese", 
+        "congratulations", 
+        "ideograph"
+    ], 
+    "㊙": [
+        "chinese", 
+        "circled secret ideograph", 
+        "secret", 
+        "ideograph"
+    ], 
+    "🀄": [
+        "red", 
+        "game", 
+        "mahjong red dragon", 
+        "mahjong"
+    ], 
+    "🃏": [
+        "game", 
+        "joker", 
+        "playing", 
+        "card"
+    ], 
+    "🅰": [
+        "a", 
+        "a button", 
+        "blood"
+    ], 
+    "🅱": [
+        "b", 
+        "b button", 
+        "blood"
+    ], 
+    "🅾": [
+        "blood", 
+        "o button", 
+        "o"
+    ], 
+    "🅿": [
+        "parking", 
+        "p button"
+    ], 
+    "🆎": [
+        "ab", 
+        "ab button", 
+        "blood"
+    ], 
+    "🆑": [
+        "cl", 
+        "squared cl"
+    ], 
+    "🆒": [
+        "squared cool", 
+        "cool"
+    ], 
+    "🆓": [
+        "squared free", 
+        "free"
+    ], 
+    "🆔": [
+        "identity", 
+        "squared id", 
+        "id"
+    ], 
+    "🆕": [
+        "new", 
+        "squared new"
+    ], 
+    "🆖": [
+        "ng", 
+        "squared ng"
+    ], 
+    "🆗": [
+        "squared ok", 
+        "ok"
+    ], 
+    "🆘": [
+        "help", 
+        "sos", 
+        "squared sos"
+    ], 
+    "🆙": [
+        "up", 
+        "up! button"
+    ], 
+    "🆚": [
+        "squared vs", 
+        "vs", 
+        "versus"
+    ], 
+    "🈁": [
+        "squared katakana koko"
+    ], 
+    "🈂": [
+        "squared katakana sa"
+    ], 
+    "🈚": [
+        "squared negation ideograph"
+    ], 
+    "🈯": [
+        "squared finger ideograph"
+    ], 
+    "🈲": [
+        "squared prohibit ideograph"
+    ], 
+    "🈳": [
+        "squared empty ideograph", 
+        "chinese"
+    ], 
+    "🈴": [
+        "squared together ideograph", 
+        "chinese"
+    ], 
+    "🈵": [
+        "chinese", 
+        "squared fullness ideograph"
+    ], 
+    "🈶": [
+        "squared exist ideograph"
+    ], 
+    "🈷": [
+        "squared moon ideograph"
+    ], 
+    "🈸": [
+        "chinese", 
+        "squared apply ideograph"
+    ], 
+    "🈹": [
+        "squared divide ideograph"
+    ], 
+    "🈺": [
+        "squared operating ideograph", 
+        "chinese"
+    ], 
+    "🉐": [
+        "circled advantage ideograph"
+    ], 
+    "🉑": [
+        "chinese", 
+        "circled accept ideograph"
+    ], 
+    "🌀": [
+        "twister", 
+        "dizzy", 
+        "typhoon", 
+        "cyclone"
+    ], 
+    "🌁": [
+        "foggy", 
+        "fog"
+    ], 
+    "🌂": [
+        "rain", 
+        "umbrella", 
+        "closed umbrella"
+    ], 
+    "🌃": [
+        "star", 
+        "night", 
+        "night with stars"
+    ], 
+    "🌄": [
+        "mountain", 
+        "sunrise", 
+        "sunrise over mountains", 
+        "sun", 
+        "morning"
+    ], 
+    "🌅": [
+        "sunrise", 
+        "sun", 
+        "morning"
+    ], 
+    "🌆": [
+        "cityscape at dusk", 
+        "city", 
+        "dusk", 
+        "sunset", 
+        "evening", 
+        "sun", 
+        "building", 
+        "landscape"
+    ], 
+    "🌇": [
+        "dusk", 
+        "sunset", 
+        "sun", 
+        "building"
+    ], 
+    "🌈": [
+        "rainbow", 
+        "rain"
+    ], 
+    "🌉": [
+        "night", 
+        "bridge", 
+        "bridge at night"
+    ], 
+    "🌊": [
+        "water wave", 
+        "ocean", 
+        "water", 
+        "wave"
+    ], 
+    "🌋": [
+        "mountain", 
+        "eruption", 
+        "volcano"
+    ], 
+    "🌌": [
+        "milky way", 
+        "space"
+    ], 
+    "🌍": [
+        "africa", 
+        "globe", 
+        "world", 
+        "earth", 
+        "globe showing europe-africa", 
+        "europe"
+    ], 
+    "🌎": [
+        "globe", 
+        "world", 
+        "globe showing americas", 
+        "earth", 
+        "americas"
+    ], 
+    "🌏": [
+        "globe showing asia-australia", 
+        "globe", 
+        "world", 
+        "asia", 
+        "earth", 
+        "australia"
+    ], 
+    "🌐": [
+        "globe", 
+        "world", 
+        "globe with meridians", 
+        "earth", 
+        "meridians"
+    ], 
+    "🌑": [
+        "moon", 
+        "dark", 
+        "new moon", 
+        "space"
+    ], 
+    "🌒": [
+        "crescent", 
+        "moon", 
+        "waxing crescent moon", 
+        "waxing", 
+        "space"
+    ], 
+    "🌓": [
+        "moon", 
+        "first quarter moon", 
+        "space", 
+        "quarter"
+    ], 
+    "🌔": [
+        "moon", 
+        "waxing gibbous moon", 
+        "gibbous", 
+        "waxing", 
+        "space"
+    ], 
+    "🌕": [
+        "full moon", 
+        "moon", 
+        "space", 
+        "full"
+    ], 
+    "🌖": [
+        "moon", 
+        "waning", 
+        "gibbous", 
+        "waning gibbous moon", 
+        "space"
+    ], 
+    "🌗": [
+        "moon", 
+        "last quarter moon", 
+        "space", 
+        "quarter"
+    ], 
+    "🌘": [
+        "crescent", 
+        "moon", 
+        "waning", 
+        "waning crescent moon", 
+        "space"
+    ], 
+    "🌙": [
+        "crescent", 
+        "moon", 
+        "crescent moon", 
+        "space"
+    ], 
+    "🌚": [
+        "face", 
+        "moon", 
+        "new moon face", 
+        "space"
+    ], 
+    "🌛": [
+        "first quarter moon with face", 
+        "face", 
+        "moon", 
+        "space", 
+        "quarter"
+    ], 
+    "🌜": [
+        "face", 
+        "moon", 
+        "space", 
+        "last quarter moon with face", 
+        "quarter"
+    ], 
+    "🌝": [
+        "face", 
+        "moon", 
+        "bright", 
+        "full moon with face", 
+        "space", 
+        "full"
+    ], 
+    "🌞": [
+        "face", 
+        "bright", 
+        "sun with face", 
+        "sun", 
+        "space"
+    ], 
+    "🌟": [
+        "sparkle", 
+        "star", 
+        "glittery", 
+        "shining", 
+        "glowing star", 
+        "glow"
+    ], 
+    "🌠": [
+        "shooting star", 
+        "falling", 
+        "star", 
+        "shooting", 
+        "space"
+    ], 
+    "🌡": [
+        "thermometer"
+    ], 
+    "🌤": [
+        "cloud", 
+        "sun behind small cloud", 
+        "sun"
+    ], 
+    "🌥": [
+        "cloud", 
+        "sun behind large cloud", 
+        "sun"
+    ], 
+    "🌦": [
+        "cloud", 
+        "sun behind cloud with rain", 
+        "rain", 
+        "sun"
+    ], 
+    "🌧": [
+        "cloud", 
+        "rain", 
+        "cloud with rain"
+    ], 
+    "🌨": [
+        "cloud", 
+        "snow", 
+        "cold", 
+        "cloud with snow"
+    ], 
+    "🌩": [
+        "cloud", 
+        "lightning", 
+        "cloud with lightning"
+    ], 
+    "🌪": [
+        "cloud", 
+        "whirlwind", 
+        "tornado"
+    ], 
+    "🌫": [
+        "cloud", 
+        "fog"
+    ], 
+    "🌬": [
+        "cloud", 
+        "face", 
+        "wind face", 
+        "blow", 
+        "wind"
+    ], 
+    "🌭": [
+        "frankfurter", 
+        "hotdog", 
+        "sausage", 
+        "hot dog"
+    ], 
+    "🌮": [
+        "mexican", 
+        "taco"
+    ], 
+    "🌯": [
+        "burrito", 
+        "mexican"
+    ], 
+    "🌰": [
+        "plant", 
+        "chestnut"
+    ], 
+    "🌱": [
+        "young", 
+        "plant", 
+        "seedling"
+    ], 
+    "🌲": [
+        "plant", 
+        "tree", 
+        "evergreen"
+    ], 
+    "🌳": [
+        "deciduous tree", 
+        "plant", 
+        "tree", 
+        "deciduous", 
+        "shedding"
+    ], 
+    "🌴": [
+        "palm tree", 
+        "palm", 
+        "plant", 
+        "tree"
+    ], 
+    "🌵": [
+        "plant", 
+        "cactus"
+    ], 
+    "🌶": [
+        "pepper", 
+        "hot pepper", 
+        "plant", 
+        "hot"
+    ], 
+    "🌷": [
+        "plant", 
+        "tulip", 
+        "flower"
+    ], 
+    "🌸": [
+        "cherry", 
+        "blossom", 
+        "plant", 
+        "cherry blossom", 
+        "flower"
+    ], 
+    "🌹": [
+        "plant", 
+        "rose", 
+        "flower"
+    ], 
+    "🌺": [
+        "hibiscus", 
+        "plant", 
+        "flower"
+    ], 
+    "🌻": [
+        "plant", 
+        "sun", 
+        "sunflower", 
+        "flower"
+    ], 
+    "🌼": [
+        "blossom", 
+        "plant", 
+        "flower"
+    ], 
+    "🌽": [
+        "ear of corn", 
+        "corn", 
+        "ear", 
+        "plant", 
+        "maze", 
+        "maize"
+    ], 
+    "🌾": [
+        "ear", 
+        "plant", 
+        "rice", 
+        "sheaf of rice"
+    ], 
+    "🌿": [
+        "plant", 
+        "leaf", 
+        "herb"
+    ], 
+    "🍀": [
+        "four leaf clover", 
+        "4", 
+        "four", 
+        "plant", 
+        "clover", 
+        "leaf"
+    ], 
+    "🍁": [
+        "falling", 
+        "plant", 
+        "maple", 
+        "leaf", 
+        "maple leaf"
+    ], 
+    "🍂": [
+        "falling", 
+        "plant", 
+        "fallen leaf", 
+        "leaf"
+    ], 
+    "🍃": [
+        "flutter", 
+        "plant", 
+        "leaf fluttering in wind", 
+        "blow", 
+        "leaf", 
+        "wind"
+    ], 
+    "🍄": [
+        "plant", 
+        "mushroom"
+    ], 
+    "🍅": [
+        "plant", 
+        "tomato", 
+        "vegetable"
+    ], 
+    "🍆": [
+        "plant", 
+        "vegetable", 
+        "eggplant", 
+        "aubergine"
+    ], 
+    "🍇": [
+        "fruit", 
+        "plant", 
+        "grape", 
+        "grapes"
+    ], 
+    "🍈": [
+        "fruit", 
+        "plant", 
+        "melon"
+    ], 
+    "🍉": [
+        "fruit", 
+        "plant", 
+        "watermelon"
+    ], 
+    "🍊": [
+        "orange", 
+        "tangerine", 
+        "fruit", 
+        "plant"
+    ], 
+    "🍋": [
+        "lemon", 
+        "fruit", 
+        "plant", 
+        "citrus"
+    ], 
+    "🍌": [
+        "banana", 
+        "fruit", 
+        "plant"
+    ], 
+    "🍍": [
+        "pineapple", 
+        "fruit", 
+        "plant"
+    ], 
+    "🍎": [
+        "red", 
+        "apple", 
+        "fruit", 
+        "plant", 
+        "red apple"
+    ], 
+    "🍏": [
+        "apple", 
+        "green", 
+        "fruit", 
+        "plant", 
+        "green apple"
+    ], 
+    "🍐": [
+        "pear", 
+        "fruit", 
+        "plant"
+    ], 
+    "🍑": [
+        "fruit", 
+        "plant", 
+        "peach"
+    ], 
+    "🍒": [
+        "cherry", 
+        "cherries", 
+        "fruit", 
+        "plant"
+    ], 
+    "🍓": [
+        "berry", 
+        "fruit", 
+        "plant", 
+        "strawberry"
+    ], 
+    "🍔": [
+        "burger", 
+        "hamburger"
+    ], 
+    "🍕": [
+        "pizza", 
+        "slice", 
+        "cheese"
+    ], 
+    "🍖": [
+        "meat on bone", 
+        "meat", 
+        "bone"
+    ], 
+    "🍗": [
+        "chicken", 
+        "poultry", 
+        "poultry leg", 
+        "bone", 
+        "leg"
+    ], 
+    "🍘": [
+        "cracker", 
+        "rice cracker", 
+        "rice"
+    ], 
+    "🍙": [
+        "ball", 
+        "rice", 
+        "rice ball"
+    ], 
+    "🍚": [
+        "cooked rice", 
+        "cooked", 
+        "rice"
+    ], 
+    "🍛": [
+        "rice", 
+        "curry", 
+        "curry rice"
+    ], 
+    "🍜": [
+        "ramen", 
+        "steaming bowl", 
+        "noodle", 
+        "bowl", 
+        "steaming"
+    ], 
+    "🍝": [
+        "spaghetti", 
+        "pasta"
+    ], 
+    "🍞": [
+        "bread", 
+        "loaf"
+    ], 
+    "🍟": [
+        "fries", 
+        "french fries", 
+        "french"
+    ], 
+    "🍠": [
+        "potato", 
+        "roasted sweet potato", 
+        "roasted", 
+        "sweet"
+    ], 
+    "🍡": [
+        "dessert", 
+        "dango", 
+        "skewer", 
+        "stick", 
+        "sweet"
+    ], 
+    "🍢": [
+        "seafood", 
+        "skewer", 
+        "kebab", 
+        "stick", 
+        "oden"
+    ], 
+    "🍣": [
+        "sushi"
+    ], 
+    "🍤": [
+        "tempura", 
+        "shrimp", 
+        "fried shrimp", 
+        "prawn", 
+        "fried"
+    ], 
+    "🍥": [
+        "fish cake with swirl", 
+        "pastry", 
+        "swirl", 
+        "cake", 
+        "fish"
+    ], 
+    "🍦": [
+        "soft ice cream", 
+        "icecream", 
+        "dessert", 
+        "cream", 
+        "ice", 
+        "sweet", 
+        "soft"
+    ], 
+    "🍧": [
+        "shaved ice", 
+        "dessert", 
+        "ice", 
+        "sweet", 
+        "shaved"
+    ], 
+    "🍨": [
+        "ice cream", 
+        "dessert", 
+        "cream", 
+        "ice", 
+        "sweet"
+    ], 
+    "🍩": [
+        "dessert", 
+        "donut", 
+        "sweet", 
+        "doughnut"
+    ], 
+    "🍪": [
+        "cookie", 
+        "dessert", 
+        "sweet"
+    ], 
+    "🍫": [
+        "chocolate bar", 
+        "bar", 
+        "dessert", 
+        "sweet", 
+        "chocolate"
+    ], 
+    "🍬": [
+        "dessert", 
+        "candy", 
+        "sweet"
+    ], 
+    "🍭": [
+        "dessert", 
+        "candy", 
+        "lollipop", 
+        "sweet"
+    ], 
+    "🍮": [
+        "dessert", 
+        "custard", 
+        "pudding", 
+        "sweet"
+    ], 
+    "🍯": [
+        "honeypot", 
+        "pot", 
+        "honey", 
+        "sweet", 
+        "honey pot"
+    ], 
+    "🍰": [
+        "shortcake", 
+        "pastry", 
+        "dessert", 
+        "slice", 
+        "cake", 
+        "sweet"
+    ], 
+    "🍱": [
+        "bento", 
+        "bento box", 
+        "box"
+    ], 
+    "🍲": [
+        "pot", 
+        "stew", 
+        "pot of food"
+    ], 
+    "🍳": [
+        "egg", 
+        "frying", 
+        "cooking", 
+        "pan"
+    ], 
+    "🍴": [
+        "fork and knife", 
+        "fork", 
+        "knife", 
+        "cooking"
+    ], 
+    "🍵": [
+        "teacup without handle", 
+        "tea", 
+        "teacup", 
+        "beverage", 
+        "drink", 
+        "cup"
+    ], 
+    "🍶": [
+        "bar", 
+        "beverage", 
+        "bottle", 
+        "sake", 
+        "drink", 
+        "cup"
+    ], 
+    "🍷": [
+        "wine glass", 
+        "bar", 
+        "glass", 
+        "beverage", 
+        "drink", 
+        "wine"
+    ], 
+    "🍸": [
+        "bar", 
+        "glass", 
+        "cocktail", 
+        "cocktail glass", 
+        "drink"
+    ], 
+    "🍹": [
+        "tropical", 
+        "bar", 
+        "tropical drink", 
+        "drink"
+    ], 
+    "🍺": [
+        "bar", 
+        "beer mug", 
+        "beer", 
+        "drink", 
+        "mug"
+    ], 
+    "🍻": [
+        "bar", 
+        "clink", 
+        "clinking beer mugs", 
+        "beer", 
+        "drink", 
+        "mug"
+    ], 
+    "🍼": [
+        "baby bottle", 
+        "baby", 
+        "milk", 
+        "bottle", 
+        "drink"
+    ], 
+    "🍽": [
+        "fork", 
+        "knife", 
+        "fork and knife with plate", 
+        "plate", 
+        "cooking"
+    ], 
+    "🍾": [
+        "popping", 
+        "bar", 
+        "bottle", 
+        "cork", 
+        "bottle with popping cork", 
+        "drink"
+    ], 
+    "🍿": [
+        "popcorn"
+    ], 
+    "🎀": [
+        "celebration", 
+        "ribbon"
+    ], 
+    "🎁": [
+        "wrapped present", 
+        "gift", 
+        "celebration", 
+        "box", 
+        "present", 
+        "wrapped"
+    ], 
+    "🎂": [
+        "birthday", 
+        "celebration", 
+        "pastry", 
+        "birthday cake", 
+        "dessert", 
+        "cake", 
+        "sweet"
+    ], 
+    "🎃": [
+        "celebration", 
+        "halloween", 
+        "jack-o-lantern", 
+        "lantern", 
+        "jack"
+    ], 
+    "🎄": [
+        "celebration", 
+        "christmas tree", 
+        "tree", 
+        "christmas"
+    ], 
+    "🎅": [
+        "celebration", 
+        "fantasy", 
+        "fairy tale", 
+        "father", 
+        "christmas", 
+        "santa claus", 
+        "santa"
+    ], 
+    "🎆": [
+        "celebration", 
+        "fireworks"
+    ], 
+    "🎇": [
+        "sparkle", 
+        "celebration", 
+        "sparkler", 
+        "fireworks"
+    ], 
+    "🎈": [
+        "balloon", 
+        "celebration"
+    ], 
+    "🎉": [
+        "celebration", 
+        "popper", 
+        "tada", 
+        "party popper", 
+        "party"
+    ], 
+    "🎊": [
+        "ball", 
+        "celebration", 
+        "confetti", 
+        "confetti ball"
+    ], 
+    "🎋": [
+        "celebration", 
+        "tree", 
+        "banner", 
+        "tanabata tree"
+    ], 
+    "🎌": [
+        "celebration", 
+        "cross", 
+        "crossed flags", 
+        "crossed"
+    ], 
+    "🎍": [
+        "bamboo", 
+        "celebration", 
+        "pine", 
+        "plant", 
+        "pine decoration"
+    ], 
+    "🎎": [
+        "celebration", 
+        "doll", 
+        "festival", 
+        "japanese dolls"
+    ], 
+    "🎏": [
+        "carp streamer", 
+        "carp", 
+        "celebration", 
+        "streamer"
+    ], 
+    "🎐": [
+        "wind chime", 
+        "celebration", 
+        "bell", 
+        "chime", 
+        "wind"
+    ], 
+    "🎑": [
+        "celebration", 
+        "moon", 
+        "ceremony", 
+        "moon ceremony"
+    ], 
+    "🎒": [
+        "satchel", 
+        "school", 
+        "bag", 
+        "school backpack"
+    ], 
+    "🎓": [
+        "celebration", 
+        "cap", 
+        "graduation", 
+        "graduation cap", 
+        "hat"
+    ], 
+    "🎖": [
+        "celebration", 
+        "military medal", 
+        "medal", 
+        "military"
+    ], 
+    "🎗": [
+        "celebration", 
+        "reminder", 
+        "reminder ribbon", 
+        "ribbon"
+    ], 
+    "🎙": [
+        "studio", 
+        "music", 
+        "studio microphone", 
+        "mic", 
+        "microphone"
+    ], 
+    "🎚": [
+        "level slider", 
+        "slider", 
+        "music", 
+        "level"
+    ], 
+    "🎛": [
+        "music", 
+        "control knobs", 
+        "control", 
+        "knobs"
+    ], 
+    "🎞": [
+        "frames", 
+        "movie", 
+        "film frames", 
+        "cinema", 
+        "film"
+    ], 
+    "🎟": [
+        "ticket", 
+        "admission", 
+        "admission tickets"
+    ], 
+    "🎠": [
+        "horse", 
+        "carousel horse", 
+        "carousel"
+    ], 
+    "🎡": [
+        "ferris wheel", 
+        "wheel", 
+        "ferris", 
+        "amusement park"
+    ], 
+    "🎢": [
+        "roller coaster", 
+        "amusement park", 
+        "coaster", 
+        "roller"
+    ], 
+    "🎣": [
+        "fish", 
+        "pole", 
+        "fishing pole"
+    ], 
+    "🎤": [
+        "karaoke", 
+        "mic", 
+        "microphone"
+    ], 
+    "🎥": [
+        "movie", 
+        "movie camera", 
+        "cinema", 
+        "camera"
+    ], 
+    "🎦": [
+        "movie", 
+        "cinema", 
+        "film", 
+        "camera"
+    ], 
+    "🎧": [
+        "headphone", 
+        "earbud"
+    ], 
+    "🎨": [
+        "art", 
+        "museum", 
+        "painting", 
+        "artist palette", 
+        "palette"
+    ], 
+    "🎩": [
+        "top", 
+        "tophat", 
+        "top hat", 
+        "hat"
+    ], 
+    "🎪": [
+        "tent", 
+        "circus", 
+        "circus tent"
+    ], 
+    "🎫": [
+        "ticket", 
+        "admission"
+    ], 
+    "🎬": [
+        "clapper board", 
+        "movie", 
+        "clapper"
+    ], 
+    "🎭": [
+        "theatre", 
+        "performing arts", 
+        "art", 
+        "theater", 
+        "performing", 
+        "mask"
+    ], 
+    "🎮": [
+        "controller", 
+        "game", 
+        "video game"
+    ], 
+    "🎯": [
+        "eye", 
+        "dart", 
+        "game", 
+        "hit", 
+        "direct hit", 
+        "bull", 
+        "bullseye", 
+        "target"
+    ], 
+    "🎰": [
+        "game", 
+        "slot", 
+        "slot machine"
+    ], 
+    "🎱": [
+        "ball", 
+        "game", 
+        "8 ball", 
+        "8", 
+        "billiards", 
+        "billiard", 
+        "eight"
+    ], 
+    "🎲": [
+        "die", 
+        "game", 
+        "game die", 
+        "dice"
+    ], 
+    "🎳": [
+        "ball", 
+        "game", 
+        "bowling"
+    ], 
+    "🎴": [
+        "game", 
+        "playing", 
+        "flower playing cards", 
+        "card", 
+        "flower"
+    ], 
+    "🎵": [
+        "note", 
+        "music", 
+        "musical note"
+    ], 
+    "🎶": [
+        "note", 
+        "music", 
+        "notes", 
+        "musical notes"
+    ], 
+    "🎷": [
+        "music", 
+        "saxophone", 
+        "instrument", 
+        "sax"
+    ], 
+    "🎸": [
+        "music", 
+        "instrument", 
+        "guitar"
+    ], 
+    "🎹": [
+        "keyboard", 
+        "piano", 
+        "music", 
+        "musical keyboard", 
+        "instrument"
+    ], 
+    "🎺": [
+        "music", 
+        "trumpet", 
+        "instrument"
+    ], 
+    "🎻": [
+        "violin", 
+        "music", 
+        "instrument"
+    ], 
+    "🎼": [
+        "score", 
+        "music", 
+        "musical score"
+    ], 
+    "🎽": [
+        "running", 
+        "shirt", 
+        "sash", 
+        "running shirt"
+    ], 
+    "🎾": [
+        "ball", 
+        "racquet", 
+        "tennis"
+    ], 
+    "🎿": [
+        "ski", 
+        "snow", 
+        "skis"
+    ], 
+    "🏀": [
+        "ball", 
+        "basketball", 
+        "hoop"
+    ], 
+    "🏁": [
+        "chequered flag", 
+        "racing", 
+        "chequered", 
+        "checkered"
+    ], 
+    "🏂": [
+        "ski", 
+        "snow", 
+        "snowboarder", 
+        "snowboard"
+    ], 
+    "🏃": [
+        "running", 
+        "marathon", 
+        "runner"
+    ], 
+    "🏄": [
+        "surfer", 
+        "surfing"
+    ], 
+    "🏅": [
+        "medal", 
+        "sports medal"
+    ], 
+    "🏆": [
+        "trophy", 
+        "prize"
+    ], 
+    "🏇": [
+        "horse", 
+        "horse racing", 
+        "racing", 
+        "racehorse", 
+        "jockey"
+    ], 
+    "🏈": [
+        "ball", 
+        "american football", 
+        "american", 
+        "football"
+    ], 
+    "🏉": [
+        "ball", 
+        "rugby football", 
+        "rugby", 
+        "football"
+    ], 
+    "🏊": [
+        "swimmer", 
+        "swim"
+    ], 
+    "🏋": [
+        "weight lifter", 
+        "weight", 
+        "lifter"
+    ], 
+    "🏌": [
+        "ball", 
+        "golf", 
+        "golfer"
+    ], 
+    "🏍": [
+        "motorcycle", 
+        "racing"
+    ], 
+    "🏎": [
+        "racing", 
+        "car", 
+        "racing car"
+    ], 
+    "🏏": [
+        "ball", 
+        "game", 
+        "bat", 
+        "cricket"
+    ], 
+    "🏐": [
+        "ball", 
+        "game", 
+        "volleyball"
+    ], 
+    "🏑": [
+        "ball", 
+        "hockey", 
+        "game", 
+        "field hockey", 
+        "field", 
+        "stick"
+    ], 
+    "🏒": [
+        "hockey", 
+        "game", 
+        "ice hockey stick and puck", 
+        "puck", 
+        "ice", 
+        "stick"
+    ], 
+    "🏓": [
+        "ball", 
+        "ping pong", 
+        "game", 
+        "bat", 
+        "table tennis", 
+        "paddle"
+    ], 
+    "🏔": [
+        "mountain", 
+        "snow", 
+        "cold", 
+        "snow-capped mountain"
+    ], 
+    "🏕": [
+        "camping"
+    ], 
+    "🏖": [
+        "beach with umbrella", 
+        "umbrella", 
+        "beach"
+    ], 
+    "🏗": [
+        "building construction", 
+        "construction", 
+        "building"
+    ], 
+    "🏘": [
+        "house buildings", 
+        "house", 
+        "building"
+    ], 
+    "🏙": [
+        "city", 
+        "cityscape", 
+        "building"
+    ], 
+    "🏚": [
+        "derelict", 
+        "derelict house building", 
+        "house", 
+        "building"
+    ], 
+    "🏛": [
+        "classical building", 
+        "classical", 
+        "building"
+    ], 
+    "🏜": [
+        "desert"
+    ], 
+    "🏝": [
+        "island", 
+        "desert island", 
+        "desert"
+    ], 
+    "🏞": [
+        "national park", 
+        "park"
+    ], 
+    "🏟": [
+        "stadium"
+    ], 
+    "🏠": [
+        "house building", 
+        "house", 
+        "building", 
+        "home"
+    ], 
+    "🏡": [
+        "garden", 
+        "house with garden", 
+        "house", 
+        "building", 
+        "home"
+    ], 
+    "🏢": [
+        "office building", 
+        "building"
+    ], 
+    "🏣": [
+        "post", 
+        "japanese post office", 
+        "building"
+    ], 
+    "🏤": [
+        "post", 
+        "post office", 
+        "european", 
+        "building"
+    ], 
+    "🏥": [
+        "doctor", 
+        "medicine", 
+        "hospital", 
+        "building"
+    ], 
+    "🏦": [
+        "bank", 
+        "building"
+    ], 
+    "🏧": [
+        "automated", 
+        "bank", 
+        "ATM sign", 
+        "teller", 
+        "atm"
+    ], 
+    "🏨": [
+        "hotel", 
+        "building"
+    ], 
+    "🏩": [
+        "love", 
+        "love hotel", 
+        "hotel", 
+        "building"
+    ], 
+    "🏪": [
+        "convenience", 
+        "store", 
+        "building", 
+        "convenience store"
+    ], 
+    "🏫": [
+        "school", 
+        "building"
+    ], 
+    "🏬": [
+        "department store", 
+        "store", 
+        "department", 
+        "building"
+    ], 
+    "🏭": [
+        "factory", 
+        "building"
+    ], 
+    "🏮": [
+        "red", 
+        "bar", 
+        "light", 
+        "red paper lantern", 
+        "lantern"
+    ], 
+    "🏯": [
+        "castle", 
+        "japanese castle", 
+        "building"
+    ], 
+    "🏰": [
+        "castle", 
+        "european", 
+        "building"
+    ], 
+    "🏳": [
+        "waving white flag", 
+        "waving"
+    ], 
+    "🏴": [
+        "waving black flag", 
+        "waving"
+    ], 
+    "🏵": [
+        "rosette", 
+        "plant"
+    ], 
+    "🏷": [
+        "label"
+    ], 
+    "🏸": [
+        "shuttlecock", 
+        "birdie", 
+        "game", 
+        "racquet", 
+        "badminton"
+    ], 
+    "🏹": [
+        "weapon", 
+        "sagittarius", 
+        "arrow", 
+        "zodiac", 
+        "bow and arrow", 
+        "archer", 
+        "bow", 
+        "tool"
+    ], 
+    "🏺": [
+        "weapon", 
+        "aquarius", 
+        "zodiac", 
+        "cooking", 
+        "amphora", 
+        "jug", 
+        "drink", 
+        "tool"
+    ], 
+    "🏻": [
+        "emoji modifier", 
+        "fitzpatrick", 
+        "tone", 
+        "skin type-1-2", 
+        "skin"
+    ], 
+    "🏼": [
+        "emoji modifier", 
+        "fitzpatrick", 
+        "tone", 
+        "skin", 
+        "skin type-3"
+    ], 
+    "🏽": [
+        "emoji modifier", 
+        "fitzpatrick", 
+        "tone", 
+        "skin", 
+        "skin type-4"
+    ], 
+    "🏾": [
+        "emoji modifier", 
+        "fitzpatrick", 
+        "tone", 
+        "skin", 
+        "skin type-5"
+    ], 
+    "🏿": [
+        "emoji modifier", 
+        "fitzpatrick", 
+        "tone", 
+        "skin", 
+        "skin type-6"
+    ], 
+    "🐀": [
+        "rat"
+    ], 
+    "🐁": [
+        "mouse"
+    ], 
+    "🐂": [
+        "zodiac", 
+        "taurus", 
+        "ox", 
+        "bull"
+    ], 
+    "🐃": [
+        "water buffalo", 
+        "buffalo", 
+        "water"
+    ], 
+    "🐄": [
+        "cow"
+    ], 
+    "🐅": [
+        "tiger"
+    ], 
+    "🐆": [
+        "leopard"
+    ], 
+    "🐇": [
+        "rabbit", 
+        "bunny", 
+        "pet"
+    ], 
+    "🐈": [
+        "cat", 
+        "pet"
+    ], 
+    "🐉": [
+        "fairy tale", 
+        "dragon"
+    ], 
+    "🐊": [
+        "crocodile"
+    ], 
+    "🐋": [
+        "whale"
+    ], 
+    "🐌": [
+        "snail"
+    ], 
+    "🐍": [
+        "ophiuchus", 
+        "zodiac", 
+        "snake", 
+        "bearer", 
+        "serpent"
+    ], 
+    "🐎": [
+        "horse", 
+        "racing", 
+        "racehorse"
+    ], 
+    "🐏": [
+        "zodiac", 
+        "aries", 
+        "sheep", 
+        "ram"
+    ], 
+    "🐐": [
+        "capricorn", 
+        "zodiac", 
+        "goat"
+    ], 
+    "🐑": [
+        "ewe", 
+        "sheep"
+    ], 
+    "🐒": [
+        "monkey"
+    ], 
+    "🐓": [
+        "rooster"
+    ], 
+    "🐔": [
+        "chicken"
+    ], 
+    "🐕": [
+        "dog", 
+        "pet"
+    ], 
+    "🐖": [
+        "sow", 
+        "pig"
+    ], 
+    "🐗": [
+        "boar", 
+        "pig"
+    ], 
+    "🐘": [
+        "elephant"
+    ], 
+    "🐙": [
+        "octopus"
+    ], 
+    "🐚": [
+        "shell", 
+        "spiral shell", 
+        "spiral"
+    ], 
+    "🐛": [
+        "bug", 
+        "insect"
+    ], 
+    "🐜": [
+        "ant", 
+        "insect"
+    ], 
+    "🐝": [
+        "bee", 
+        "insect", 
+        "honeybee"
+    ], 
+    "🐞": [
+        "beetle", 
+        "ladybird", 
+        "insect", 
+        "ladybug", 
+        "lady beetle"
+    ], 
+    "🐟": [
+        "zodiac", 
+        "fish", 
+        "pisces"
+    ], 
+    "🐠": [
+        "tropical", 
+        "tropical fish", 
+        "fish"
+    ], 
+    "🐡": [
+        "blowfish", 
+        "fish"
+    ], 
+    "🐢": [
+        "turtle"
+    ], 
+    "🐣": [
+        "hatching chick", 
+        "baby", 
+        "hatching", 
+        "chick"
+    ], 
+    "🐤": [
+        "baby", 
+        "baby chick", 
+        "chick"
+    ], 
+    "🐥": [
+        "front-facing baby chick", 
+        "baby", 
+        "chick"
+    ], 
+    "🐦": [
+        "bird"
+    ], 
+    "🐧": [
+        "penguin"
+    ], 
+    "🐨": [
+        "koala", 
+        "bear"
+    ], 
+    "🐩": [
+        "poodle", 
+        "dog"
+    ], 
+    "🐪": [
+        "hump", 
+        "camel", 
+        "dromedary"
+    ], 
+    "🐫": [
+        "hump", 
+        "two-hump camel", 
+        "bactrian", 
+        "camel"
+    ], 
+    "🐬": [
+        "dolphin", 
+        "flipper"
+    ], 
+    "🐭": [
+        "mouse", 
+        "face", 
+        "mouse face"
+    ], 
+    "🐮": [
+        "face", 
+        "cow face", 
+        "cow"
+    ], 
+    "🐯": [
+        "face", 
+        "tiger face", 
+        "tiger"
+    ], 
+    "🐰": [
+        "face", 
+        "rabbit face", 
+        "rabbit", 
+        "bunny", 
+        "pet"
+    ], 
+    "🐱": [
+        "cat face", 
+        "face", 
+        "cat", 
+        "pet"
+    ], 
+    "🐲": [
+        "face", 
+        "dragon face", 
+        "fairy tale", 
+        "dragon"
+    ], 
+    "🐳": [
+        "face", 
+        "spouting", 
+        "whale", 
+        "spouting whale"
+    ], 
+    "🐴": [
+        "horse face", 
+        "horse", 
+        "face"
+    ], 
+    "🐵": [
+        "face", 
+        "monkey", 
+        "monkey face"
+    ], 
+    "🐶": [
+        "face", 
+        "dog", 
+        "dog face", 
+        "pet"
+    ], 
+    "🐷": [
+        "face", 
+        "pig face", 
+        "pig"
+    ], 
+    "🐸": [
+        "face", 
+        "frog", 
+        "frog face"
+    ], 
+    "🐹": [
+        "face", 
+        "hamster face", 
+        "hamster", 
+        "pet"
+    ], 
+    "🐺": [
+        "face", 
+        "wolf", 
+        "wolf face"
+    ], 
+    "🐻": [
+        "face", 
+        "bear face", 
+        "bear"
+    ], 
+    "🐼": [
+        "face", 
+        "panda", 
+        "panda face"
+    ], 
+    "🐽": [
+        "nose", 
+        "face", 
+        "pig nose", 
+        "pig"
+    ], 
+    "🐾": [
+        "feet", 
+        "print", 
+        "paw", 
+        "paw prints"
+    ], 
+    "🐿": [
+        "chipmunk"
+    ], 
+    "👀": [
+        "eye", 
+        "face", 
+        "eyes"
+    ], 
+    "👁": [
+        "eye"
+    ], 
+    "👂": [
+        "ear"
+    ], 
+    "👃": [
+        "nose"
+    ], 
+    "👄": [
+        "lips", 
+        "mouth"
+    ], 
+    "👅": [
+        "tongue"
+    ], 
+    "👆": [
+        "finger", 
+        "backhand", 
+        "backhand index pointing up", 
+        "index", 
+        "up", 
+        "point", 
+        "hand"
+    ], 
+    "👇": [
+        "finger", 
+        "backhand", 
+        "index", 
+        "down", 
+        "backhand index pointing down", 
+        "point", 
+        "hand"
+    ], 
+    "👈": [
+        "finger", 
+        "backhand", 
+        "backhand index pointing left", 
+        "index", 
+        "point", 
+        "hand"
+    ], 
+    "👉": [
+        "finger", 
+        "backhand index pointing right", 
+        "backhand", 
+        "index", 
+        "point", 
+        "hand"
+    ], 
+    "👊": [
+        "oncoming fist", 
+        "fist", 
+        "clenched", 
+        "hand", 
+        "punch"
+    ], 
+    "👋": [
+        "waving hand", 
+        "waving", 
+        "wave", 
+        "hand"
+    ], 
+    "👌": [
+        "ok", 
+        "ok hand", 
+        "hand"
+    ], 
+    "👍": [
+        "thumbs up", 
+        "thumb", 
+        "+1", 
+        "up", 
+        "hand"
+    ], 
+    "👎": [
+        "-1", 
+        "thumb", 
+        "thumbs down", 
+        "down", 
+        "hand"
+    ], 
+    "👏": [
+        "clap", 
+        "clapping hands", 
+        "hand"
+    ], 
+    "👐": [
+        "open hands", 
+        "open", 
+        "hand"
+    ], 
+    "👑": [
+        "king", 
+        "queen", 
+        "crown"
+    ], 
+    "👒": [
+        "woman", 
+        "hat", 
+        "woman’s hat"
+    ], 
+    "👓": [
+        "glasses", 
+        "eye", 
+        "eyewear", 
+        "eyeglasses"
+    ], 
+    "👔": [
+        "necktie"
+    ], 
+    "👕": [
+        "shirt", 
+        "tshirt", 
+        "t-shirt"
+    ], 
+    "👖": [
+        "pants", 
+        "trousers", 
+        "jeans"
+    ], 
+    "👗": [
+        "dress"
+    ], 
+    "👘": [
+        "kimono"
+    ], 
+    "👙": [
+        "bikini", 
+        "swim"
+    ], 
+    "👚": [
+        "woman", 
+        "woman’s clothes"
+    ], 
+    "👛": [
+        "purse", 
+        "coin"
+    ], 
+    "👜": [
+        "handbag", 
+        "bag"
+    ], 
+    "👝": [
+        "pouch", 
+        "bag"
+    ], 
+    "👞": [
+        "man’s shoe", 
+        "man", 
+        "shoe"
+    ], 
+    "👟": [
+        "running shoe", 
+        "athletic", 
+        "shoe", 
+        "sneaker"
+    ], 
+    "👠": [
+        "woman", 
+        "heel", 
+        "high-heeled shoe", 
+        "shoe"
+    ], 
+    "👡": [
+        "woman", 
+        "woman’s sandal", 
+        "sandal", 
+        "shoe"
+    ], 
+    "👢": [
+        "woman’s boot", 
+        "woman", 
+        "boot", 
+        "shoe"
+    ], 
+    "👣": [
+        "print", 
+        "footprint", 
+        "footprints"
+    ], 
+    "👤": [
+        "bust in silhouette", 
+        "silhouette", 
+        "bust"
+    ], 
+    "👥": [
+        "busts in silhouette", 
+        "silhouette", 
+        "bust"
+    ], 
+    "👦": [
+        "boy"
+    ], 
+    "👧": [
+        "maiden", 
+        "virgin", 
+        "zodiac", 
+        "virgo", 
+        "girl"
+    ], 
+    "👨": [
+        "man"
+    ], 
+    "👩": [
+        "woman"
+    ], 
+    "👪": [
+        "mother", 
+        "father", 
+        "family", 
+        "child"
+    ], 
+    "👫": [
+        "couple", 
+        "woman", 
+        "man and woman holding hands", 
+        "man", 
+        "hand", 
+        "hold"
+    ], 
+    "👬": [
+        "gemini", 
+        "twins", 
+        "two men holding hands", 
+        "couple", 
+        "zodiac", 
+        "man", 
+        "hand", 
+        "hold"
+    ], 
+    "👭": [
+        "couple", 
+        "woman", 
+        "two women holding hands", 
+        "hand", 
+        "hold"
+    ], 
+    "👮": [
+        "police", 
+        "cop", 
+        "officer", 
+        "police officer"
+    ], 
+    "👯": [
+        "dancer", 
+        "woman", 
+        "ear", 
+        "women partying", 
+        "girl", 
+        "bunny"
+    ], 
+    "👰": [
+        "bride", 
+        "veil", 
+        "bride with veil", 
+        "wedding"
+    ], 
+    "👱": [
+        "person with blond hair", 
+        "blond"
+    ], 
+    "👲": [
+        "man with chinese cap", 
+        "gua pi mao", 
+        "hat", 
+        "man"
+    ], 
+    "👳": [
+        "man with turban", 
+        "turban", 
+        "man"
+    ], 
+    "👴": [
+        "old man", 
+        "old", 
+        "man"
+    ], 
+    "👵": [
+        "woman", 
+        "old", 
+        "old woman"
+    ], 
+    "👶": [
+        "baby"
+    ], 
+    "👷": [
+        "construction worker", 
+        "construction", 
+        "hat", 
+        "worker"
+    ], 
+    "👸": [
+        "fantasy", 
+        "fairy tale", 
+        "princess"
+    ], 
+    "👹": [
+        "face", 
+        "fantasy", 
+        "fairy tale", 
+        "creature", 
+        "ogre", 
+        "monster"
+    ], 
+    "👺": [
+        "face", 
+        "fantasy", 
+        "fairy tale", 
+        "goblin", 
+        "creature", 
+        "monster"
+    ], 
+    "👻": [
+        "face", 
+        "ghost", 
+        "fantasy", 
+        "fairy tale", 
+        "creature", 
+        "monster"
+    ], 
+    "👼": [
+        "baby angel", 
+        "face", 
+        "fantasy", 
+        "fairy tale", 
+        "baby", 
+        "angel"
+    ], 
+    "👽": [
+        "face", 
+        "fantasy", 
+        "extraterrestrial", 
+        "fairy tale", 
+        "alien", 
+        "creature", 
+        "space", 
+        "monster", 
+        "ufo"
+    ], 
+    "👾": [
+        "alien monster", 
+        "face", 
+        "fantasy", 
+        "extraterrestrial", 
+        "fairy tale", 
+        "alien", 
+        "creature", 
+        "space", 
+        "monster", 
+        "ufo"
+    ], 
+    "👿": [
+        "face", 
+        "fantasy", 
+        "fairy tale", 
+        "devil", 
+        "demon", 
+        "imp"
+    ], 
+    "💀": [
+        "face", 
+        "death", 
+        "fairy tale", 
+        "skull", 
+        "monster"
+    ], 
+    "💁": [
+        "help", 
+        "information desk person", 
+        "sassy", 
+        "information", 
+        "hand"
+    ], 
+    "💂": [
+        "guardsman", 
+        "guard"
+    ], 
+    "💃": [
+        "dancer"
+    ], 
+    "💄": [
+        "makeup", 
+        "lipstick", 
+        "cosmetics"
+    ], 
+    "💅": [
+        "nail polish", 
+        "nail", 
+        "manicure", 
+        "polish", 
+        "care", 
+        "cosmetics"
+    ], 
+    "💆": [
+        "face massage", 
+        "massage", 
+        "salon"
+    ], 
+    "💇": [
+        "beauty", 
+        "parlor", 
+        "haircut", 
+        "barber"
+    ], 
+    "💈": [
+        "barber", 
+        "haircut", 
+        "pole", 
+        "barber pole"
+    ], 
+    "💉": [
+        "doctor", 
+        "syringe", 
+        "medicine", 
+        "sick", 
+        "needle", 
+        "tool", 
+        "shot"
+    ], 
+    "💊": [
+        "doctor", 
+        "medicine", 
+        "sick", 
+        "pill"
+    ], 
+    "💋": [
+        "romance", 
+        "lips", 
+        "kiss mark", 
+        "kiss", 
+        "heart"
+    ], 
+    "💌": [
+        "love", 
+        "romance", 
+        "mail", 
+        "letter", 
+        "love letter", 
+        "heart"
+    ], 
+    "💍": [
+        "romance", 
+        "diamond", 
+        "ring"
+    ], 
+    "💎": [
+        "romance", 
+        "diamond", 
+        "jewel", 
+        "gem stone", 
+        "gem"
+    ], 
+    "💏": [
+        "romance", 
+        "couple", 
+        "kiss"
+    ], 
+    "💐": [
+        "romance", 
+        "plant", 
+        "bouquet", 
+        "flower"
+    ], 
+    "💑": [
+        "couple with heart", 
+        "love", 
+        "romance", 
+        "couple", 
+        "heart"
+    ], 
+    "💒": [
+        "romance", 
+        "wedding", 
+        "chapel"
+    ], 
+    "💓": [
+        "beating heart", 
+        "beating", 
+        "heartbeat", 
+        "pulsating", 
+        "heart"
+    ], 
+    "💔": [
+        "broken", 
+        "break", 
+        "broken heart", 
+        "heart"
+    ], 
+    "💕": [
+        "love", 
+        "two hearts", 
+        "heart"
+    ], 
+    "💖": [
+        "sparkle", 
+        "excited", 
+        "sparkling heart", 
+        "heart"
+    ], 
+    "💗": [
+        "growing", 
+        "heartpulse", 
+        "excited", 
+        "nervous", 
+        "growing heart", 
+        "heart"
+    ], 
+    "💘": [
+        "cupid", 
+        "romance", 
+        "arrow", 
+        "heart with arrow", 
+        "heart"
+    ], 
+    "💙": [
+        "blue", 
+        "heart", 
+        "blue heart"
+    ], 
+    "💚": [
+        "green", 
+        "green heart", 
+        "heart"
+    ], 
+    "💛": [
+        "yellow heart", 
+        "yellow", 
+        "heart"
+    ], 
+    "💜": [
+        "purple heart", 
+        "purple", 
+        "heart"
+    ], 
+    "💝": [
+        "ribbon", 
+        "valentine", 
+        "heart", 
+        "heart with ribbon"
+    ], 
+    "💞": [
+        "revolving hearts", 
+        "heart", 
+        "revolving"
+    ], 
+    "💟": [
+        "heart decoration", 
+        "heart"
+    ], 
+    "💠": [
+        "diamond", 
+        "comic", 
+        "inside", 
+        "diamond with a dot"
+    ], 
+    "💡": [
+        "light bulb", 
+        "light", 
+        "idea", 
+        "bulb", 
+        "electric", 
+        "comic"
+    ], 
+    "💢": [
+        "mad", 
+        "anger symbol", 
+        "angry", 
+        "comic"
+    ], 
+    "💣": [
+        "bomb", 
+        "comic"
+    ], 
+    "💤": [
+        "sleep", 
+        "zzz", 
+        "comic"
+    ], 
+    "💥": [
+        "collision", 
+        "boom", 
+        "comic"
+    ], 
+    "💦": [
+        "splashing", 
+        "sweat", 
+        "sweat droplets", 
+        "comic"
+    ], 
+    "💧": [
+        "drop", 
+        "droplet", 
+        "sweat", 
+        "cold", 
+        "comic"
+    ], 
+    "💨": [
+        "running", 
+        "dashing", 
+        "comic", 
+        "dash"
+    ], 
+    "💩": [
+        "poo", 
+        "face", 
+        "poop", 
+        "dung", 
+        "pile of poo", 
+        "comic", 
+        "monster"
+    ], 
+    "💪": [
+        "flex", 
+        "muscle", 
+        "comic", 
+        "biceps", 
+        "flexed biceps"
+    ], 
+    "💫": [
+        "star", 
+        "dizzy", 
+        "comic"
+    ], 
+    "💬": [
+        "dialog", 
+        "balloon", 
+        "bubble", 
+        "speech", 
+        "comic", 
+        "speech balloon"
+    ], 
+    "💭": [
+        "balloon", 
+        "thought", 
+        "bubble", 
+        "comic", 
+        "thought balloon"
+    ], 
+    "💮": [
+        "white flower", 
+        "flower"
+    ], 
+    "💯": [
+        "hundred points", 
+        "100", 
+        "score", 
+        "hundred", 
+        "full"
+    ], 
+    "💰": [
+        "money", 
+        "moneybag", 
+        "bag", 
+        "money bag", 
+        "dollar"
+    ], 
+    "💱": [
+        "bank", 
+        "money", 
+        "currency exchange", 
+        "currency", 
+        "exchange"
+    ], 
+    "💲": [
+        "heavy dollar sign", 
+        "money", 
+        "currency", 
+        "dollar"
+    ], 
+    "💳": [
+        "bank", 
+        "money", 
+        "credit card", 
+        "credit", 
+        "card"
+    ], 
+    "💴": [
+        "note", 
+        "bank", 
+        "banknote", 
+        "yen", 
+        "money", 
+        "yen banknote", 
+        "bill", 
+        "currency"
+    ], 
+    "💵": [
+        "note", 
+        "bank", 
+        "banknote", 
+        "money", 
+        "bill", 
+        "currency", 
+        "dollar banknote", 
+        "dollar"
+    ], 
+    "💶": [
+        "note", 
+        "bank", 
+        "banknote", 
+        "euro", 
+        "money", 
+        "bill", 
+        "euro banknote", 
+        "currency"
+    ], 
+    "💷": [
+        "note", 
+        "bank", 
+        "banknote", 
+        "pound", 
+        "money", 
+        "pound banknote", 
+        "bill", 
+        "currency"
+    ], 
+    "💸": [
+        "note", 
+        "bank", 
+        "banknote", 
+        "fly", 
+        "money", 
+        "wings", 
+        "money with wings", 
+        "bill", 
+        "dollar"
+    ], 
+    "💹": [
+        "market", 
+        "bank", 
+        "yen", 
+        "money", 
+        "trend", 
+        "chart increasing with yen", 
+        "currency", 
+        "growth", 
+        "rise", 
+        "chart", 
+        "graph", 
+        "upward"
+    ], 
+    "💺": [
+        "seat", 
+        "chair"
+    ], 
+    "💻": [
+        "computer", 
+        "pc", 
+        "personal", 
+        "laptop computer"
+    ], 
+    "💼": [
+        "briefcase"
+    ], 
+    "💽": [
+        "computer", 
+        "disk", 
+        "minidisc", 
+        "minidisk", 
+        "optical"
+    ], 
+    "💾": [
+        "computer", 
+        "disk", 
+        "floppy", 
+        "floppy disk"
+    ], 
+    "💿": [
+        "cd", 
+        "computer", 
+        "disk", 
+        "dvd", 
+        "optical disc", 
+        "blu-ray", 
+        "optical"
+    ], 
+    "📀": [
+        "cd", 
+        "computer", 
+        "disk", 
+        "dvd", 
+        "blu-ray", 
+        "optical"
+    ], 
+    "📁": [
+        "file", 
+        "folder", 
+        "file folder"
+    ], 
+    "📂": [
+        "file", 
+        "folder", 
+        "open file folder", 
+        "open"
+    ], 
+    "📃": [
+        "page with curl", 
+        "curl", 
+        "document", 
+        "page"
+    ], 
+    "📄": [
+        "document", 
+        "page facing up", 
+        "page"
+    ], 
+    "📅": [
+        "calendar", 
+        "date"
+    ], 
+    "📆": [
+        "tear-off calendar", 
+        "calendar"
+    ], 
+    "📇": [
+        "rolodex", 
+        "card index", 
+        "index", 
+        "card"
+    ], 
+    "📈": [
+        "trend", 
+        "chart increasing", 
+        "growth", 
+        "chart", 
+        "graph", 
+        "upward"
+    ], 
+    "📉": [
+        "trend", 
+        "chart decreasing", 
+        "chart", 
+        "down", 
+        "graph"
+    ], 
+    "📊": [
+        "bar", 
+        "bar chart", 
+        "chart", 
+        "graph"
+    ], 
+    "📋": [
+        "clipboard"
+    ], 
+    "📌": [
+        "pin", 
+        "pushpin"
+    ], 
+    "📍": [
+        "round pushpin", 
+        "pin", 
+        "pushpin"
+    ], 
+    "📎": [
+        "paperclip"
+    ], 
+    "📏": [
+        "straight ruler", 
+        "ruler", 
+        "straight edge"
+    ], 
+    "📐": [
+        "set", 
+        "triangular ruler", 
+        "ruler", 
+        "triangle"
+    ], 
+    "📑": [
+        "bookmark", 
+        "marker", 
+        "tabs", 
+        "bookmark tabs"
+    ], 
+    "📒": [
+        "ledger", 
+        "notebook"
+    ], 
+    "📓": [
+        "notebook"
+    ], 
+    "📔": [
+        "cover", 
+        "notebook with decorative cover", 
+        "book", 
+        "decorated", 
+        "notebook"
+    ], 
+    "📕": [
+        "closed book", 
+        "book", 
+        "closed"
+    ], 
+    "📖": [
+        "open book", 
+        "book", 
+        "open"
+    ], 
+    "📗": [
+        "green", 
+        "book", 
+        "green book"
+    ], 
+    "📘": [
+        "blue", 
+        "book", 
+        "blue book"
+    ], 
+    "📙": [
+        "orange", 
+        "orange book", 
+        "book"
+    ], 
+    "📚": [
+        "books", 
+        "book"
+    ], 
+    "📛": [
+        "name badge", 
+        "badge", 
+        "name"
+    ], 
+    "📜": [
+        "paper", 
+        "scroll"
+    ], 
+    "📝": [
+        "memo", 
+        "pencil"
+    ], 
+    "📞": [
+        "telephone receiver", 
+        "receiver", 
+        "phone", 
+        "telephone"
+    ], 
+    "📟": [
+        "pager"
+    ], 
+    "📠": [
+        "fax machine", 
+        "fax"
+    ], 
+    "📡": [
+        "antenna", 
+        "dish", 
+        "satellite antenna", 
+        "satellite"
+    ], 
+    "📢": [
+        "loud", 
+        "loudspeaker", 
+        "public address"
+    ], 
+    "📣": [
+        "megaphone", 
+        "cheering"
+    ], 
+    "📤": [
+        "tray", 
+        "mail", 
+        "letter", 
+        "box", 
+        "outbox tray", 
+        "outbox", 
+        "sent"
+    ], 
+    "📥": [
+        "tray", 
+        "receive", 
+        "mail", 
+        "letter", 
+        "box", 
+        "inbox tray", 
+        "inbox"
+    ], 
+    "📦": [
+        "parcel", 
+        "package", 
+        "box"
+    ], 
+    "📧": [
+        "mail", 
+        "letter", 
+        "e-mail", 
+        "email"
+    ], 
+    "📨": [
+        "incoming", 
+        "receive", 
+        "envelope", 
+        "mail", 
+        "letter", 
+        "e-mail", 
+        "email", 
+        "incoming envelope"
+    ], 
+    "📩": [
+        "outgoing", 
+        "envelope", 
+        "mail", 
+        "arrow", 
+        "envelope with arrow", 
+        "letter", 
+        "e-mail", 
+        "down", 
+        "sent", 
+        "email"
+    ], 
+    "📪": [
+        "mailbox", 
+        "mail", 
+        "postbox", 
+        "lowered", 
+        "closed", 
+        "closed mailbox with lowered flag"
+    ], 
+    "📫": [
+        "mailbox", 
+        "mail", 
+        "postbox", 
+        "closed", 
+        "closed mailbox with raised flag"
+    ], 
+    "📬": [
+        "mailbox", 
+        "mail", 
+        "postbox", 
+        "open mailbox with raised flag", 
+        "open"
+    ], 
+    "📭": [
+        "mailbox", 
+        "mail", 
+        "postbox", 
+        "lowered", 
+        "open", 
+        "open mailbox with lowered flag"
+    ], 
+    "📮": [
+        "mailbox", 
+        "mail", 
+        "postbox"
+    ], 
+    "📯": [
+        "postal horn", 
+        "horn", 
+        "post", 
+        "postal"
+    ], 
+    "📰": [
+        "newspaper", 
+        "news", 
+        "paper"
+    ], 
+    "📱": [
+        "phone", 
+        "mobile phone", 
+        "mobile", 
+        "telephone", 
+        "cell"
+    ], 
+    "📲": [
+        "call", 
+        "receive", 
+        "arrow", 
+        "phone", 
+        "mobile phone with arrow", 
+        "mobile", 
+        "telephone", 
+        "cell"
+    ], 
+    "📳": [
+        "mode", 
+        "vibration mode", 
+        "phone", 
+        "mobile", 
+        "telephone", 
+        "cell", 
+        "vibration"
+    ], 
+    "📴": [
+        "phone", 
+        "mobile", 
+        "telephone", 
+        "cell", 
+        "off", 
+        "mobile phone off"
+    ], 
+    "📵": [
+        "no", 
+        "not", 
+        "phone", 
+        "prohibited", 
+        "forbidden", 
+        "mobile", 
+        "telephone", 
+        "no mobile phones", 
+        "cell"
+    ], 
+    "📶": [
+        "antenna", 
+        "bar", 
+        "phone", 
+        "mobile", 
+        "telephone", 
+        "antenna bars", 
+        "cell", 
+        "signal"
+    ], 
+    "📷": [
+        "video", 
+        "camera"
+    ], 
+    "📸": [
+        "camera with flash", 
+        "video", 
+        "camera", 
+        "flash"
+    ], 
+    "📹": [
+        "video camera", 
+        "video", 
+        "camera"
+    ], 
+    "📺": [
+        "tv", 
+        "television", 
+        "video"
+    ], 
+    "📻": [
+        "video", 
+        "radio"
+    ], 
+    "📼": [
+        "vhs", 
+        "tape", 
+        "videocassette", 
+        "video"
+    ], 
+    "📽": [
+        "movie", 
+        "film projector", 
+        "projector", 
+        "cinema", 
+        "film", 
+        "video"
+    ], 
+    "📿": [
+        "prayer", 
+        "beads", 
+        "necklace", 
+        "prayer beads", 
+        "religion"
+    ], 
+    "🔀": [
+        "arrow", 
+        "shuffle tracks button", 
+        "crossed"
+    ], 
+    "🔁": [
+        "repeat button", 
+        "arrow", 
+        "clockwise", 
+        "repeat"
+    ], 
+    "🔂": [
+        "repeat single button", 
+        "arrow", 
+        "once", 
+        "clockwise"
+    ], 
+    "🔃": [
+        "reload", 
+        "arrow", 
+        "clockwise", 
+        "clockwise vertical arrows"
+    ], 
+    "🔄": [
+        "arrow", 
+        "withershins", 
+        "anticlockwise arrows button", 
+        "counterclockwise", 
+        "anticlockwise"
+    ], 
+    "🔅": [
+        "dim button", 
+        "brightness", 
+        "low", 
+        "dim"
+    ], 
+    "🔆": [
+        "brightness", 
+        "bright button", 
+        "bright"
+    ], 
+    "🔇": [
+        "volume", 
+        "silent", 
+        "speaker off", 
+        "speaker", 
+        "mute", 
+        "quiet"
+    ], 
+    "🔈": [
+        "volume", 
+        "speaker"
+    ], 
+    "🔉": [
+        "volume", 
+        "low", 
+        "speaker", 
+        "speaker on", 
+        "wave"
+    ], 
+    "🔊": [
+        "loud", 
+        "volume", 
+        "high", 
+        "3", 
+        "speaker loud", 
+        "speaker", 
+        "three"
+    ], 
+    "🔋": [
+        "battery"
+    ], 
+    "🔌": [
+        "electric plug", 
+        "electric", 
+        "electricity", 
+        "plug"
+    ], 
+    "🔍": [
+        "glass", 
+        "search", 
+        "left-pointing magnifying glass", 
+        "magnifying", 
+        "tool"
+    ], 
+    "🔎": [
+        "glass", 
+        "search", 
+        "right-pointing magnifying glass", 
+        "magnifying", 
+        "tool"
+    ], 
+    "🔏": [
+        "lock with pen", 
+        "nib", 
+        "ink", 
+        "pen", 
+        "lock", 
+        "privacy"
+    ], 
+    "🔐": [
+        "closed lock with key", 
+        "closed", 
+        "lock", 
+        "secure", 
+        "key"
+    ], 
+    "🔑": [
+        "password", 
+        "lock", 
+        "key"
+    ], 
+    "🔒": [
+        "lock", 
+        "closed"
+    ], 
+    "🔓": [
+        "unlock", 
+        "lock", 
+        "open lock", 
+        "open"
+    ], 
+    "🔔": [
+        "bell"
+    ], 
+    "🔕": [
+        "no", 
+        "not", 
+        "silent", 
+        "bell with slash", 
+        "prohibited", 
+        "forbidden", 
+        "mute", 
+        "quiet", 
+        "bell"
+    ], 
+    "🔖": [
+        "bookmark"
+    ], 
+    "🔗": [
+        "link"
+    ], 
+    "🔘": [
+        "button", 
+        "radio button", 
+        "radio"
+    ], 
+    "🔙": [
+        "back arrow", 
+        "arrow", 
+        "back"
+    ], 
+    "🔚": [
+        "end arrow", 
+        "arrow", 
+        "end"
+    ], 
+    "🔛": [
+        "arrow", 
+        "on! arrow", 
+        "on"
+    ], 
+    "🔜": [
+        "soon arrow", 
+        "arrow", 
+        "soon"
+    ], 
+    "🔝": [
+        "top", 
+        "arrow", 
+        "top arrow", 
+        "up"
+    ], 
+    "🔞": [
+        "no", 
+        "age restriction", 
+        "not", 
+        "prohibited", 
+        "18", 
+        "forbidden", 
+        "underage", 
+        "eighteen", 
+        "no one under eighteen"
+    ], 
+    "🔟": [
+        "keycap ten", 
+        "ten", 
+        "keycap", 
+        "10"
+    ], 
+    "🔠": [
+        "uppercase", 
+        "input", 
+        "latin", 
+        "input latin uppercase", 
+        "letters"
+    ], 
+    "🔡": [
+        "input", 
+        "lowercase", 
+        "latin", 
+        "letters", 
+        "input latin lowercase", 
+        "abcd"
+    ], 
+    "🔢": [
+        "input", 
+        "1234", 
+        "input numbers", 
+        "numbers"
+    ], 
+    "🔣": [
+        "input", 
+        "input symbols"
+    ], 
+    "🔤": [
+        "input", 
+        "input latin letters", 
+        "abc", 
+        "alphabet", 
+        "latin", 
+        "letters"
+    ], 
+    "🔥": [
+        "fire", 
+        "flame", 
+        "tool"
+    ], 
+    "🔦": [
+        "light", 
+        "electric", 
+        "torch", 
+        "flashlight", 
+        "tool"
+    ], 
+    "🔧": [
+        "tool", 
+        "wrench"
+    ], 
+    "🔨": [
+        "hammer", 
+        "tool"
+    ], 
+    "🔩": [
+        "nut and bolt", 
+        "bolt", 
+        "nut", 
+        "tool"
+    ], 
+    "🔪": [
+        "weapon", 
+        "knife", 
+        "kitchen knife", 
+        "cooking", 
+        "hocho", 
+        "tool"
+    ], 
+    "🔫": [
+        "gun", 
+        "weapon", 
+        "revolver", 
+        "handgun", 
+        "pistol", 
+        "tool"
+    ], 
+    "🔬": [
+        "microscope", 
+        "tool"
+    ], 
+    "🔭": [
+        "telescope", 
+        "tool"
+    ], 
+    "🔮": [
+        "ball", 
+        "fantasy", 
+        "fortune", 
+        "crystal", 
+        "fairy tale", 
+        "crystal ball", 
+        "tool"
+    ], 
+    "🔯": [
+        "fortune", 
+        "star", 
+        "dotted six-pointed star"
+    ], 
+    "🔰": [
+        "japanese symbol for beginner", 
+        "green", 
+        "beginner", 
+        "yellow", 
+        "chevron", 
+        "leaf", 
+        "tool"
+    ], 
+    "🔱": [
+        "trident", 
+        "anchor", 
+        "ship", 
+        "trident emblem", 
+        "emblem", 
+        "tool"
+    ], 
+    "🔲": [
+        "button", 
+        "square", 
+        "black square button"
+    ], 
+    "🔳": [
+        "button", 
+        "white square button", 
+        "square", 
+        "outlined"
+    ], 
+    "🔴": [
+        "red", 
+        "red circle", 
+        "circle"
+    ], 
+    "🔵": [
+        "blue", 
+        "circle", 
+        "blue circle"
+    ], 
+    "🔶": [
+        "orange", 
+        "diamond", 
+        "large orange diamond"
+    ], 
+    "🔷": [
+        "diamond", 
+        "blue", 
+        "large blue diamond"
+    ], 
+    "🔸": [
+        "orange", 
+        "diamond", 
+        "small orange diamond"
+    ], 
+    "🔹": [
+        "diamond", 
+        "blue", 
+        "small blue diamond"
+    ], 
+    "🔺": [
+        "red", 
+        "red triangle pointed up"
+    ], 
+    "🔻": [
+        "red", 
+        "red triangle pointed down", 
+        "down"
+    ], 
+    "🔼": [
+        "button", 
+        "red", 
+        "up button", 
+        "arrow"
+    ], 
+    "🔽": [
+        "button", 
+        "red", 
+        "arrow", 
+        "down button", 
+        "down"
+    ], 
+    "🕉": [
+        "hindu", 
+        "om", 
+        "religion"
+    ], 
+    "🕊": [
+        "fly", 
+        "dove", 
+        "bird", 
+        "peace"
+    ], 
+    "🕋": [
+        "islam", 
+        "muslim", 
+        "kaaba", 
+        "religion"
+    ], 
+    "🕌": [
+        "mosque", 
+        "islam", 
+        "muslim", 
+        "religion"
+    ], 
+    "🕍": [
+        "synagogue", 
+        "temple", 
+        "jewish", 
+        "jew", 
+        "religion"
+    ], 
+    "🕎": [
+        "menorah", 
+        "candlestick", 
+        "candelabrum", 
+        "religion"
+    ], 
+    "🕐": [
+        "00", 
+        "1", 
+        "o’clock", 
+        "one", 
+        "clock", 
+        "one o’clock", 
+        "1:00"
+    ], 
+    "🕑": [
+        "00", 
+        "2", 
+        "o’clock", 
+        "clock", 
+        "two o’clock", 
+        "two", 
+        "2:00"
+    ], 
+    "🕒": [
+        "00", 
+        "o’clock", 
+        "3", 
+        "three o’clock", 
+        "clock", 
+        "three", 
+        "3:00"
+    ], 
+    "🕓": [
+        "00", 
+        "o’clock", 
+        "4", 
+        "four", 
+        "clock", 
+        "four o’clock", 
+        "4:00"
+    ], 
+    "🕔": [
+        "00", 
+        "o’clock", 
+        "5", 
+        "clock", 
+        "five o’clock", 
+        "5:00", 
+        "five"
+    ], 
+    "🕕": [
+        "00", 
+        "o’clock", 
+        "six", 
+        "6", 
+        "clock", 
+        "six o’clock", 
+        "6:00"
+    ], 
+    "🕖": [
+        "00", 
+        "o’clock", 
+        "7", 
+        "seven", 
+        "7:00", 
+        "seven o’clock", 
+        "clock"
+    ], 
+    "🕗": [
+        "00", 
+        "o’clock", 
+        "eight o’clock", 
+        "8", 
+        "8:00", 
+        "clock", 
+        "eight"
+    ], 
+    "🕘": [
+        "00", 
+        "nine", 
+        "o’clock", 
+        "9", 
+        "nine o’clock", 
+        "9:00", 
+        "clock"
+    ], 
+    "🕙": [
+        "00", 
+        "10:00", 
+        "o’clock", 
+        "clock", 
+        "ten", 
+        "ten o’clock", 
+        "10"
+    ], 
+    "🕚": [
+        "eleven o’clock", 
+        "00", 
+        "11", 
+        "o’clock", 
+        "11:00", 
+        "eleven", 
+        "clock"
+    ], 
+    "🕛": [
+        "00", 
+        "12", 
+        "twelve o’clock", 
+        "o’clock", 
+        "12:00", 
+        "twelve", 
+        "clock"
+    ], 
+    "🕜": [
+        "1", 
+        "1:30", 
+        "one-thirty", 
+        "one", 
+        "clock", 
+        "30", 
+        "thirty"
+    ], 
+    "🕝": [
+        "2", 
+        "2:30", 
+        "clock", 
+        "two-thirty", 
+        "30", 
+        "two", 
+        "thirty"
+    ], 
+    "🕞": [
+        "3", 
+        "three-thirty", 
+        "clock", 
+        "3:30", 
+        "30", 
+        "three", 
+        "thirty"
+    ], 
+    "🕟": [
+        "four-thirty", 
+        "4", 
+        "four", 
+        "4:30", 
+        "clock", 
+        "30", 
+        "thirty"
+    ], 
+    "🕠": [
+        "5", 
+        "5:30", 
+        "five-thirty", 
+        "clock", 
+        "30", 
+        "five", 
+        "thirty"
+    ], 
+    "🕡": [
+        "six", 
+        "6", 
+        "6:30", 
+        "clock", 
+        "six-thirty", 
+        "30", 
+        "thirty"
+    ], 
+    "🕢": [
+        "7", 
+        "7:30", 
+        "seven", 
+        "seven-thirty", 
+        "clock", 
+        "30", 
+        "thirty"
+    ], 
+    "🕣": [
+        "8:30", 
+        "8", 
+        "eight-thirty", 
+        "clock", 
+        "30", 
+        "eight", 
+        "thirty"
+    ], 
+    "🕤": [
+        "nine", 
+        "9:30", 
+        "nine-thirty", 
+        "9", 
+        "clock", 
+        "30", 
+        "thirty"
+    ], 
+    "🕥": [
+        "10:30", 
+        "clock", 
+        "ten", 
+        "30", 
+        "ten-thirty", 
+        "10", 
+        "thirty"
+    ], 
+    "🕦": [
+        "eleven-thirty", 
+        "11", 
+        "eleven", 
+        "clock", 
+        "30", 
+        "11:30", 
+        "thirty"
+    ], 
+    "🕧": [
+        "12", 
+        "twelve-thirty", 
+        "twelve", 
+        "clock", 
+        "12:30", 
+        "30", 
+        "thirty"
+    ], 
+    "🕯": [
+        "light", 
+        "candle"
+    ], 
+    "🕰": [
+        "mantelpiece clock", 
+        "clock"
+    ], 
+    "🕳": [
+        "hole"
+    ], 
+    "🕴": [
+        "business", 
+        "man in business suit levitating", 
+        "man", 
+        "suit"
+    ], 
+    "🕵": [
+        "detective", 
+        "sleuth", 
+        "spy"
+    ], 
+    "🕶": [
+        "eye", 
+        "glasses", 
+        "sunglasses", 
+        "eyewear", 
+        "dark"
+    ], 
+    "🕷": [
+        "insect", 
+        "spider"
+    ], 
+    "🕸": [
+        "spider web", 
+        "web", 
+        "spider"
+    ], 
+    "🕹": [
+        "game", 
+        "video game", 
+        "joystick"
+    ], 
+    "🖇": [
+        "linked paperclips", 
+        "paperclip", 
+        "link"
+    ], 
+    "🖊": [
+        "pen", 
+        "ballpoint"
+    ], 
+    "🖋": [
+        "fountain", 
+        "fountain pen", 
+        "pen"
+    ], 
+    "🖌": [
+        "painting", 
+        "paintbrush"
+    ], 
+    "🖍": [
+        "crayon"
+    ], 
+    "🖐": [
+        "finger", 
+        "raised hand with fingers splayed", 
+        "splayed", 
+        "hand"
+    ], 
+    "🖕": [
+        "finger", 
+        "middle finger", 
+        "hand"
+    ], 
+    "🖖": [
+        "vulcan salute", 
+        "finger", 
+        "spock", 
+        "vulcan", 
+        "hand"
+    ], 
+    "🖥": [
+        "computer", 
+        "desktop", 
+        "desktop computer"
+    ], 
+    "🖨": [
+        "computer", 
+        "printer"
+    ], 
+    "🖱": [
+        "button", 
+        "mouse", 
+        "computer", 
+        "3", 
+        "computer mouse", 
+        "three"
+    ], 
+    "🖲": [
+        "computer", 
+        "trackball"
+    ], 
+    "🖼": [
+        "art", 
+        "frame with picture", 
+        "museum", 
+        "painting", 
+        "picture", 
+        "frame"
+    ], 
+    "🗂": [
+        "card index dividers", 
+        "index", 
+        "dividers", 
+        "card"
+    ], 
+    "🗃": [
+        "file", 
+        "card file box", 
+        "box", 
+        "card"
+    ], 
+    "🗄": [
+        "file", 
+        "cabinet", 
+        "file cabinet"
+    ], 
+    "🗑": [
+        "wastebasket"
+    ], 
+    "🗒": [
+        "note", 
+        "pad", 
+        "spiral notepad", 
+        "spiral"
+    ], 
+    "🗓": [
+        "calendar", 
+        "pad", 
+        "spiral", 
+        "spiral calendar"
+    ], 
+    "🗜": [
+        "vice", 
+        "compression", 
+        "tool"
+    ], 
+    "🗝": [
+        "old key", 
+        "old", 
+        "clue", 
+        "lock", 
+        "key"
+    ], 
+    "🗞": [
+        "rolled-up newspaper", 
+        "news", 
+        "newspaper", 
+        "paper", 
+        "rolled"
+    ], 
+    "🗡": [
+        "dagger", 
+        "weapon", 
+        "knife"
+    ], 
+    "🗣": [
+        "head", 
+        "face", 
+        "speaking", 
+        "silhouette", 
+        "speak", 
+        "speaking head"
+    ], 
+    "🗨": [
+        "dialog", 
+        "speech", 
+        "left speech bubble"
+    ], 
+    "🗯": [
+        "mad", 
+        "balloon", 
+        "bubble", 
+        "right anger bubble", 
+        "angry"
+    ], 
+    "🗳": [
+        "ballot", 
+        "box", 
+        "ballot box with ballot"
+    ], 
+    "🗺": [
+        "world", 
+        "world map", 
+        "map"
+    ], 
+    "🗻": [
+        "mountain", 
+        "mount fuji", 
+        "fuji"
+    ], 
+    "🗼": [
+        "tokyo", 
+        "tokyo tower", 
+        "tower"
+    ], 
+    "🗽": [
+        "liberty", 
+        "statue of liberty", 
+        "statue"
+    ], 
+    "🗾": [
+        "japan", 
+        "map of japan", 
+        "map"
+    ], 
+    "🗿": [
+        "face", 
+        "moai", 
+        "statue", 
+        "moyai"
+    ], 
+    "😀": [
+        "grin", 
+        "face", 
+        "grinning face"
+    ], 
+    "😁": [
+        "eye", 
+        "grin", 
+        "face", 
+        "grinning face with smiling eyes", 
+        "smile"
+    ], 
+    "😂": [
+        "face", 
+        "face with tears of joy", 
+        "tear", 
+        "joy", 
+        "laugh"
+    ], 
+    "😃": [
+        "face", 
+        "mouth", 
+        "smiling face with open mouth", 
+        "open", 
+        "smile"
+    ], 
+    "😄": [
+        "eye", 
+        "face", 
+        "mouth", 
+        "smiling face with open mouth and smiling eyes", 
+        "open", 
+        "smile"
+    ], 
+    "😅": [
+        "smiling face with open mouth and cold sweat", 
+        "face", 
+        "sweat", 
+        "cold", 
+        "open", 
+        "smile"
+    ], 
+    "😆": [
+        "face", 
+        "mouth", 
+        "smiling face with open mouth and tightly-closed eyes", 
+        "satisfied", 
+        "laugh", 
+        "open", 
+        "smile"
+    ], 
+    "😇": [
+        "smiling face with halo", 
+        "face", 
+        "fantasy", 
+        "innocent", 
+        "fairy tale", 
+        "angel", 
+        "halo", 
+        "smile"
+    ], 
+    "😈": [
+        "smiling face with horns", 
+        "face", 
+        "fantasy", 
+        "fairy tale", 
+        "horns", 
+        "smile"
+    ], 
+    "😉": [
+        "winking face", 
+        "face", 
+        "wink"
+    ], 
+    "😊": [
+        "smiling face with smiling eyes", 
+        "eye", 
+        "face", 
+        "blush", 
+        "smile"
+    ], 
+    "😋": [
+        "yum", 
+        "savouring", 
+        "face", 
+        "face savouring delicious food", 
+        "um", 
+        "delicious", 
+        "smile"
+    ], 
+    "😌": [
+        "face", 
+        "relieved face", 
+        "relieved"
+    ], 
+    "😍": [
+        "eye", 
+        "love", 
+        "face", 
+        "smiling face with heart-shaped eyes", 
+        "heart", 
+        "smile"
+    ], 
+    "😎": [
+        "eye", 
+        "glasses", 
+        "sunglasses", 
+        "face", 
+        "eyewear", 
+        "cool", 
+        "bright", 
+        "smiling face with sunglasses", 
+        "sun", 
+        "smile"
+    ], 
+    "😏": [
+        "face", 
+        "smirking face", 
+        "smirk"
+    ], 
+    "😐": [
+        "face", 
+        "neutral face", 
+        "deadpan", 
+        "neutral"
+    ], 
+    "😑": [
+        "inexpressive", 
+        "unexpressive", 
+        "expressionless", 
+        "face", 
+        "expressionless face"
+    ], 
+    "😒": [
+        "unamused", 
+        "face", 
+        "unhappy", 
+        "unamused face"
+    ], 
+    "😓": [
+        "face", 
+        "sweat", 
+        "cold", 
+        "face with cold sweat"
+    ], 
+    "😔": [
+        "face", 
+        "dejected", 
+        "pensive face", 
+        "pensive"
+    ], 
+    "😕": [
+        "confused", 
+        "face", 
+        "confused face"
+    ], 
+    "😖": [
+        "confounded", 
+        "face", 
+        "confounded face"
+    ], 
+    "😗": [
+        "face", 
+        "kiss", 
+        "kissing face"
+    ], 
+    "😘": [
+        "face throwing a kiss", 
+        "face", 
+        "kiss", 
+        "heart"
+    ], 
+    "😙": [
+        "eye", 
+        "face", 
+        "kissing face with smiling eyes", 
+        "kiss", 
+        "smile"
+    ], 
+    "😚": [
+        "eye", 
+        "face", 
+        "closed", 
+        "kiss", 
+        "kissing face with closed eyes"
+    ], 
+    "😛": [
+        "face", 
+        "tongue", 
+        "face with stuck-out tongue"
+    ], 
+    "😜": [
+        "eye", 
+        "face", 
+        "tongue", 
+        "wink", 
+        "face with stuck-out tongue and winking eye", 
+        "joke"
+    ], 
+    "😝": [
+        "eye", 
+        "face", 
+        "tongue", 
+        "horrible", 
+        "taste", 
+        "face with stuck-out tongue and tightly-closed eyes"
+    ], 
+    "😞": [
+        "disappointed face", 
+        "disappointed", 
+        "face"
+    ], 
+    "😟": [
+        "face", 
+        "worried", 
+        "worried face"
+    ], 
+    "😠": [
+        "mad", 
+        "face", 
+        "angry face", 
+        "angry"
+    ], 
+    "😡": [
+        "red", 
+        "mad", 
+        "face", 
+        "rage", 
+        "pouting face", 
+        "angry", 
+        "pouting"
+    ], 
+    "😢": [
+        "face", 
+        "tear", 
+        "sad", 
+        "crying face", 
+        "cry"
+    ], 
+    "😣": [
+        "persevere", 
+        "face", 
+        "persevering face"
+    ], 
+    "😤": [
+        "face", 
+        "triumph", 
+        "won", 
+        "face with steam from nose"
+    ], 
+    "😥": [
+        "disappointed but relieved face", 
+        "disappointed", 
+        "face", 
+        "whew", 
+        "relieved"
+    ], 
+    "😦": [
+        "face", 
+        "mouth", 
+        "frown", 
+        "open", 
+        "frowning face with open mouth"
+    ], 
+    "😧": [
+        "anguished face", 
+        "face", 
+        "anguished"
+    ], 
+    "😨": [
+        "face", 
+        "fearful", 
+        "fearful face", 
+        "scared", 
+        "fear"
+    ], 
+    "😩": [
+        "face", 
+        "weary", 
+        "tired", 
+        "weary face"
+    ], 
+    "😪": [
+        "sleep", 
+        "face", 
+        "sleepy face"
+    ], 
+    "😫": [
+        "face", 
+        "tired", 
+        "tired face"
+    ], 
+    "😬": [
+        "grimace", 
+        "face", 
+        "grimacing face"
+    ], 
+    "😭": [
+        "face", 
+        "tear", 
+        "loudly crying face", 
+        "sad", 
+        "sob", 
+        "cry"
+    ], 
+    "😮": [
+        "face", 
+        "mouth", 
+        "sympathy", 
+        "open", 
+        "face with open mouth"
+    ], 
+    "😯": [
+        "stunned", 
+        "hushed face", 
+        "face", 
+        "hushed", 
+        "surprised"
+    ], 
+    "😰": [
+        "face with open mouth and cold sweat", 
+        "face", 
+        "mouth", 
+        "blue", 
+        "rushed", 
+        "sweat", 
+        "cold", 
+        "open"
+    ], 
+    "😱": [
+        "face", 
+        "face screaming in fear", 
+        "scream", 
+        "fearful", 
+        "munch", 
+        "scared", 
+        "fear"
+    ], 
+    "😲": [
+        "astonished face", 
+        "face", 
+        "astonished", 
+        "totally", 
+        "shocked"
+    ], 
+    "😳": [
+        "flushed face", 
+        "face", 
+        "dazed", 
+        "flushed"
+    ], 
+    "😴": [
+        "sleep", 
+        "face", 
+        "sleeping face", 
+        "zzz"
+    ], 
+    "😵": [
+        "face", 
+        "dizzy", 
+        "dizzy face"
+    ], 
+    "😶": [
+        "face", 
+        "silent", 
+        "mouth", 
+        "quiet", 
+        "face without mouth"
+    ], 
+    "😷": [
+        "doctor", 
+        "face", 
+        "face with medical mask", 
+        "cold", 
+        "medicine", 
+        "sick", 
+        "mask"
+    ], 
+    "😸": [
+        "eye", 
+        "grin", 
+        "face", 
+        "grinning cat face with smiling eyes", 
+        "cat", 
+        "smile"
+    ], 
+    "😹": [
+        "face", 
+        "tear", 
+        "joy", 
+        "cat", 
+        "cat face with tears of joy"
+    ], 
+    "😺": [
+        "face", 
+        "mouth", 
+        "cat", 
+        "smiling cat face with open mouth", 
+        "open", 
+        "smile"
+    ], 
+    "😻": [
+        "eye", 
+        "love", 
+        "face", 
+        "smiling cat face with heart-shaped eyes", 
+        "cat", 
+        "heart", 
+        "smile"
+    ], 
+    "😼": [
+        "face", 
+        "ironic", 
+        "cat", 
+        "cat face with wry smile", 
+        "smile", 
+        "wry"
+    ], 
+    "😽": [
+        "eye", 
+        "face", 
+        "cat", 
+        "kiss", 
+        "kissing cat face with closed eyes"
+    ], 
+    "😾": [
+        "pouting cat face", 
+        "face", 
+        "cat", 
+        "pouting"
+    ], 
+    "😿": [
+        "crying cat face", 
+        "face", 
+        "tear", 
+        "cat", 
+        "sad", 
+        "cry"
+    ], 
+    "🙀": [
+        "face", 
+        "weary cat face", 
+        "weary", 
+        "cat", 
+        "oh", 
+        "surprised"
+    ], 
+    "🙁": [
+        "face", 
+        "slightly frowning face", 
+        "frown"
+    ], 
+    "🙂": [
+        "face", 
+        "slightly smiling face", 
+        "smile"
+    ], 
+    "🙃": [
+        "face", 
+        "upside-down face", 
+        "upside-down"
+    ], 
+    "🙄": [
+        "rolling", 
+        "face", 
+        "face with rolling eyes", 
+        "eyes"
+    ], 
+    "🙅": [
+        "no", 
+        "not", 
+        "gesturing no", 
+        "prohibited", 
+        "forbidden", 
+        "hand"
+    ], 
+    "🙆": [
+        "gesturing ok", 
+        "ok", 
+        "hand"
+    ], 
+    "🙇": [
+        "person bowing", 
+        "sorry", 
+        "bow", 
+        "apology"
+    ], 
+    "🙈": [
+        "no", 
+        "face", 
+        "not", 
+        "see", 
+        "monkey", 
+        "prohibited", 
+        "forbidden", 
+        "evil", 
+        "see-no-evil"
+    ], 
+    "🙉": [
+        "no", 
+        "face", 
+        "not", 
+        "monkey", 
+        "prohibited", 
+        "forbidden", 
+        "hear-no-evil", 
+        "evil", 
+        "hear"
+    ], 
+    "🙊": [
+        "no", 
+        "face", 
+        "not", 
+        "monkey", 
+        "speak-no-evil", 
+        "prohibited", 
+        "forbidden", 
+        "speak", 
+        "evil"
+    ], 
+    "🙋": [
+        "happy person raising hand", 
+        "happy", 
+        "raised", 
+        "hand"
+    ], 
+    "🙌": [
+        "celebration", 
+        "person raising hands", 
+        "raised", 
+        "hooray", 
+        "hand"
+    ], 
+    "🙍": [
+        "person frowning", 
+        "frown"
+    ], 
+    "🙎": [
+        "person pouting", 
+        "pouting"
+    ], 
+    "🙏": [
+        "thanks", 
+        "folded hands", 
+        "ask", 
+        "please", 
+        "bow", 
+        "folded", 
+        "pray", 
+        "hand"
+    ], 
+    "🚀": [
+        "rocket", 
+        "space"
+    ], 
+    "🚁": [
+        "helicopter"
+    ], 
+    "🚂": [
+        "engine", 
+        "locomotive", 
+        "steam", 
+        "railway", 
+        "train"
+    ], 
+    "🚃": [
+        "railway car", 
+        "car", 
+        "electric", 
+        "railway", 
+        "tram", 
+        "trolleybus", 
+        "train"
+    ], 
+    "🚄": [
+        "shinkansen", 
+        "railway", 
+        "high-speed train", 
+        "speed", 
+        "train"
+    ], 
+    "🚅": [
+        "high-speed train with bullet nose", 
+        "shinkansen", 
+        "railway", 
+        "bullet", 
+        "speed", 
+        "train"
+    ], 
+    "🚆": [
+        "railway", 
+        "train"
+    ], 
+    "🚇": [
+        "subway", 
+        "metro"
+    ], 
+    "🚈": [
+        "light rail", 
+        "railway"
+    ], 
+    "🚉": [
+        "station", 
+        "railway", 
+        "train"
+    ], 
+    "🚊": [
+        "tram", 
+        "trolleybus"
+    ], 
+    "🚋": [
+        "car", 
+        "tram car", 
+        "tram", 
+        "trolleybus"
+    ], 
+    "🚌": [
+        "bus"
+    ], 
+    "🚍": [
+        "bus", 
+        "oncoming bus", 
+        "oncoming"
+    ], 
+    "🚎": [
+        "bus", 
+        "trolleybus", 
+        "tram", 
+        "trolley"
+    ], 
+    "🚏": [
+        "bus stop", 
+        "bus", 
+        "stop", 
+        "busstop"
+    ], 
+    "🚐": [
+        "bus", 
+        "minibus"
+    ], 
+    "🚑": [
+        "ambulance"
+    ], 
+    "🚒": [
+        "fire engine", 
+        "engine", 
+        "truck", 
+        "fire"
+    ], 
+    "🚓": [
+        "patrol", 
+        "police", 
+        "car", 
+        "police car"
+    ], 
+    "🚔": [
+        "police", 
+        "car", 
+        "oncoming police car", 
+        "oncoming"
+    ], 
+    "🚕": [
+        "taxi"
+    ], 
+    "🚖": [
+        "oncoming taxi", 
+        "taxi", 
+        "oncoming"
+    ], 
+    "🚗": [
+        "automobile", 
+        "car"
+    ], 
+    "🚘": [
+        "oncoming automobile", 
+        "automobile", 
+        "car", 
+        "oncoming"
+    ], 
+    "🚙": [
+        "recreational vehicle", 
+        "rv", 
+        "recreational"
+    ], 
+    "🚚": [
+        "delivery", 
+        "truck", 
+        "delivery truck"
+    ], 
+    "🚛": [
+        "lorry", 
+        "articulated lorry", 
+        "truck", 
+        "semi"
+    ], 
+    "🚜": [
+        "tractor"
+    ], 
+    "🚝": [
+        "monorail"
+    ], 
+    "🚞": [
+        "mountain", 
+        "car", 
+        "mountain railway", 
+        "railway"
+    ], 
+    "🚟": [
+        "railway", 
+        "suspension railway", 
+        "suspension"
+    ], 
+    "🚠": [
+        "mountain", 
+        "mountain cableway", 
+        "cable", 
+        "gondola"
+    ], 
+    "🚡": [
+        "tramway", 
+        "car", 
+        "ropeway", 
+        "aerial tramway", 
+        "aerial", 
+        "cable", 
+        "gondola"
+    ], 
+    "🚢": [
+        "ship"
+    ], 
+    "🚣": [
+        "rowboat", 
+        "boat"
+    ], 
+    "🚤": [
+        "speedboat", 
+        "boat"
+    ], 
+    "🚥": [
+        "light", 
+        "horizontal traffic light", 
+        "signal", 
+        "traffic"
+    ], 
+    "🚦": [
+        "light", 
+        "vertical traffic light", 
+        "signal", 
+        "traffic"
+    ], 
+    "🚧": [
+        "barrier", 
+        "construction"
+    ], 
+    "🚨": [
+        "police car’s light", 
+        "beacon", 
+        "police", 
+        "car", 
+        "light", 
+        "revolving"
+    ], 
+    "🚩": [
+        "post", 
+        "triangular flag"
+    ], 
+    "🚪": [
+        "door"
+    ], 
+    "🚫": [
+        "entry", 
+        "no", 
+        "not", 
+        "prohibited", 
+        "forbidden"
+    ], 
+    "🚬": [
+        "smoking"
+    ], 
+    "🚭": [
+        "no", 
+        "not", 
+        "no smoking", 
+        "prohibited", 
+        "forbidden", 
+        "smoking"
+    ], 
+    "🚮": [
+        "litterbox", 
+        "litter", 
+        "litter in bin sign"
+    ], 
+    "🚯": [
+        "no", 
+        "not", 
+        "litter", 
+        "prohibited", 
+        "forbidden", 
+        "no littering"
+    ], 
+    "🚰": [
+        "potable", 
+        "potable water", 
+        "water", 
+        "drink"
+    ], 
+    "🚱": [
+        "no", 
+        "not", 
+        "prohibited", 
+        "forbidden", 
+        "potable", 
+        "non-potable water", 
+        "water", 
+        "drink"
+    ], 
+    "🚲": [
+        "bicycle", 
+        "bike"
+    ], 
+    "🚳": [
+        "no bicycles", 
+        "no", 
+        "not", 
+        "bicycle", 
+        "prohibited", 
+        "forbidden", 
+        "bike"
+    ], 
+    "🚴": [
+        "bicyclist", 
+        "cyclist", 
+        "bicycle", 
+        "bike"
+    ], 
+    "🚵": [
+        "bicyclist", 
+        "cyclist", 
+        "mountain", 
+        "bicycle", 
+        "mountain biker", 
+        "bike"
+    ], 
+    "🚶": [
+        "walking", 
+        "pedestrian", 
+        "hike", 
+        "walk"
+    ], 
+    "🚷": [
+        "no", 
+        "not", 
+        "prohibited", 
+        "forbidden", 
+        "no pedestrians", 
+        "pedestrian"
+    ], 
+    "🚸": [
+        "children crossing", 
+        "pedestrian", 
+        "crossing", 
+        "child", 
+        "traffic"
+    ], 
+    "🚹": [
+        "men’s room", 
+        "lavatory", 
+        "man", 
+        "wc", 
+        "restroom"
+    ], 
+    "🚺": [
+        "woman", 
+        "lavatory", 
+        "wc", 
+        "women’s room", 
+        "restroom"
+    ], 
+    "🚻": [
+        "lavatory", 
+        "wc", 
+        "restroom"
+    ], 
+    "🚼": [
+        "baby symbol", 
+        "baby", 
+        "changing"
+    ], 
+    "🚽": [
+        "toilet"
+    ], 
+    "🚾": [
+        "water closet", 
+        "lavatory", 
+        "closet", 
+        "wc", 
+        "water", 
+        "restroom"
+    ], 
+    "🚿": [
+        "shower", 
+        "water"
+    ], 
+    "🛀": [
+        "person taking bath", 
+        "bathtub", 
+        "bath"
+    ], 
+    "🛁": [
+        "bathtub", 
+        "bath"
+    ], 
+    "🛂": [
+        "passport", 
+        "passport control", 
+        "control"
+    ], 
+    "🛃": [
+        "customs"
+    ], 
+    "🛄": [
+        "baggage", 
+        "baggage claim", 
+        "claim"
+    ], 
+    "🛅": [
+        "baggage", 
+        "luggage", 
+        "left luggage", 
+        "locker"
+    ], 
+    "🛋": [
+        "couch and lamp", 
+        "couch", 
+        "hotel", 
+        "lamp"
+    ], 
+    "🛌": [
+        "sleep", 
+        "hotel", 
+        "person in bed"
+    ], 
+    "🛍": [
+        "bag", 
+        "hotel", 
+        "shopping bags", 
+        "shopping"
+    ], 
+    "🛎": [
+        "bellhop", 
+        "bellhop bell", 
+        "hotel", 
+        "bell"
+    ], 
+    "🛏": [
+        "bed", 
+        "sleep", 
+        "hotel"
+    ], 
+    "🛐": [
+        "place of worship", 
+        "worship", 
+        "religion"
+    ], 
+    "🛠": [
+        "hammer", 
+        "hammer and wrench", 
+        "tool", 
+        "wrench"
+    ], 
+    "🛡": [
+        "shield", 
+        "weapon"
+    ], 
+    "🛢": [
+        "oil", 
+        "drum", 
+        "oil drum"
+    ], 
+    "🛣": [
+        "road", 
+        "highway", 
+        "motorway"
+    ], 
+    "🛤": [
+        "railway track", 
+        "railway", 
+        "train"
+    ], 
+    "🛥": [
+        "motorboat", 
+        "motor boat", 
+        "boat"
+    ], 
+    "🛩": [
+        "airplane", 
+        "small airplane"
+    ], 
+    "🛫": [
+        "check-in", 
+        "airplane", 
+        "departure", 
+        "departures", 
+        "airplane departure"
+    ], 
+    "🛬": [
+        "landing", 
+        "arrivals", 
+        "airplane", 
+        "arriving", 
+        "airplane arrival"
+    ], 
+    "🛰": [
+        "satellite", 
+        "space"
+    ], 
+    "🛳": [
+        "passenger", 
+        "ship", 
+        "passenger ship"
+    ], 
+    "🤐": [
+        "zipper-mouth face", 
+        "face", 
+        "mouth", 
+        "zipper"
+    ], 
+    "🤑": [
+        "face", 
+        "mouth", 
+        "money", 
+        "money-mouth face"
+    ], 
+    "🤒": [
+        "face", 
+        "face with thermometer", 
+        "ill", 
+        "sick", 
+        "thermometer"
+    ], 
+    "🤓": [
+        "face", 
+        "geek", 
+        "nerd face", 
+        "nerd"
+    ], 
+    "🤔": [
+        "thinking face", 
+        "face", 
+        "thinking"
+    ], 
+    "🤕": [
+        "face", 
+        "injury", 
+        "face with head-bandage", 
+        "hurt", 
+        "bandage"
+    ], 
+    "🤖": [
+        "robot", 
+        "face", 
+        "robot face", 
+        "monster"
+    ], 
+    "🤗": [
+        "face", 
+        "hug", 
+        "hugging face", 
+        "hugging"
+    ], 
+    "🤘": [
+        "finger", 
+        "rock-on", 
+        "sign of the horns", 
+        "horns", 
+        "hand"
+    ], 
+    "🦀": [
+        "zodiac", 
+        "cancer", 
+        "crab"
+    ], 
+    "🦁": [
+        "face", 
+        "lion face", 
+        "zodiac", 
+        "leo", 
+        "lion"
+    ], 
+    "🦂": [
+        "zodiac", 
+        "scorpio", 
+        "scorpius", 
+        "scorpion"
+    ], 
+    "🦃": [
+        "turkey"
+    ], 
+    "🦄": [
+        "face", 
+        "unicorn face", 
+        "unicorn"
+    ], 
+    "🧀": [
+        "cheese wedge", 
+        "cheese"
+    ]
+}
