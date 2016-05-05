@@ -407,10 +407,10 @@ def getEmojiListFromTagInDictAndGloss(string):
     result = set()
     gloss_emoji_list = gloss.getEmojiListFromText(string)
     if gloss_emoji_list:
-        result.update(gloss_emoji_list)
+        result.update([(True, gloss_emoji) for gloss_emoji in gloss_emoji_list])
     emojiList = emojiUtil.getEmojisForTag(string)
     if emojiList:
-        result.update(emojiList)
+        result.update([(False, tag_emoji) for tag_emoji in emojiList])
     return list(result)
 
 def getEmojiFromString(string, italian=True):
@@ -492,13 +492,18 @@ def getStringFromEmoji(input_emoji, italian=True):
 # ================================
 
 EMOJI_PNG_URL = 'https://dl.dropboxusercontent.com/u/12016006/Emoji/png_one/'
+EMOJI_IN_GLOSS_PNG_URL = 'https://dl.dropboxusercontent.com/u/12016006/Emoji/glossary.png'
 
-def getEmojiThumbnailUrl(e):
-    codePoints = '_'.join([str(hex(ord(c)))[2:] for c in e.decode('utf-8')])
-    return EMOJI_PNG_URL + codePoints + ".png"
+def getEmojiThumbnailUrl(inGloss, e):
+    if inGloss:
+        return EMOJI_IN_GLOSS_PNG_URL
+    else:
+        codePoints = '_'.join([str(hex(ord(c)))[2:] for c in e.decode('utf-8')])
+        return EMOJI_PNG_URL + codePoints + ".png"
 
 def createInlineQueryResultArticle(id, tag, query_offset):
     emojiList = getEmojiListFromTagInDictAndGloss(tag)
+    # (False, e) for e in unicodetable, (True, e) for e in glossary
     query_offset_int = int(query_offset) if query_offset else 0
     start_index = 50*query_offset_int
     end_index = start_index + 50
@@ -507,8 +512,7 @@ def createInlineQueryResultArticle(id, tag, query_offset):
     #logging.debug("Replying to inline query for tag '" + tag + "'")
     if emojiList:
         result = []
-        i = 0
-        for e in emojiList:
+        for (inGloss, e) in emojiList:
             result.append(
                 {
                     'type': "article",
@@ -516,10 +520,9 @@ def createInlineQueryResultArticle(id, tag, query_offset):
                     'title': e,
                     'message_text': e,
                     'hide_url': True,
-                    'thumb_url': getEmojiThumbnailUrl(e),
+                    'thumb_url': getEmojiThumbnailUrl(inGloss, e),
                 }
             )
-            i += 1
     else:
         result = [{
             'type': "article",
@@ -529,7 +532,6 @@ def createInlineQueryResultArticle(id, tag, query_offset):
             'hide_url': True,
         }]
     next_offset = str(query_offset_int+1) if hasMore else ''
-    #next_offset = ''
     return next_offset, result
 
 def answerInlineQuery(query_id, inlineQueryResults, next_offset):
