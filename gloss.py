@@ -77,24 +77,6 @@ def getConfusionEmoji(correctG, size):
     shuffle(options)
     return options
 
-'''
-#TO USE ONLY ONCE
-def addIncrementalCounter():
-    qry = Gloss.query()
-    count = 0
-    for g in qry:
-        count += 1
-        g.counter = count
-        g.put()
-    idManager = GlossEntryNumberManager(
-        id=GLOSS_MANAGER_SINGLETON,
-        count=count,
-        gaps=[]
-    )
-    idManager.put()
-    return count
-'''
-
 def addGloss(person, source_emoji, target_word):
     g = Gloss()
     g.populate(source_emoji=source_emoji, target_text = [target_word],

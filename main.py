@@ -45,13 +45,13 @@ DASHBOARD_DIR_ENV = Environment(loader=FileSystemLoader('dashboard'), autoescape
 
 ISTRUZIONI =  \
 """
-EmojitalianoBot è un tool gratuito e aperto alla comunità per costruire un dizionario italiano degli emoji.
+@emojitalianobot è un tool gratuito e aperto alla comunità per costruire un dizionario italiano degli emoji.
 Attualmente hai la possibilità di cercare parole o emoji o giocare per indovinare le traduzioni.
 
 Se hai bisogno di aiuto o vuoi aiutarci a migliorare il bot vieni nel gruppo di discussione cliccando su
 telegram.me/joinchat/B8zsMQg_NUYAROsKeUe8Xw
 
-In EmojitalianoBot anche il glossario  di Pinocchio in emojitaliano:
+In @emojitalianobot anche il glossario  di Pinocchio in emojitaliano:
 scritturebrevi.it/2016/02/05/pinocchio-in-emojitaliano-the-emoji-column
 
 Aiutaci a far conoscere questo bot invitando altri amici e votandolo su
@@ -59,7 +59,7 @@ telegramitalia.it/emojitalianobot e su telegram.me/storebot?start=emojitalianobo
 
 Per maggiori informazioni visita scritturebrevi.it/emojitalianobot
 
-Emojitalianobot v.5"
+@emojitalianobot v.5
 """
 
 MESSAGE_FOR_FRIENDS = \
@@ -245,8 +245,8 @@ def broadcast(msg, restart_user=False):
 
 def getInfoCount():
     c = Person.query().count()
-    msg = "Attualmente siamo in " + str(c) + " persone iscritte a Emojitalianobot! " +\
-          "Vogliamo crescere assieme! Invita altre persone ad aunirsi!"
+    msg = "Attualmente siamo in " + str(c) + " persone iscritte a @emojitalianobot! " +\
+          "Vogliamo crescere assieme! Invita altre persone ad unirsi!"
     return msg
 
 def tellmyself(p, msg):
@@ -392,12 +392,13 @@ def playEmojiToWord(p):
 def aiutinoEmojiToWord(p):
     g = p.glossGame
     if not g:
+        tell(p.chat_id, "Si è verificato un problema, ti prego di contattare @kercos per segnalarlo, grazie!")
         logging.warning("Probelm in aiutinoEmojiToWord: p.glossGame==None")
-        return
-    options = gloss.getConfusionTranslations(g,4)
-    kb = util.makeArray2D(options,2)
-    kb.append([BOTTONE_INDIETRO])
-    tell(p.chat_id, "Ecco alcune possibilità: ", kb)
+    else:
+        options = gloss.getConfusionTranslations(g,4)
+        kb = util.makeArray2D(options,2)
+        kb.append([BOTTONE_INDIETRO])
+        tell(p.chat_id, "Ecco alcune possibilità: ", kb)
 
 # ================================
 # ================================
@@ -405,12 +406,12 @@ def aiutinoEmojiToWord(p):
 
 def getEmojiListFromTagInDictAndGloss(string):
     result = set()
-    gloss_emoji_list = gloss.getEmojiListFromText(string)
-    if gloss_emoji_list:
-        result.update([(True, gloss_emoji) for gloss_emoji in gloss_emoji_list])
     emojiList = emojiUtil.getEmojisForTag(string)
     if emojiList:
-        result.update([(False, tag_emoji) for tag_emoji in emojiList])
+        result.update([tag_emoji for tag_emoji in emojiList])
+    gloss_emoji_list = gloss.getEmojiListFromText(string)
+    if gloss_emoji_list:
+        result.update([gloss_emoji for gloss_emoji in gloss_emoji_list])
     return list(result)
 
 def getEmojiFromString(string, italian=True):
@@ -494,16 +495,21 @@ def getStringFromEmoji(input_emoji, italian=True):
 EMOJI_PNG_URL = 'https://dl.dropboxusercontent.com/u/12016006/Emoji/png_one/'
 EMOJI_IN_GLOSS_PNG_URL = 'https://dl.dropboxusercontent.com/u/12016006/Emoji/glossary.png'
 
-def getEmojiThumbnailUrl(inGloss, e):
-    if inGloss:
-        return EMOJI_IN_GLOSS_PNG_URL
-    else:
+def getEmojiThumbnailUrl(e):
+    if e in emojiUtil.ALL_EMOJIS:
         codePoints = '_'.join([str(hex(ord(c)))[2:] for c in e.decode('utf-8')])
         return EMOJI_PNG_URL + codePoints + ".png"
+    else:
+        e = "🏃"
+        codePoints = '_'.join([str(hex(ord(c)))[2:] for c in e.decode('utf-8')])
+        return EMOJI_PNG_URL + codePoints + ".png"
+        #return EMOJI_IN_GLOSS_PNG_URL
+
+
+ADD_TEXT_TO_EMOJI_IN_INLINE_QUERY = True
 
 def createInlineQueryResultArticle(id, tag, query_offset):
     emojiList = getEmojiListFromTagInDictAndGloss(tag)
-    # (False, e) for e in unicodetable, (True, e) for e in glossary
     query_offset_int = int(query_offset) if query_offset else 0
     start_index = 50*query_offset_int
     end_index = start_index + 50
@@ -512,23 +518,31 @@ def createInlineQueryResultArticle(id, tag, query_offset):
     #logging.debug("Replying to inline query for tag '" + tag + "'")
     if emojiList:
         result = []
-        for (inGloss, e) in emojiList:
+        i = 0
+        for e in emojiList:
+            msg = e
+            if ADD_TEXT_TO_EMOJI_IN_INLINE_QUERY:
+                msg += ' (' + tag + ')'
             result.append(
                 {
                     'type': "article",
                     'id': str(id) + '/' + str(i),
                     'title': e,
-                    'message_text': e,
+                    'message_text': msg,
                     'hide_url': True,
-                    'thumb_url': getEmojiThumbnailUrl(inGloss, e),
+                    'thumb_url': getEmojiThumbnailUrl(e),
                 }
             )
+            i += 1
     else:
+        msg = 'Nessun emoji trovato per questa parola'
+        if ADD_TEXT_TO_EMOJI_IN_INLINE_QUERY:
+            msg += ' (' + tag + ')'
         result = [{
             'type': "article",
             'id': str(id) + '/0',
             'title': 'Nessun emoji trovato per questa parola',
-            'message_text': 'Nessun emoji trovato per questa parola',
+            'message_text': msg,
             'hide_url': True,
         }]
     next_offset = str(query_offset_int+1) if hasMore else ''
@@ -539,7 +553,7 @@ def answerInlineQuery(query_id, inlineQueryResults, next_offset):
         'inline_query_id': query_id,
         'results': json.dumps(inlineQueryResults),
         'is_personal': False,
-        # 'cache_time': 300 #default 300
+        'cache_time': 0, #default 300
         'next_offset': next_offset
     }
     resp = urllib2.urlopen(BASE_URL + 'answerInlineQuery',
@@ -550,9 +564,10 @@ def answerInlineQuery(query_id, inlineQueryResults, next_offset):
 def dealWithInlineQuery(body):
     inline_query = body['inline_query']
     query_text = inline_query['query'].encode('utf-8').strip()
-    query_id = inline_query['id']
-    query_offset = inline_query['offset']
     if len(query_text)>0:
+        #logging.debug('inline query text: ' + query_text)
+        query_id = inline_query['id']
+        query_offset = inline_query['offset']
         #chat_id = inline_query['from']['id']
         next_offset, query_results = createInlineQueryResultArticle(query_id, query_text, query_offset)
         answerInlineQuery(query_id, query_results, next_offset)
@@ -630,7 +645,8 @@ class WebhookHandler(webapp2.RequestHandler):
                 restart(p)
                 # state = -1 or -2
             else:
-                reply("Qualcosa non ha funzionato... prova a contattarmi cliccando su @kercos")
+                reply("Premi su /start se vuoi iniziare. "
+                      "Se hai qualche domanda o suggerimento non esitare di contattarmi cliccando su @kercos")
         else:
             # known user
             if text==None:
@@ -958,7 +974,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         reply("Il testo inserito non può contenere emojis.")
                         return
                         #stai in the same state
-                    possible_answers = [x.lower() for x in p.glossGame.target_text]
+                    possible_answers = [x.encode('utf-8').lower() for x in p.glossGame.target_text]
                     confusionTables.addConfusionEmojiToWords(p.glossGame.source_emoji, text)
                     p.glossGame = None
                     p.put()

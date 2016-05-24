@@ -30,6 +30,8 @@ with open("EmojiLanguages/Italian.json") as f:
         for key, value in json.load(f).iteritems()
     }
 
+ALL_EMOJIS = EMOJI_TO_TEXT_TABLE_IT.keys()
+
 with open("EmojiLanguages/English.json") as f:
     EMOJI_TO_TEXT_TABLE_EN = {
         key.encode('utf-8'): [x.encode('utf-8') for x in value]
