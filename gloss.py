@@ -11,6 +11,12 @@ class Gloss(ndb.Model):
     last_mod = ndb.DateTimeProperty(auto_now=True)
     counter = ndb.IntegerProperty()
 
+    def getEmoji(self):
+        return self.source_emoji.encode('utf-8')
+
+    def getFirstTranslation(self):
+        return self.target_text[0].encode('utf-8')
+
 GLOSS_MANAGER_SINGLETON = "GLOSS_COUNTER_MANAGER"
 
 class GlossEntryNumberManager(ndb.Model):

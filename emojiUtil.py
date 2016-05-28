@@ -70,7 +70,7 @@ def getEmojisForTag(tag, italian=True):
         return TEXT_TO_EMOJI_TABLE_IT.get(tagLowerCase)
     return TEXT_TO_EMOJI_TABLE_EN.get(tagLowerCase)
 
-def getRandomTag(italian=True):
+def getRandomItalianTag(italian=True):
     if italian:
         coinFlip = randint(0,1)
         if coinFlip==0:
@@ -83,14 +83,39 @@ def getRandomTag(italian=True):
     else:
         return TEXT_TO_EMOJI_TABLE_EN.keys()[randint(1, len(TEXT_TO_EMOJI_TABLE_EN) - 1)]
 
-def getRandomEmoji(italian=True):
+def getRandomUnicodeTag(italian=True):
     if italian:
-        coinFlip = randint(0, 1)
-        if coinFlip == 0:
-            return EMOJI_TO_TEXT_TABLE_IT.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_IT) - 1)]
-        else:
-            g = gloss.getRandomGloss()
-            return g.source_emoji.encode('utf-8')
+        return TEXT_TO_EMOJI_TABLE_IT.keys()[randint(1, len(TEXT_TO_EMOJI_TABLE_IT) - 1)]
+    else:
+        return TEXT_TO_EMOJI_TABLE_EN.keys()[randint(1, len(TEXT_TO_EMOJI_TABLE_EN) - 1)]
+
+def getRandomGlossTag():
+    g = gloss.getRandomGloss()
+    it_words = g.target_text
+    index = randint(0, len(it_words) - 1)
+    return it_words[index].encode('utf-8')
+
+def getRandomItalianEmoji():
+    coinFlip = randint(0, 1)
+    if coinFlip == 0:
+        return getRandomSingleEmoji()
+    else:
+        g = gloss.getRandomGloss()
+        return g.source_emoji.encode('utf-8')
+
+def getRandomGlossEmoji():
+    g = gloss.getRandomGloss()
+    return g.source_emoji.encode('utf-8')
+
+def getRandomGlossMultiEmoji():
+    while True:
+        g = gloss.getRandomGloss()
+        if getNumberOfEmojisInString(g.source_emoji)>1:
+            return g
+
+def getRandomSingleEmoji(italian=True):
+    if italian:
+        return EMOJI_TO_TEXT_TABLE_IT.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_IT) - 1)]
     else:
         return EMOJI_TO_TEXT_TABLE_EN.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_EN) - 1)]
 
@@ -142,6 +167,10 @@ def haveEmojisInCommon(text1, text2):
     if m1 and m2:
         return len(set(m1.groups()).intersection(m2.groups()))>0
     return False
+
+def getNumberOfEmojisInString(text_uni):
+    emoji = Emoji(text_uni)
+    return len(emoji.as_map())
 
 #def stringHasOnlyStandardEmojis(text):
 #    return getStringWithoutStandardEmojis(text) == ''

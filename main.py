@@ -62,12 +62,32 @@ Per maggiori informazioni visita scritturebrevi.it/emojitalianobot
 @emojitalianobot v.5
 """
 
+INVITE_FRIEND_INSTRUCTION = \
+"""
+Per invitare un amico, copia il messaggio seguente 🗒 e incollalo in un'altra chat, o inoltralo ⏩ direttamente \
+(per istruzioni premi su /comeInoltrareUnMessaggio):
+"""
+
 MESSAGE_FOR_FRIENDS = \
 """
-Ciao, ho scoperto @emojitalianobot, un tool gratuito e aperto alla comunità per creare un dizionario italiano degli emoji.
-
-Provalo premendo su @emojitalianobot!
+Ciao, ho scoperto @emojitalianobot, un *tool gratuito e aperto alla comunità* per creare un *dizionario italiano degli emoji*.
+Penso che ti piacerà 😍!
+Basta premere su @emojitalianobot e fare *START*!
 """
+
+HOW_TO_FORWARD_A_MESSAGE = \
+"""
+Come *inoltrare un messaggio* in Telegram in due semplici passaggi:
+
+1 (Browser): click (sinistro) sul messaggio e premi 'inoltra' in basso
+1 (Desktop): click (destro) sull'orario vicino al messaggio e seleziona 'inoltra'
+1 (SmartPhone): tieni premuto su un messaggio e seleziona l'icona di inoltro
+
+2: seleziona l'utente a cui vuoi mandare il messaggio
+
+"""
+
+
 
 STATES = {
     0: 'Initial Screen',
@@ -231,22 +251,31 @@ def get_time_string(date):
     newdate = date + timedelta(hours=1)
     return str(newdate).split(" ")[1].split(".")[0]
 
-def broadcast(msg, restart_user=False):
+def broadcast(msg, restart_user=False, sender_id = None, markdown=False):
     qry = Person.query()
-    count = 0
+    disabled = 0
     for p in qry:
-        if (p.enabled):
-            count += 1
+        if p.enabled:
+            tell(p.chat_id, msg, markdown=markdown)
             if restart_user:
                 restart(p)
-            tell(p.chat_id, msg)
-            sleep(0.100) # no more than 10 messages per second
-    logging.debug('broadcasted to people ' + str(count))
+            sleep(0.100)  # no more than 10 messages per second
+        else:
+            disabled += 1
+    if sender_id:
+        enabledCount = qry.count() - disabled
+        msg_debug =  'Messaggio inviato a ' + str(qry.count()) + ' persone.\n' + \
+               'Messaggio ricevuto da ' + str(enabledCount) + ' persone.\n' +\
+               'Persone disabilitate: ' + str(disabled)
+        tell(sender_id, msg_debug)
+
 
 def getInfoCount():
     c = Person.query().count()
-    msg = "Attualmente siamo in " + str(c) + " persone iscritte a @emojitalianobot! " +\
-          "Vogliamo crescere assieme! Invita altre persone ad unirsi!"
+    msg = "Attualmente siamo in *{0}* persone iscritte a @emojitalianobot! " \
+          "Vogliamo crescere insieme, aiutaci a far conoscere questo bot invitando altri amici e " \
+          "votandolo su [storebot](telegram.me/storebot?start=emojitalianobot) e su " \
+          "[telegramitalia](telegramitalia.it/emojitalianobot)!".format(str(c))
     return msg
 
 def tellmyself(p, msg):
@@ -593,6 +622,11 @@ class SetWebhookHandler(webapp2.RequestHandler):
             self.response.write(
                 json.dumps(json.load(urllib2.urlopen(BASE_URL + 'setWebhook', urllib.urlencode({'url': url})))))
 
+class InfouserAllHandler(webapp2.RequestHandler):
+    def get(self):
+        urlfetch.set_default_fetch_deadline(60)
+        broadcast(getInfoCount(), sender_id=key.FEDE_CHAT_ID, markdown=True)
+
 # ================================
 # ================================
 # ================================
@@ -627,8 +661,8 @@ class WebhookHandler(webapp2.RequestHandler):
         last_name = chat["last_name"].encode('utf-8') if "last_name" in chat else "-"
         username = chat["username"] if "username" in chat else "-"
 
-        def reply(msg=None, kb=None, hideKb=True):
-            tell(chat_id, msg, kb, hideKb)
+        def reply(msg=None, kb=None, hideKb=True, markdown=False):
+            tell(chat_id, msg, kb, hideKb, markdown=markdown)
 
         p = ndb.Key(Person, str(chat_id)).get()
 
@@ -668,18 +702,26 @@ class WebhookHandler(webapp2.RequestHandler):
                 if text in ['/help', BOTTONE_INFO]:
                     reply(ISTRUZIONI)
                 elif text == BOTTONE_INVITA_AMICO:
-                    reply('Inoltra il seguente messaggio:')
-                    reply(MESSAGE_FOR_FRIENDS)
+                    reply(INVITE_FRIEND_INSTRUCTION, markdown=True)
+                    reply(MESSAGE_FOR_FRIENDS, markdown=True)
+                elif text == '/comeInoltrareUnMessaggio':
+                    tell(p.chat_id, HOW_TO_FORWARD_A_MESSAGE, markdown=True)
                 elif text==IT_TEXT_TOFROM_EMOJI:
-                    randomEmoji = emojiUtil.getRandomEmoji()
-                    randomWord = emojiUtil.getRandomTag()
-                    reply("Inserisci uno o più emoji, ad esempio " + randomEmoji +
-                          ", o una o più parole in italiano, ad esempio '" + randomWord + "'", kb = [[BOTTONE_INDIETRO]])
+                    randomGlossMultiEmoji = emojiUtil.getRandomGlossMultiEmoji()
+                    randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
+                    randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()
+                    randomSingleEmoji = emojiUtil.getRandomSingleEmoji()
+                    randomWord = emojiUtil.getRandomUnicodeTag()
+                    reply("Inserisci un emoji, ad esempio {0} o una parola in italiano, ad esempio *{1}*.\n"
+                        "Se invece sei interessato in particolare al glossario di Pinocchio puoi inserire anche "
+                        "più combinazioni di emoji, ad esempio {2} ({3})".format(
+                        randomSingleEmoji, randomWord, randomGlossMultiEmoji_emoji, randomGlossMultiEmoji_translation),
+                        kb = [[BOTTONE_INDIETRO]], markdown=True)
                     person.setState(p, 20)
                     # state 20
                 elif text == EN_TEXT_TOFROM_EMOJI:
-                    randomEmoji = emojiUtil.getRandomEmoji(italian=False)
-                    randomWord = emojiUtil.getRandomTag(italian=False)
+                    randomEmoji = emojiUtil.getRandomSingleEmoji(italian=False)
+                    randomWord = emojiUtil.getRandomUnicodeTag(italian=False)
                     reply("Please entere a single emoji, for instance " + randomEmoji +
                           ", or one or more English words, for instance '" + randomWord + "'", kb = [[BOTTONE_INDIETRO]])
                     person.setState(p, 21)
@@ -757,7 +799,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         else:
                             reply('missing text after command')
                     elif text=='/infocount':
-                        reply(getInfoCount())
+                        reply(getInfoCount(), markdown=True)
                     elif text.startswith('/broadcast ') and len(text) > 11:
                         msg = text[11:]  # .encode('utf-8')
                         deferred.defer(broadcast, msg, restart_user=False)
@@ -989,7 +1031,7 @@ class WebhookHandler(webapp2.RequestHandler):
                             reply("Hai indovinato!", kb=[['GIOCA DI NUOVO'], [BOTTONE_INDIETRO]])
                     else:
                         if len(possible_answers)==1:
-                            answer = possible_answers[0].encode('utf-8')
+                            answer = possible_answers[0]
                             reply("Mi dispiace. La risposta corretta è: " + answer,
                                   kb=[['GIOCA DI NUOVO'], [BOTTONE_INDIETRO]])
                         else:
@@ -1007,4 +1049,5 @@ app = webapp2.WSGIApplication([
 #    ('/_ah/channel/disconnected/', DashboardDisconnectedHandler),
     ('/set_webhook', SetWebhookHandler),
     ('/webhook', WebhookHandler),
+    ('/infouser_weekly_all', InfouserAllHandler),
 ], debug=True)
