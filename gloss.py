@@ -1,8 +1,16 @@
+# -*- coding: utf-8 -*-
+
 import logging
 from google.appengine.ext import ndb
+from google.appengine.api import urlfetch
 from random import randint, shuffle
 
-import emojiUtil
+import csv
+import date_util
+from operator import itemgetter
+
+import webapp2
+import json
 
 class Gloss(ndb.Model):
     source_emoji = ndb.StringProperty()
@@ -16,6 +24,9 @@ class Gloss(ndb.Model):
 
     def getFirstTranslation(self):
         return self.target_text[0].encode('utf-8')
+
+    def getGlossTags(self):
+        return [x.encode('utf-8') for x in self.target_text]
 
 GLOSS_MANAGER_SINGLETON = "GLOSS_COUNTER_MANAGER"
 
@@ -53,7 +64,7 @@ def getRandomGloss():
     return g
 
 def getGlosEmojiAndTargetText(g):
-    return g.source_emoji.encode('utf-8') + "|" + str(g.target_text)
+    return g.source_emoji.encode('utf-8') + "|" + str(g.getGlossTags())
 
 def getConfusionTranslations(correctG, size):
     index = randint(0, len(correctG.target_text)-1)
@@ -160,11 +171,77 @@ def getEmojiTranslationsCount():
         translationCount += len(g.target_text)
     return (emojiCount, translationCount)
 
-def checkForGlossUniProblems():
-    qry = Gloss.query()
-    result = []
-    for g in qry:
-        emoji = g.source_emoji
-        if not emojiUtil.stringHasOnlyStandardEmojis(emoji.encode('utf-8')):
-            result.append(g)
-    return result
+
+#################
+# UPDATE SPREADSHEET DATA
+# remote_api_shell.py -s emojitalianobot.appspot.com
+#################
+
+def getGlossTableRows():
+    rows = []
+    for e in Gloss.query():
+        rows.append(
+            (
+                e.getEmoji(),
+                ", ".join(e.getGlossTags()),
+                date_util.dateString(e.last_mod)
+            )
+        )
+    rows = sorted(rows, key=itemgetter(0))
+    return rows
+
+def exportToCsv():
+    csvFileName = "/Users/fedja/Downloads/gloss.csv"
+
+    rows = getGlossTableRows()
+
+    with open(csvFileName, 'wb') as csvFile:
+        csvWriter = csv.writer(csvFile, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for r in rows:
+            csvWriter.writerow(r)
+    print 'Finished saving ' + str(len(rows)) + ' rows.'
+
+class GlossarioTableJson(webapp2.RequestHandler):
+    def get(self):
+        result = [
+            {
+            'emoji': row[0],
+            'parole': row[1],
+            'data ultima modifica': row[2]
+            } for row in getGlossTableRows()
+        ]
+        self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        self.response.out.write(json.dumps(result, indent=4, ensure_ascii=False))
+
+def getGlossarioHtml():
+    htmlText = "<html><body>"
+    htmlText += '<p>Ultimo aggiornamento: {}</p>'.format(date_util.dateTimeString())
+    htmlText += '\n<br>\n'
+    htmlText += \
+        """
+        <table border = "1">
+        <tr>
+            <th width="100px">Emoji</th>
+            <th width="400px">Parola/e</th>
+            <th width="100px">Data ultima modifica</th>
+        </tr>
+        """
+    for row in getGlossTableRows():
+        htmlText += \
+            """
+            <table border = "1">
+            <tr>
+                <td width="100px">{}</td>
+                <td width="400px">{}</td>
+                <td width="100px">{}</td>
+            </tr>
+            """.format(row[0], row[1], row[2])
+    htmlText += '</table>'
+    htmlText += "</body></html>"
+    return htmlText
+
+class GlossarioTableHtml(webapp2.RequestHandler):
+    def get(self):
+        htmlText = getGlossarioHtml()
+        self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
+        self.response.out.write(htmlText)

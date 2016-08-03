@@ -24,6 +24,7 @@ import emojiUtil
 import util
 import unicodedata
 import string
+import pinocchio
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -476,7 +477,7 @@ def getEmojiFromString(string, italian=True):
 
 
 
-def getStringFromEmoji(input_emoji, italian=True):
+def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
 
     msg = ''
 
@@ -498,6 +499,11 @@ def getStringFromEmoji(input_emoji, italian=True):
             found = True
             words = ', '.join([x.encode('utf-8') for x in gloss_text])
             msg += 'Trovata voce nel glossario: ' + input_emoji + " = " + words + '\n'
+            if pinocchioSearch:
+                msg += 'Occorrenze in Pinochio (ricerca parole): ' + ' '.join(
+                    pinocchio.findEmojiInPinocchio(input_emoji)) + '\n'
+                msg += 'Occorrenze in Pinochio (ricerca completa): ' + ' '.join(
+                    pinocchio.findEmojiInPinocchio(input_emoji,deepSearch=True)) + '\n'
         if tags:
             found = True
             annotations = ', '.join(tags)
@@ -570,7 +576,7 @@ def createInlineQueryResultArticle(id, tag, query_offset):
         result = [{
             'type': "article",
             'id': str(id) + '/0',
-            'title': 'Nessun emoji trovato per questa parola',
+            'title': msg,
             'message_text': msg,
             'hide_url': True,
         }]
@@ -759,7 +765,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         else:
                             reply("Manca uno spazio dopo /testEmoji")
                     elif text.startswith('/checkGlossUnicode'):
-                        glosses = gloss.checkForGlossUniProblems()
+                        glosses = emojiUtil.checkForGlossUniProblems()
                         if glosses:
                             reply('Found glosses with potential inconsistencies: ' + str(len(glosses)))
                             glosses_split = util.makeArray2D(glosses, length=10)
@@ -806,13 +812,16 @@ class WebhookHandler(webapp2.RequestHandler):
                     elif text.startswith('/restartBroadcast ') and len(text) > 18:
                         msg = text[18:]  # .encode('utf-8')
                         deferred.defer(broadcast, msg, restart_user=True)
+                    elif text == '/aggiornaPinocchio':
+                        pinocchio.buildPinocchioChapters()
+                        tell(p.chat_id, "Aggiornamento completato!")
                     else:
                         reply('Scusa, capisco solo /help /start '
                               'e altri comandi segreti...')
                     #setLanguage(d.language)
                 else:
                     reply("Scusa non capisco quello che hai detto.\n"
-                          "Usa i pulsanti sotto o premi HELP per avere informazioni.")
+                          "Usa i pulsanti sotto o premi /help per avere informazioni.")
             elif p.state == 20:
                 # IT <-> EMOJI
                 if text == BOTTONE_INDIETRO:
@@ -822,7 +831,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         emoji = getEmojiFromString(text)
                         reply(emoji, kb=[[BOTTONE_INDIETRO]])
                     else:
-                        string = getStringFromEmoji(text)
+                        string = getStringFromEmoji(text, italian=True, pinocchioSearch=p.isAdmin())
                         reply(string, kb = [[BOTTONE_INDIETRO]])
             elif p.state == 21:
                 # EN <-> EMOJI
@@ -1050,4 +1059,5 @@ app = webapp2.WSGIApplication([
     ('/set_webhook', SetWebhookHandler),
     ('/webhook', WebhookHandler),
     ('/infouser_weekly_all', InfouserAllHandler),
+    ('/glossario', gloss.GlossarioTableHtml),
 ], debug=True)

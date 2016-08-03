@@ -172,6 +172,16 @@ def getNumberOfEmojisInString(text_uni):
     emoji = Emoji(text_uni)
     return len(emoji.as_map())
 
+def checkForGlossUniProblems():
+    qry = gloss.Gloss.query()
+    result = []
+    for g in qry:
+        emoji = g.source_emoji
+        if not stringHasOnlyStandardEmojis(emoji.encode('utf-8')):
+            result.append(g)
+    return result
+
+
 #def stringHasOnlyStandardEmojis(text):
 #    return getStringWithoutStandardEmojis(text) == ''
 

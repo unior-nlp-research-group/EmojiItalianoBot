@@ -4,6 +4,7 @@ import logging
 from google.appengine.ext import ndb
 
 from gloss import Gloss
+import key
 
 class Person(ndb.Model):
     chat_id = ndb.IntegerProperty()
@@ -16,6 +17,9 @@ class Person(ndb.Model):
     glossGame = ndb.StructuredProperty(Gloss)
     tmpInt = ndb.IntegerProperty()
     tmpString = ndb.StringProperty()
+
+    def isAdmin(self):
+        return self.chat_id in key.MASTER_CHAT_ID
 
 def addPerson(chat_id, name):
     p = Person(
