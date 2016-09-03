@@ -16,15 +16,18 @@ import gloss
 from google.appengine.api import urlfetch
 from google.appengine.ext import ndb
 from google.appengine.ext import deferred
+from google.appengine.ext.db import datastore_errors
 
 import webapp2
 from random import randint
 import confusionTables
 import emojiUtil
-import util
+import utility
 import unicodedata
 import string
 import pinocchio
+import grammar_rules
+import futuroRemoto
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -60,7 +63,7 @@ telegramitalia.it/emojitalianobot e su telegram.me/storebot?start=emojitalianobo
 
 Per maggiori informazioni visita scritturebrevi.it/emojitalianobot
 
-@emojitalianobot v.5
+@emojitalianobot v.6
 """
 
 INVITE_FRIEND_INSTRUCTION = \
@@ -94,14 +97,15 @@ STATES = {
     0: 'Initial Screen',
     20: 'IT <-> EMOJI',
     21: 'EN <-> EMOJI',
-    #30: 'ITALIANO-EMOJI',
-    #31: 'INGLESE-EMOJI',
-    40: 'GLOSSARIO',
+    30: 'PINOCCHIO',
+    40: 'GLOSSARIO PINOCCHIO',
     41: 'GLOSSARIO: INSERISCI VOCE',
     42: 'GLOSSARIO: ELIMINA VOCE',
     50: 'GAME PANEL',
     51: 'GAME PANEL -> word to emoji',
     52: 'GAME PANEL -> emoji to word',
+    60: 'GRAMMATICA PINOCCHIO',
+    80: 'FuturoRemoto'
 }
 
 CANCEL = u'\U0000274C'.encode('utf-8')
@@ -146,13 +150,16 @@ FROWNING_FACE = u'\U0001F641'.encode('utf-8')
 
 BOTTONE_ANNULLA = CANCEL + " Annulla"
 BOTTONE_INDIETRO = LEFTWARDS_BLACK_ARROW + ' ' + "Indietro"
+BOTTONE_PINOCCHIO = PINOCCHIO + ' PINOCCHIO'
 BOTTONE_GLOSSARIO = PINOCCHIO + ' GLOSSARIO'
+BOTTONE_GRAMMATICA = PINOCCHIO + ' GRAMMATICA'
 BOTTONE_INFO = INFO + ' INFO'
 BOTTONE_GIOCA = JOKER + ' GIOCA!'
 BOTTONE_INVITA_AMICO = MASCHERE + ' INVITA UN AMICO'
 BOTTONE_SI = CHECK + ' SI'
 BOTTONE_NO = CANCEL + ' NO'
 
+FUTURO_REMOTO_COMMAND = "futuroremoto"
 # ================================
 # AUXILIARY FUNCTIONS
 # ================================
@@ -193,18 +200,6 @@ def has_roman_chars(text):
 # ================================
 # ================================
 
-def restart(p, txt=None):
-    reply_txt = (txt + '\n') if txt!=None else ''
-    reply_txt += "Schermata Iniziale."
-    keyboard = [[IT_TEXT_TOFROM_EMOJI, EN_TEXT_TOFROM_EMOJI], [BOTTONE_INVITA_AMICO, BOTTONE_INFO]]
-    secondLine = [BOTTONE_GIOCA]
-    if p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
-        secondLine.insert(0, BOTTONE_GLOSSARIO)
-    keyboard.insert(1, secondLine)
-    tell(p.chat_id, reply_txt, kb=keyboard)
-    #logging.debug("restart kb: " + str(keyboard))
-    person.setState(p, 0)
-
 def restartAllUsers(msg):
     qry = Person.query()
     count = 0
@@ -229,11 +224,11 @@ def restartTest(msg):
     return count
 
 
-def init_user(p, cmd, name, last_name, username):
+def init_user(p, name, last_name, username):
     if (p.name.encode('utf-8') != name):
         p.name = name
         p.put()
-    if (p.last_name.encode('utf-8') != last_name):
+    if (p.getLastName() != last_name):
         p.last_name = last_name
         p.put()
     if (p.username != username):
@@ -252,22 +247,35 @@ def get_time_string(date):
     newdate = date + timedelta(hours=1)
     return str(newdate).split(" ")[1].split(".")[0]
 
-def broadcast(msg, restart_user=False, sender_id = None, markdown=False):
-    qry = Person.query()
-    disabled = 0
-    for p in qry:
-        if p.enabled:
-            tell(p.chat_id, msg, markdown=markdown)
-            if restart_user:
-                restart(p)
-            sleep(0.100)  # no more than 10 messages per second
-        else:
-            disabled += 1
-    if sender_id:
-        enabledCount = qry.count() - disabled
-        msg_debug =  'Messaggio inviato a ' + str(qry.count()) + ' persone.\n' + \
-               'Messaggio ricevuto da ' + str(enabledCount) + ' persone.\n' +\
-               'Persone disabilitate: ' + str(disabled)
+def broadcast(sender_id, msg, restart_user=False, markdown=False, curs=None, enabledCount = 0):
+    #return
+
+    BROADCAST_COUNT_REPORT = utility.unindent(
+        """
+        Mesage sent to {} people
+        Enabled: {}
+        Disabled: {}
+        """
+    )
+
+    users, next_curs, more = Person.query().fetch_page(50, start_cursor=curs)
+    try:
+        for p in users:
+            if p.enabled:
+                enabledCount += 1
+                if restart_user:
+                    restart(p)
+                tell(p.chat_id, msg, markdown=markdown, sleepDelay=True)
+    except datastore_errors.Timeout:
+        sleep(1)
+        deferred.defer(broadcast, sender_id, msg, restart_user, markdown, curs, enabledCount)
+        return
+    if more:
+        deferred.defer(broadcast, sender_id, msg, restart_user, markdown, next_curs, enabledCount)
+    else:
+        total = Person.query().count()
+        disabled = total - enabledCount
+        msg_debug = BROADCAST_COUNT_REPORT.format(str(total), str(enabledCount), str(disabled))
         tell(sender_id, msg_debug)
 
 
@@ -282,9 +290,9 @@ def getInfoCount():
 def tellmyself(p, msg):
     tell(p.chat_id, "Udiete udite... " + msg)
 
-def tell_masters(msg):
+def tell_masters(msg, markdown=False, one_time_keyboard=False):
     for id in key.MASTER_CHAT_ID:
-        tell(id, msg)
+        tell(id, msg, markdown=markdown, one_time_keyboard = one_time_keyboard, sleepDelay=True)
 
 def tell_fede(msg):
     for i in range(100):
@@ -326,61 +334,410 @@ def sendGlossarioNotification(p, inserito, emoji_text):
         if p.chat_id != master_chat_id:
             tell(master_chat_id, msg)
 
-def tell(chat_id, msg, kb=None, hideKb=True, markdown=False):
-    try:
-        if kb:
-            resp = urllib2.urlopen(BASE_URL + 'sendMessage', urllib.urlencode({
-                'chat_id': chat_id,
-                'text': msg, #.encode('utf-8'),
-                'disable_web_page_preview': 'true',
-                'parse_mode': 'Markdown' if markdown else '',
-                #'reply_to_message_id': str(message_id),
-                'reply_markup': json.dumps({
-                    #'one_time_keyboard': True,
-                    'resize_keyboard': True,
-                    'keyboard': kb,  # [['Test1','Test2'],['Test3','Test8']]
-                    'reply_markup': json.dumps({'hide_keyboard': True})
-                }),
-            })).read()
+
+def tell(chat_id, msg, kb=None, markdown=False, inlineKeyboardMarkup=False,
+         one_time_keyboard=True, sleepDelay=False):
+    replyMarkup = {
+        'resize_keyboard': True,
+        'one_time_keyboard': one_time_keyboard
+    }
+    if kb:
+        if inlineKeyboardMarkup:
+            replyMarkup['inline_keyboard'] = kb
         else:
-            if hideKb:
-                resp = urllib2.urlopen(BASE_URL + 'sendMessage', urllib.urlencode({
-                    'chat_id': str(chat_id),
-                    'text': msg, #.encode('utf-8'),
-                    'disable_web_page_preview': 'true',
-                    'parse_mode': 'Markdown' if markdown else '',
-                    #'disable_web_page_preview': 'true',
-                    #'reply_to_message_id': str(message_id),
-                    'reply_markup': json.dumps({
-                        #'one_time_keyboard': True,
-                        'resize_keyboard': True,
-                        #'keyboard': kb,  # [['Test1','Test2'],['Test3','Test8']]
-                        'reply_markup': json.dumps({'hide_keyboard': True})
-                }),
-                })).read()
-            else:
-                resp = urllib2.urlopen(BASE_URL + 'sendMessage', urllib.urlencode({
-                    'chat_id': str(chat_id),
-                    'text': msg, #.encode('utf-8'),
-                    'disable_web_page_preview': 'true',
-                    'parse_mode': 'Markdown' if markdown else '',
-                    #'disable_web_page_preview': 'true',
-                    #'reply_to_message_id': str(message_id),
-                    'reply_markup': json.dumps({
-                        #'one_time_keyboard': True,
-                        'resize_keyboard': True,
-                        #'keyboard': kb,  # [['Test1','Test2'],['Test3','Test8']]
-                        'reply_markup': json.dumps({'hide_keyboard': False})
-                }),
-                })).read()
+            replyMarkup['keyboard'] = kb
+    try:
+        resp = urllib2.urlopen(BASE_URL + 'sendMessage', urllib.urlencode({
+            'chat_id': chat_id,
+            'text': msg,
+            'disable_web_page_preview': 'true',
+            'parse_mode': 'Markdown' if markdown else '',
+            # 'reply_to_message_id': str(message_id),
+            'reply_markup': json.dumps(replyMarkup),
+        })).read()
         logging.info('send response: ')
         logging.info(resp)
+        resp_json = json.loads(resp)
+        return resp_json['result']['message_id']
     except urllib2.HTTPError, err:
         if err.code == 403:
-            p = Person.query(Person.chat_id==chat_id).get()
-            p.enabled = False
-            p.put()
-            logging.info('Disabled user: ' + p.name.encode('utf-8') + ' ' + str(chat_id))
+            p = person.getPersonByChatId(chat_id)
+            p.setEnabled(False, put=True)
+            # logging.info('Disabled user: ' + p.name.encode('utf-8') + ' ' + str(chat_id))
+        else:
+            logging.debug('Raising unknown err in tell() with msg = {} and kb={}'.format(msg, kb))
+            raise err
+    if sleepDelay:
+        sleep(0.1)
+
+# ================================
+# ================================
+# ================================
+
+# ================================
+# RESTART
+# ================================
+def restart(p, msg=None):
+    if msg:
+        tell(p.chat_id, msg)
+    redirectToState(p, 0)
+
+# ================================
+# SWITCH TO STATE
+# ================================
+def redirectToState(p, new_state, **kwargs):
+    if p.state != new_state:
+        logging.debug("In redirectToState. current_state:{0}, new_state: {1}".format(str(p.state),str(new_state)))
+        p.setState(new_state)
+    repeatState(p, **kwargs)
+
+# ================================
+# REPEAT STATE
+# ================================
+def repeatState(p, **kwargs):
+    methodName = "goToState" + str(p.state)
+    method = possibles.get(methodName)
+    if not method:
+        tell(p.chat_id,
+             "Si è verificato un problema. Lo abbiamo comunicato agli amministratori. "
+             "Sarai ora reindirizzato alla schermata iniziale.")
+        tell(key.FEDE_CHAT_ID,
+             "Detected error for user {}: unexisting method {}.".format(p.getUserInfoString(), methodName))
+        restart(p)
+    else:
+        method(p, **kwargs)
+
+# ================================
+# ================================
+# ================================
+
+# ================================
+# GO TO STATE 0: STAT SCREEN
+# ================================
+
+def goToState0(p, input=None, **kwargs):
+    giveInstruction = input is None
+    if giveInstruction:
+        keyboard = [[IT_TEXT_TOFROM_EMOJI, EN_TEXT_TOFROM_EMOJI], [BOTTONE_INVITA_AMICO, BOTTONE_INFO]]
+        secondLine = [BOTTONE_GIOCA]
+        if p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+            secondLine.insert(0, BOTTONE_PINOCCHIO)
+        keyboard.insert(1, secondLine)
+        tell(p.chat_id, "Schermata Iniziale.", kb=keyboard)
+        #logging.debug("restart kb: " + str(keyboard))
+    else:
+        if input in ['/help', BOTTONE_INFO]:
+            tell(p.chat_id, ISTRUZIONI)
+        elif input == BOTTONE_INVITA_AMICO:
+            tell(p.chat_id, INVITE_FRIEND_INSTRUCTION, markdown=True)
+            tell(p.chat_id, MESSAGE_FOR_FRIENDS, markdown=True)
+        elif input == '/comeInoltrareUnMessaggio':
+            tell(p.chat_id, HOW_TO_FORWARD_A_MESSAGE, markdown=True)
+        elif input == IT_TEXT_TOFROM_EMOJI:
+            randomGlossMultiEmoji = emojiUtil.getRandomGlossMultiEmoji()
+            randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
+            randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()
+            randomSingleEmoji = emojiUtil.getRandomSingleEmoji()
+            randomWord = emojiUtil.getRandomUnicodeTag()
+            tell(p.chat_id, "Inserisci un emoji, ad esempio {0} o una parola in italiano, ad esempio *{1}*.\n"
+                  "Se invece sei interessato in particolare al glossario di Pinocchio puoi inserire anche "
+                  "più combinazioni di emoji, ad esempio {2} ({3})".format(
+                randomSingleEmoji, randomWord, randomGlossMultiEmoji_emoji, randomGlossMultiEmoji_translation),
+                kb=[[BOTTONE_INDIETRO]], markdown=True)
+            person.setState(p, 20)
+            # state 20
+        elif input == EN_TEXT_TOFROM_EMOJI:
+            randomEmoji = emojiUtil.getRandomSingleEmoji(italian=False)
+            randomWord = emojiUtil.getRandomUnicodeTag(italian=False)
+            tell(p.chat_id, "Please entere a single emoji, for instance " + randomEmoji +
+                  ", or one or more English words, for instance '" + randomWord + "'", kb=[[BOTTONE_INDIETRO]])
+            person.setState(p, 21)
+            # state 21
+        elif input == BOTTONE_PINOCCHIO and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+            redirectToState(p, 30)
+        elif input == BOTTONE_GIOCA:
+            goToGamePanel(p)
+            # state 50
+        elif input.lower().strip() == FUTURO_REMOTO_COMMAND:
+            if p.chat_id!=key.FEDE_CHAT_ID:
+                redirectToState(p, 80)
+            else:
+                redirectToState(p, 81)
+        elif p.chat_id in key.MASTER_CHAT_ID:
+            if input == '/test':
+                emoji = u'\U0001F1EE\U0001F1F2'
+                tell(p.chat_id, emoji.encode('utf-8'))
+            elif input == '/testUnicode':
+                txt = "Questa è una frase con unicode"
+                tell(p.chat_id, txt + " " + str(type(txt)))
+            elif input.startswith("/getPinocchioEmojiChapterSentence"):
+                input_split = input.split(' ')
+                ch = int(input_split[1].strip())
+                line = int(input_split[1].strip())
+                sentence = pinocchio.getPinocchioEmojiChapterSentence(ch, line)
+                tell(p.chat_id, sentence)
+            elif input.startswith("/normalizePinocchioChapter"):
+                input_split = input.split(' ')
+                ch = int(input_split[1].strip())
+                result = pinocchio.normalizePinocchioChapter(ch)
+                tell(p.chat_id, result)
+            elif input.startswith("/getEmojiCodePoint"):
+                input_split = input.split(' ')
+                e = input_split[1].strip()
+                result = emojiUtil.getCodePointWithInitialZeros(e)
+                tell(p.chat_id, result)
+            elif input.startswith('/testEmoji'):
+                if ' ' in input:
+                    test = input[input.index(' ') + 1:].replace(' ', '')
+                    # test_without_emoji = emojiUtil.getStringWithoutStandardEmojis(test)
+                    # msgTxt = "Testo senza emojis: '" + test_without_emoji + "'\n"
+                    msgTxt = "Testo inserito: '" + test + "'\n"
+                    normalized = emojiUtil.getNormalizedEmojiUtf(test)
+                    if emojiUtil.stringHasOnlyStandardEmojis(test):
+                        msgTxt += "Il testo contiene solo emoji standard"
+                    # elif emojiUtil.stringContainsAnyStandardEmoji(test):
+                    #    msgTxt += "Il testo contiene emoji standard e emoji non-standard."
+                    #    msgTxt += "\nVersione normalizzata: " + normalized.encode('utf-8')
+                    else:
+                        msgTxt += "Il testo non contiene emoji standard"
+                        msgTxt += "\nVersione normalizzata: " + normalized
+                    tell(p.chat_id, msgTxt)
+                else:
+                    tell(p.chat_id, "Manca uno spazio dopo /testEmoji")
+            elif input.startswith('/checkGlossUnicode'):
+                glosses = emojiUtil.checkForGlossUniProblems()
+                if glosses:
+                    tell(p.chat_id, 'Found glosses with potential inconsistencies: ' + str(len(glosses)))
+                    glosses_split = utility.makeArray2D(glosses, length=10)
+                    # logging.debug(str(glosses))
+                    # logging.debug(str(glosses_split))
+                    for part in glosses_split:
+                        textMsg = ""
+                        for g in part:
+                            textMsg += gloss.getGlosEmojiAndTargetText(g) + "\n"
+                            textMsg += emojiUtil.getStringWithoutStandardEmojis(g.source_emoji.encode('utf-8'))
+                            textMsg += "\n\n"
+                        tell(p.chat_id, textMsg)
+                else:
+                    tell(p.chat_id, 'No glosses found with inconsistencies')
+            elif input == '/glossStats':
+                emojiTranslationsCounts = gloss.getEmojiTranslationsCount()
+                textMsg = "Emoji and Translations counts: " + str(emojiTranslationsCounts) + "\n"
+                textMsg += "Gaps in numbersing: " + str(gloss.getNumberingGaps())
+                tell(p.chat_id, textMsg)
+            elif input.startswith('/restartUsers'):
+                msgTxt = None
+                if ' ' in input:
+                    msgTxt = input[input.index(' ') + 1:]
+                deferred.defer(restartAllUsers, input)  # 'New interface :)')
+            elif input.startswith('/getConfusionWordToEmojis'):
+                if ' ' in input:
+                    d = confusionTables.getConfusionWordToEmojis(input[input.index(' ') + 1:])
+                    textMsg = ""
+                    for (k, v) in d.items():
+                        textMsg += k.encode('utf-8') + ": " + str(v)
+                    tell(p.chat_id, textMsg)
+                else:
+                    tell(p.chat_id, 'missing text after command')
+            elif input.startswith('/getConfusionEmojiToWords'):
+                if ' ' in input:
+                    tell(p.chat_id, str(confusionTables.getConfusionEmojiToWords(input[input.index(' ') + 1:])))
+                else:
+                    tell(p.chat_id, 'missing text after command')
+            elif input == '/infocount':
+                tell(p.chat_id, getInfoCount(), markdown=True)
+            elif input.startswith('/broadcast ') and len(input) > 11:
+                msg = input[11:]
+                deferred.defer(broadcast, p.chat_id, msg, restart_user=False)
+            elif input.startswith('/restartBroadcast ') and len(input) > 18:
+                msg = input[18:]
+                deferred.defer(broadcast, p.chat_id, msg, restart_user=True)
+            elif input == '/aggiornaPinocchio':
+                pinocchio.buildPinocchioChapters()
+                tell(p.chat_id, "Aggiornamento completato!")
+            else:
+                tell(p.chat_id, 'Scusa, capisco solo /help /start '
+                                'e altri comandi segreti...')
+        else:
+            tell(p.chat_id,
+                 "Scusa non capisco quello che hai detto.\n"
+                 "Usa i pulsanti sotto o premi /help per avere informazioni.")
+
+# ================================
+# GO TO STATE 30: PINOCCHIO
+# ================================
+
+def goToState30(p, input=None, **kwargs):
+    logging.debug('In state 30')
+    giveInstruction = input is None
+    kb = [
+        [BOTTONE_GLOSSARIO, BOTTONE_GRAMMATICA],
+        [BOTTONE_INDIETRO]
+    ]
+    if giveInstruction:
+        msg = "(Area riservata) Premi uno dei pulsanti per entrare nel mondo di PINOCCHIO."
+        tell(p.chat_id, msg, kb)
+    else:
+        if input == BOTTONE_INDIETRO:
+            restart(p)
+        elif input == BOTTONE_GLOSSARIO and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+            tell(p.chat_id, "Vuoi INSERIRE o ELIMINARE una voce nel glossario?",
+                 kb=[['INSERIRE', 'ELIMINARE'], [BOTTONE_INDIETRO]])
+            person.setState(p, 40)
+        elif input == BOTTONE_GRAMMATICA and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+            redirectToState(p, 60)
+        else:
+            tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco")
+
+# ================================
+# GO TO STATE 60: PINOCCHIO GRAMMATICA
+# ================================
+
+def goToState60(p, input=None, **kwargs):
+    logging.debug('In state 42')
+    giveInstruction = input is None
+    kb = [
+        [grammar_rules.REGOLE_GENERALI_BUTTON],
+        grammar_rules.FUNCTIONAL_EMOJIS,
+        [BOTTONE_INDIETRO]
+    ]
+    if giveInstruction:
+        msg = "Premi uno dei pulsanti per avere informazioni sulle corrispondenti regole grammaticali."
+        tell(p.chat_id, msg, kb)
+    else:
+        if input == BOTTONE_INDIETRO:
+            restart(p)
+        elif input in grammar_rules.GRAMMAR_RULES.keys():
+            tell(p.chat_id, grammar_rules.GRAMMAR_RULES[input], kb)
+        else:
+            tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco")
+
+# ================================
+# GO TO STATE 80: Futuro Remoto Start Participants
+# ================================
+ANSWER_BUTTONS = ['A','B','C','D']
+
+def goToState80(p, input=None, **kwargs):
+    logging.debug('In state 80: Futuro Remoto')
+    giveInstruction = input is None
+    if giveInstruction:
+        msg = "Benvenuta/o in Futuro Remoto."
+        kb = [ANSWER_BUTTONS]
+        tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+    else:
+        message_timestamp = kwargs['message_timestamp']
+        if input in ANSWER_BUTTONS:
+            #tell(p.chat_id, "You sent the message at: {}".format(message_timestamp))
+            questionNumber, ellapsedSeconds = futuroRemoto.addAnswer(p, input, message_timestamp)
+            if ellapsedSeconds == -1:
+                # answers are not currently accepted
+                msg = 'Mi dispiace, in questo momento le risposte sono bloccate.'
+                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+            elif ellapsedSeconds == -2:
+                # user already answered to the question
+                msg = 'Mi dispiace, hai già risposto alla domanda {} del quiz.'.format(questionNumber)
+                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+            else: # >0
+                msg = "Grazie! " \
+                      "Hai risposto in {} secondi. " \
+                      "La tua risposta ({}) alla domanda {} è stata registrata. ".format(ellapsedSeconds, input, questionNumber)
+                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+        else:
+            tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco. Rispondi A, B, C o D.")
+
+# ================================
+# GO TO STATE 81: Futuro Remoto Start FEDE
+# ================================
+
+def goToState81(p, input=None, **kwargs):
+    logging.debug('In state 81: Futuro Remoto')
+    NEXT_QUESTION_BUTTON = 'NEXT QUESTION'
+    STOP_ANSWERS_BUTTON = 'STOP ANSWERS'
+    END_QUIZ_BUTTON = 'END QUIZ'
+    PEOPLE_IN_QUIZ_BUTTON = 'PEOPLE IN QUIZ'
+    GLOBAL_STATS_BUTTON = 'GLOBAL STATS'
+    RESET_QUIZ_BUTTON = 'RESET QUIZ'
+    WINNING_MSG = [
+        "COMPLIMENTI, HAI VINTO IL QUIZ! SALI SUL PALCO A RITIRARE IL PREMIO.",
+        "COMPLIMENTI, SEI ARRIVATO/A SECONDO NEL QUIZ! SALI SUL PALCO A RITIRARE IL PREMIO.",
+        "COMPLIMENTI, SEI ARRIVATO/A TERZO NEL QUIZ! SALI SUL PALCO A RITIRARE IL PREMIO.",
+    ]
+    giveInstruction = input is None
+    if giveInstruction:
+        kb = [
+            [NEXT_QUESTION_BUTTON],
+            [PEOPLE_IN_QUIZ_BUTTON, GLOBAL_STATS_BUTTON],
+            [END_QUIZ_BUTTON, RESET_QUIZ_BUTTON]
+        ]
+        msg = "Ciao Fede, benvenuto in Futuro Remoto."
+        tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+    else:
+        if input == END_QUIZ_BUTTON:
+            userAnswersTable = futuroRemoto.getUserAnswersTable()
+            firstN_chat_id, summary = futuroRemoto.getUserAnswersTableSorted(3)
+            tell(p.chat_id, summary, sleepDelay=True, one_time_keyboard=False)
+            enuList = list(enumerate(firstN_chat_id))
+            deferred.defer(broadcast_quiz_final_msg, p.chat_id, 80, userAnswersTable, restart_user=True)
+            sleep(5)
+            for i, id in enuList:
+                tell(id, WINNING_MSG[i])
+            sleep(1)
+            restart(p)
+        elif input == PEOPLE_IN_QUIZ_BUTTON:
+            c = person.getPeopleCountInState(80)
+            msg = 'Ci sono {} persone iscritte al quiz.'.format(c)
+            tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+        elif input == RESET_QUIZ_BUTTON:
+            futuroRemoto.resetQuizManager()
+            futuroRemoto.deleteAllAnswers()
+            msg = 'Quiz risettato con successo'
+            tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+        elif input == NEXT_QUESTION_BUTTON:
+            futuroRemoto.addQuestion()
+            kb = [[STOP_ANSWERS_BUTTON]]
+            msg = 'Fai la domanda e quando vuoi terminare di accettare risposte premi su {}.'.format(STOP_ANSWERS_BUTTON)
+            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+        elif input == STOP_ANSWERS_BUTTON:
+            futuroRemoto.stopAcceptingAnswers()
+            kb = [ANSWER_BUTTONS]
+            msg = 'Le risposte sono state bloccate. Inserisci la risposta corretta.'
+            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+        elif input in ANSWER_BUTTONS:
+            resultTable, correctNamesTimeSorted = futuroRemoto.validateAnswers(input)
+            correctNamesStr = ', '.join([x.encode('utf-8') for x in correctNamesTimeSorted])
+            msg = 'Le risposte sono state validate. \n' \
+                  'Le persone che hanno indovinato sono {}: {}'.format(len(correctNamesTimeSorted), str(correctNamesStr))
+            kb = [
+                [NEXT_QUESTION_BUTTON],
+                [PEOPLE_IN_QUIZ_BUTTON, GLOBAL_STATS_BUTTON],
+                [END_QUIZ_BUTTON, RESET_QUIZ_BUTTON]
+            ]
+            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+        elif input == GLOBAL_STATS_BUTTON:
+            firstN_chat_id, summary = futuroRemoto.getUserAnswersTableSorted()
+            tell(p.chat_id, summary, sleepDelay=True, one_time_keyboard=False)
+        else:
+            tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco")
+
+def broadcast_quiz_final_msg(sender_id, state, userAnswersTable, restart_user=False, markdown=False, curs=None):
+    users, next_curs, more = Person.query(Person.state == state).fetch_page(50, start_cursor=curs)
+    try:
+        for p in users:
+            if p.enabled:
+                if restart_user:
+                    restart(p)
+                msg = futuroRemoto.getUserSpecificSummary(p, userAnswersTable),
+                tell(p.chat_id, msg, sleepDelay=True)
+    except datastore_errors.Timeout:
+        sleep(1)
+        deferred.defer(broadcast_quiz_final_msg, sender_id, state, userAnswersTable, restart_user, markdown, curs)
+        return
+    if more:
+        deferred.defer(broadcast_quiz_final_msg, sender_id, state, userAnswersTable, restart_user, markdown, next_curs)
+    else:
+        msg_debug = "Messagio finale inviato."
+        tell(sender_id, msg_debug)
+
 
 # ================================
 # ================================
@@ -407,7 +764,7 @@ def playWordToEmoji(p):
 def aiutinoWordToEmoji(p):
     g = p.glossGame
     options = gloss.getConfusionEmoji(g,4)
-    kb = util.makeArray2D(options, 2)
+    kb = utility.makeArray2D(options, 2)
     kb.append([BOTTONE_INDIETRO])
     tell(p.chat_id, "Ecco alcune possibilità: ", kb)
 
@@ -426,9 +783,12 @@ def aiutinoEmojiToWord(p):
         logging.warning("Probelm in aiutinoEmojiToWord: p.glossGame==None")
     else:
         options = gloss.getConfusionTranslations(g,4)
-        kb = util.makeArray2D(options,2)
+        kb = utility.makeArray2D(options, 2)
         kb.append([BOTTONE_INDIETRO])
         tell(p.chat_id, "Ecco alcune possibilità: ", kb)
+
+
+
 
 # ================================
 # ================================
@@ -482,7 +842,7 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
     msg = ''
 
     if not emojiUtil.stringHasOnlyStandardEmojis(input_emoji):
-        input_emoji = emojiUtil.getNormalizedEmoji(input_emoji)
+        input_emoji = emojiUtil.getNormalizedEmojiUtf(input_emoji)
         if italian:
             msg += EXCLAMATION + " Il testo inserito contiene emoji non standard.\n" + \
                    "Provo a normalizzarlo: " + input_emoji + '\n\n'
@@ -499,11 +859,11 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
             found = True
             words = ', '.join([x.encode('utf-8') for x in gloss_text])
             msg += 'Trovata voce nel glossario: ' + input_emoji + " = " + words + '\n'
-            if pinocchioSearch:
-                msg += 'Occorrenze in Pinochio (ricerca parole): ' + ' '.join(
-                    pinocchio.findEmojiInPinocchio(input_emoji)) + '\n'
-                msg += 'Occorrenze in Pinochio (ricerca completa): ' + ' '.join(
-                    pinocchio.findEmojiInPinocchio(input_emoji,deepSearch=True)) + '\n'
+        if pinocchioSearch:
+            msg += 'Occorrenze in Pinochio (ricerca parole): ' + ' '.join(
+                pinocchio.findEmojiInPinocchio(input_emoji)) + '\n'
+            msg += 'Occorrenze in Pinochio (ricerca completa): ' + ' '.join(
+                pinocchio.findEmojiInPinocchio(input_emoji,deepSearch=True)) + '\n'
         if tags:
             found = True
             annotations = ', '.join(tags)
@@ -532,11 +892,11 @@ EMOJI_IN_GLOSS_PNG_URL = 'https://dl.dropboxusercontent.com/u/12016006/Emoji/glo
 
 def getEmojiThumbnailUrl(e):
     if e in emojiUtil.ALL_EMOJIS:
-        codePoints = '_'.join([str(hex(ord(c)))[2:] for c in e.decode('utf-8')])
+        codePoints = emojiUtil.getCodePointWithInitialZeros(e)
         return EMOJI_PNG_URL + codePoints + ".png"
     else:
         e = "🏃"
-        codePoints = '_'.join([str(hex(ord(c)))[2:] for c in e.decode('utf-8')])
+        codePoints = emojiUtil.getCodePointWithInitialZeros(e)
         return EMOJI_PNG_URL + codePoints + ".png"
         #return EMOJI_IN_GLOSS_PNG_URL
 
@@ -591,10 +951,15 @@ def answerInlineQuery(query_id, inlineQueryResults, next_offset):
         'cache_time': 0, #default 300
         'next_offset': next_offset
     }
-    resp = urllib2.urlopen(BASE_URL + 'answerInlineQuery',
-                           urllib.urlencode(my_data)).read()
-    logging.info('send response: ')
-    logging.info(resp)
+    try:
+        resp = urllib2.urlopen(BASE_URL + 'answerInlineQuery',
+                               urllib.urlencode(my_data)).read()
+        logging.info('send response: ')
+        logging.info(resp)
+    except urllib2.HTTPError, err:
+        if err.code == 400:
+            logging.error('HTTPError 400 in answerInlineQuery. MyData:' + str(my_data))
+            tell(key.FEDE_CHAT_ID, 'HTTPError 400 in answerInlineQuery. MyData:' + str(my_data))
 
 def dealWithInlineQuery(body):
     inline_query = body['inline_query']
@@ -631,7 +996,8 @@ class SetWebhookHandler(webapp2.RequestHandler):
 class InfouserAllHandler(webapp2.RequestHandler):
     def get(self):
         urlfetch.set_default_fetch_deadline(60)
-        broadcast(getInfoCount(), sender_id=key.FEDE_CHAT_ID, markdown=True)
+        msg = getInfoCount()
+        broadcast(key.FEDE_CHAT_ID, msg, markdown=True)
 
 # ================================
 # ================================
@@ -658,17 +1024,18 @@ class WebhookHandler(webapp2.RequestHandler):
         if "chat" not in message:
             return
         # fr = message.get('from')
+        message_timestamp = int(message['date'])
         chat = message['chat']
         chat_id = chat['id']
         if "first_name" not in chat:
             return
-        text = message.get('text').encode('utf-8') if "text" in message else None
+        text = message.get('text').encode('utf-8') if "text" in message else ''
         name = chat["first_name"].encode('utf-8')
-        last_name = chat["last_name"].encode('utf-8') if "last_name" in chat else "-"
-        username = chat["username"] if "username" in chat else "-"
+        last_name = chat["last_name"].encode('utf-8') if "last_name" in chat else None
+        username = chat["username"] if "username" in chat else None
 
-        def reply(msg=None, kb=None, hideKb=True, markdown=False):
-            tell(chat_id, msg, kb, hideKb, markdown=markdown)
+        def reply(msg=None, kb=None, markdown=True, inlineKeyboardMarkup=False):
+            tell(chat_id, msg, kb=kb, markdown=markdown, inlineKeyboardMarkup=inlineKeyboardMarkup)
 
         p = ndb.Key(Person, str(chat_id)).get()
 
@@ -678,22 +1045,22 @@ class WebhookHandler(webapp2.RequestHandler):
             if text == '/help':
                 reply(ISTRUZIONI)
             elif text.startswith("/start"):
-                tell_masters("New user: " + name)
                 p = person.addPerson(chat_id, name)
                 reply("Ciao " + name + ", " + "benvenuta/o!")
-                init_user(p, text, name, last_name, username)
+                init_user(p, name, last_name, username)
                 restart(p)
                 # state = -1 or -2
+                tell_masters("New user: " + name)
             else:
                 reply("Premi su /start se vuoi iniziare. "
                       "Se hai qualche domanda o suggerimento non esitare di contattarmi cliccando su @kercos")
         else:
             # known user
-            if text==None:
+            if text=='':
                 reply(FROWNING_FACE + " Scusa non capisco quello che hai detto.")
             elif text.startswith("/start"):
                 reply("Ciao " + name + ", " + "ben ritrovata/o!")
-                init_user(p, text, name, last_name, username)
+                init_user(p, name, last_name, username)
                 restart(p)
                 # state = 0
             elif text=='/state':
@@ -703,125 +1070,6 @@ class WebhookHandler(webapp2.RequestHandler):
                   reply("You are in state " + str(p.state))
             elif WORK_IN_PROGRESS and p.chat_id!=key.FEDE_CHAT_ID:
                 reply(UNDER_CONSTRUCTION + " Il sistema è in aggiornamento, riprova più tardi.")
-            elif p.state == 0:
-                # INITIAL STATE
-                if text in ['/help', BOTTONE_INFO]:
-                    reply(ISTRUZIONI)
-                elif text == BOTTONE_INVITA_AMICO:
-                    reply(INVITE_FRIEND_INSTRUCTION, markdown=True)
-                    reply(MESSAGE_FOR_FRIENDS, markdown=True)
-                elif text == '/comeInoltrareUnMessaggio':
-                    tell(p.chat_id, HOW_TO_FORWARD_A_MESSAGE, markdown=True)
-                elif text==IT_TEXT_TOFROM_EMOJI:
-                    randomGlossMultiEmoji = emojiUtil.getRandomGlossMultiEmoji()
-                    randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
-                    randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()
-                    randomSingleEmoji = emojiUtil.getRandomSingleEmoji()
-                    randomWord = emojiUtil.getRandomUnicodeTag()
-                    reply("Inserisci un emoji, ad esempio {0} o una parola in italiano, ad esempio *{1}*.\n"
-                        "Se invece sei interessato in particolare al glossario di Pinocchio puoi inserire anche "
-                        "più combinazioni di emoji, ad esempio {2} ({3})".format(
-                        randomSingleEmoji, randomWord, randomGlossMultiEmoji_emoji, randomGlossMultiEmoji_translation),
-                        kb = [[BOTTONE_INDIETRO]], markdown=True)
-                    person.setState(p, 20)
-                    # state 20
-                elif text == EN_TEXT_TOFROM_EMOJI:
-                    randomEmoji = emojiUtil.getRandomSingleEmoji(italian=False)
-                    randomWord = emojiUtil.getRandomUnicodeTag(italian=False)
-                    reply("Please entere a single emoji, for instance " + randomEmoji +
-                          ", or one or more English words, for instance '" + randomWord + "'", kb = [[BOTTONE_INDIETRO]])
-                    person.setState(p, 21)
-                    # state 21
-                elif text==BOTTONE_GLOSSARIO and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
-                    reply("Vuoi INSERIRE o ELIMINARE una voce nel glossario?",
-                      kb = [['INSERIRE','ELIMINARE'],[BOTTONE_INDIETRO]])
-                    person.setState(p, 40)
-                elif text==BOTTONE_GIOCA:
-                    goToGamePanel(p)
-                    #state 50
-                elif chat_id in key.MASTER_CHAT_ID:
-                    if text == '/test':
-                        emoji = u'\U0001F1EE\U0001F1F2'
-                        reply(emoji.encode('utf-8'))
-                    elif text == '/testUnicode':
-                        txt = "Questa è una frase con unicode"
-                        reply(txt + " " + str(type(txt)) )
-                    elif text.startswith('/testEmoji'):
-                        if ' ' in text:
-                            test = text[text.index(' ') + 1:].replace(' ','')
-                            #test_without_emoji = emojiUtil.getStringWithoutStandardEmojis(test)
-                            #msgTxt = "Testo senza emojis: '" + test_without_emoji + "'\n"
-                            msgTxt = "Testo inserito: '" + test + "'\n"
-                            normalized = emojiUtil.getNormalizedEmoji(test)
-                            if emojiUtil.stringHasOnlyStandardEmojis(test):
-                                msgTxt += "Il testo contiene solo emoji standard"
-                            #elif emojiUtil.stringContainsAnyStandardEmoji(test):
-                            #    msgTxt += "Il testo contiene emoji standard e emoji non-standard."
-                            #    msgTxt += "\nVersione normalizzata: " + normalized.encode('utf-8')
-                            else:
-                                msgTxt += "Il testo non contiene emoji standard"
-                                msgTxt += "\nVersione normalizzata: " + normalized
-                            reply(msgTxt)
-                        else:
-                            reply("Manca uno spazio dopo /testEmoji")
-                    elif text.startswith('/checkGlossUnicode'):
-                        glosses = emojiUtil.checkForGlossUniProblems()
-                        if glosses:
-                            reply('Found glosses with potential inconsistencies: ' + str(len(glosses)))
-                            glosses_split = util.makeArray2D(glosses, length=10)
-                            #logging.debug(str(glosses))
-                            #logging.debug(str(glosses_split))
-                            for part in glosses_split:
-                                textMsg = ""
-                                for g in part:
-                                    textMsg += gloss.getGlosEmojiAndTargetText(g) + "\n"
-                                    textMsg += emojiUtil.getStringWithoutStandardEmojis(g.source_emoji.encode('utf-8'))
-                                    textMsg += "\n\n"
-                                reply(textMsg)
-                        else:
-                            reply('No glosses found with inconsistencies')
-                    elif text == '/glossStats':
-                        emojiTranslationsCounts = gloss.getEmojiTranslationsCount()
-                        textMsg = "Emoji and Translations counts: " + str(emojiTranslationsCounts) + "\n"
-                        textMsg += "Gaps in numbersing: " + str(gloss.getNumberingGaps())
-                        reply(textMsg)
-                    elif text.startswith('/restartUsers'):
-                        msgTxt = None
-                        if ' ' in text:
-                            msgTxt = text[text.index(' ')+1:]
-                        deferred.defer(restartAllUsers, text) #'New interface :)')
-                    elif text.startswith('/getConfusionWordToEmojis'):
-                        if ' ' in text:
-                            d = confusionTables.getConfusionWordToEmojis(text[text.index(' ')+1:])
-                            textMsg = ""
-                            for (k, v) in d.items():
-                                textMsg += k.encode('utf-8') + ": " + str(v)
-                            reply(textMsg)
-                        else:
-                            reply('missing text after command')
-                    elif text.startswith('/getConfusionEmojiToWords'):
-                        if ' ' in text:
-                            reply(str(confusionTables.getConfusionEmojiToWords(text[text.index(' ') + 1:])))
-                        else:
-                            reply('missing text after command')
-                    elif text=='/infocount':
-                        reply(getInfoCount(), markdown=True)
-                    elif text.startswith('/broadcast ') and len(text) > 11:
-                        msg = text[11:]  # .encode('utf-8')
-                        deferred.defer(broadcast, msg, restart_user=False)
-                    elif text.startswith('/restartBroadcast ') and len(text) > 18:
-                        msg = text[18:]  # .encode('utf-8')
-                        deferred.defer(broadcast, msg, restart_user=True)
-                    elif text == '/aggiornaPinocchio':
-                        pinocchio.buildPinocchioChapters()
-                        tell(p.chat_id, "Aggiornamento completato!")
-                    else:
-                        reply('Scusa, capisco solo /help /start '
-                              'e altri comandi segreti...')
-                    #setLanguage(d.language)
-                else:
-                    reply("Scusa non capisco quello che hai detto.\n"
-                          "Usa i pulsanti sotto o premi /help per avere informazioni.")
             elif p.state == 20:
                 # IT <-> EMOJI
                 if text == BOTTONE_INDIETRO:
@@ -904,7 +1152,7 @@ class WebhookHandler(webapp2.RequestHandler):
                                 txtMsg += CHECK + " Voce inserita nel glossario, grazie! " + CLAPPING_HANDS
                                 goToInserisciInGloassario(p, txtMsg)
                         else:
-                            emojiNorm = emojiUtil.getNormalizedEmoji(emoji)
+                            emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
                             emojiNorm_word = emojiNorm + "|" + word
                             askToConfirmNormalization(p, emojiNorm_word, 41)
                     else:
@@ -955,7 +1203,7 @@ class WebhookHandler(webapp2.RequestHandler):
                                 txtMsg = CANCEL + " Voce non presente nel glossario."
                                 goToEliminaFromGloassario(p, txtMsg)
                         else:
-                            emojiNorm = emojiUtil.getNormalizedEmoji(emoji)
+                            emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
                             emojiNorm_word = emojiNorm + "|" + word
                             askToConfirmNormalization(p, emojiNorm_word, 42)
                     else:
@@ -988,7 +1236,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     text = text.strip() #.replace(' ','')
                     warning = ''
                     if not emojiUtil.stringHasOnlyStandardEmojis(text):
-                        text = emojiUtil.getNormalizedEmoji(text)
+                        text = emojiUtil.getNormalizedEmojiUtf(text)
                         reply(CANCEL + "La stringa inserita contiene emoji non standard. " +
                               "Emoji normalizzato: " + text)
                         return
@@ -1032,7 +1280,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     if text in possible_answers:
                         other_solutions = list(possible_answers)
                         other_solutions.remove(text)
-                        other_solutions = [x.encode('utf-8') for x in other_solutions]
+                        #other_solutions = [x.encode('utf-8') for x in other_solutions]
                         if other_solutions:
                             reply("Hai indovinato! Le altre possibili traduzioni sono: " + ', '.join(other_solutions),
                                   kb=[['GIOCA DI NUOVO'], [BOTTONE_INDIETRO]])
@@ -1044,13 +1292,19 @@ class WebhookHandler(webapp2.RequestHandler):
                             reply("Mi dispiace. La risposta corretta è: " + answer,
                                   kb=[['GIOCA DI NUOVO'], [BOTTONE_INDIETRO]])
                         else:
-                            answers = [x.encode('utf-8') for x in possible_answers]
-                            reply("Mi dispiace. Le possibili traduzioni sono: " + ', '.join(answers),
+                            answers = ', '.join(possible_answers)
+                            reply("Mi dispiace. Le possibili traduzioni sono: " + answers,
                                   kb=[['GIOCA DI NUOVO'], [BOTTONE_INDIETRO]])
                 else:
                     reply(FROWNING_FACE + " Scusa non capisco quello che hai detto.")
             else:
-                reply("Si è verificato un problemino (" + str(p.state) + " ) segnalalo scrivendo a @kercos")
+                logging.debug("Sending {} to state {}. Input: '{}'".format(p.getUserInfoString(), p.state, text))
+                repeatState(p, input=text, message_timestamp=message_timestamp)
+
+    def handle_exception(self, exception, debug_mode):
+        logging.exception(exception)
+        tell(key.FEDE_CHAT_ID, "❗ Detected Exception: " + str(exception))
+
 
 app = webapp2.WSGIApplication([
     ('/me', MeHandler),
@@ -1061,3 +1315,6 @@ app = webapp2.WSGIApplication([
     ('/infouser_weekly_all', InfouserAllHandler),
     ('/glossario', gloss.GlossarioTableHtml),
 ], debug=True)
+
+possibles = globals().copy()
+possibles.update(locals())

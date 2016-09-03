@@ -123,6 +123,12 @@ def getRandomSingleEmoji(italian=True):
 ## FUNCTIONS
 ##################
 
+def getCodePointWithInitialZeros(e):
+    codePoints = [str(hex(ord(c)))[2:] for c in e.decode('utf-8')]
+    codePoints = [x if len(x)>2 else "00" + x for x in codePoints]
+    result = '_'.join(codePoints)
+    return result
+
 def getStringWithoutStandardEmojis(text):
     textuni = text.decode('utf-8')
     return emoji_tables.emoji_pattern.sub('', textuni).encode('utf-8')  # no emoji
@@ -131,7 +137,6 @@ def stringHasOnlyStandardEmojis(text):
     if len(text)==0:
         return True
     textuni = text.decode('utf-8')
-    comp = u''
     s = 0
     e = len(textuni)
     while(True):
@@ -147,13 +152,20 @@ def stringHasOnlyStandardEmojis(text):
             if s==e:
                 return False
 
-def getNormalizedEmoji(text):
-    textuni = text.decode('utf-8')
+def getNormalizedEmojiUtf(text_utf):
+    textuni = text_utf.decode('utf-8')
     emoji = Emoji(textuni)
     norm = u''
     for e in emoji.as_map():
        norm += code_point_to_unicode(e[1]) #e[0] #
     return norm.encode('utf-8')
+
+def getNormalizedEmojiUni(text_uni):
+    emoji = Emoji(text_uni)
+    norm = u''
+    for e in emoji.as_map():
+       norm += code_point_to_unicode(e[1]) #e[0] #
+    return norm
 
 
 def stringContainsAnyStandardEmoji(text):

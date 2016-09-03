@@ -1,9 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 from datetime import datetime
 from datetime import timedelta
+import time
 
 def now(addMinutes=0):
     return datetime.now() + timedelta(minutes=int(addMinutes))
+
+def nowUnixTime():
+    return int(time.mktime(now().timetuple()))
 
 def get_today():
     return datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
