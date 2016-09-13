@@ -28,6 +28,7 @@ import string
 import pinocchio
 import grammar_rules
 import futuroRemoto
+import date_util
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -470,6 +471,9 @@ def goToState0(p, input=None, **kwargs):
             elif input == '/testUnicode':
                 txt = "Questa è una frase con unicode"
                 tell(p.chat_id, txt + " " + str(type(txt)))
+            elif input == '/testTime':
+                txt = "Current time: {}".format(date_util.dateTimeString())
+                tell(p.chat_id, txt)
             elif input.startswith("/getPinocchioEmojiChapterSentence"):
                 input_split = input.split(' ')
                 ch = int(input_split[1].strip())
@@ -523,7 +527,7 @@ def goToState0(p, input=None, **kwargs):
             elif input == '/glossStats':
                 emojiTranslationsCounts = gloss.getEmojiTranslationsCount()
                 textMsg = "Emoji and Translations counts: " + str(emojiTranslationsCounts) + "\n"
-                textMsg += "Gaps in numbersing: " + str(gloss.getNumberingGaps())
+                textMsg += "Gaps in numbering: " + str(gloss.getNumberingGaps())
                 tell(p.chat_id, textMsg)
             elif input.startswith('/restartUsers'):
                 msgTxt = None
