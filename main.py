@@ -26,6 +26,7 @@ import utility
 import unicodedata
 import string
 import pinocchio
+import pinocchio_sentence
 import grammar_rules
 import futuroRemoto
 import date_util
@@ -92,6 +93,25 @@ Come *inoltrare un messaggio* in Telegram in due semplici passaggi:
 
 """
 
+INSERISCI_ELIMINA_VOCE_TEXT = lambda ins_eli: utility.unindent(
+    """
+    {} una voce nel glossario nel seguente formato: 'emoji|testo' ad esempio:
+    {}|capire
+    {}|leggere
+    """.format(ins_eli, CAPIRE, LEGGERE)
+)
+
+CONFIRM_NORM_TEXT = lambda emojiNorm: utility.unindent(
+    """
+    {} Il testo inserito contiene un emoji non standard.
+    Emoji normalizzato: {}
+    Confermi che l'emoji normalizzato è corretto?
+    """.format(CANCEL, emojiNorm)
+)
+
+# ================================
+# STATES
+# ================================
 
 
 STATES = {
@@ -99,13 +119,15 @@ STATES = {
     20: 'IT <-> EMOJI',
     21: 'EN <-> EMOJI',
     30: 'PINOCCHIO',
-    40: 'GLOSSARIO PINOCCHIO',
-    41: 'GLOSSARIO: INSERISCI VOCE',
-    42: 'GLOSSARIO: ELIMINA VOCE',
+    310:  'GLOSSARIO PINOCCHIO',
+    311:    'GLOSSARIO: INSERISCI VOCE',
+    312:    'GLOSSARIO: ELIMINA VOCE',
+    32:   'GRAMMATICA PINOCCHIO',
+    330:  'LEGGI PINOCCHIO - scegli capitolo',
+    331:    'LEGGI PINOCCHIO - frasi capitolo',
     50: 'GAME PANEL',
     51: 'GAME PANEL -> word to emoji',
     52: 'GAME PANEL -> emoji to word',
-    60: 'GRAMMATICA PINOCCHIO',
     80: 'FuturoRemoto'
 }
 
@@ -152,15 +174,23 @@ FROWNING_FACE = u'\U0001F641'.encode('utf-8')
 BOTTONE_ANNULLA = CANCEL + " Annulla"
 BOTTONE_INDIETRO = LEFTWARDS_BLACK_ARROW + ' ' + "Indietro"
 BOTTONE_PINOCCHIO = PINOCCHIO + ' PINOCCHIO'
-BOTTONE_GLOSSARIO = PINOCCHIO + ' GLOSSARIO'
-BOTTONE_GRAMMATICA = PINOCCHIO + ' GRAMMATICA'
+BOTTONE_GLOSSARIO = PINOCCHIO + '📖 GLOSSARIO'
+BOTTONE_GRAMMATICA = PINOCCHIO + '📐 GRAMMATICA'
 BOTTONE_INFO = INFO + ' INFO'
 BOTTONE_GIOCA = JOKER + ' GIOCA!'
 BOTTONE_INVITA_AMICO = MASCHERE + ' INVITA UN AMICO'
 BOTTONE_SI = CHECK + ' SI'
 BOTTONE_NO = CANCEL + ' NO'
 
+INSERIRE_GLOSSARIO_BUTTON = '⤵ INSERIRE'
+ELIMINARE_GLOSSARIO_BUTTON = '❌ ELIMINARE'
+LISTA_REGOLE_BUTTON = '📐 LISTA REGOLE'
+LEGGGI_PINOCCHIO_BUTTON = PINOCCHIO + '📗 LEGGI PINOCCHIO'
+NEXT_BUTTON = '⏭'
+PREV_BUTTON = '⏮'
+
 FUTURO_REMOTO_COMMAND = "futuroremoto"
+
 # ================================
 # AUXILIARY FUNCTIONS
 # ================================
@@ -300,32 +330,6 @@ def tell_fede(msg):
         tell(key.FEDE_CHAT_ID, "prova " + str(i))
         sleep(0.1)
 
-def goToInserisciInGloassario(p, msg=''):
-    if msg:
-        msg += "\n\n"
-    tell(p.chat_id, msg + "INSERISCI una voce nel glossario nel seguente formato: 'emoji|testo' ad esempio:\n" +
-          CAPIRE + "|capire" + "\n" + LEGGERE + "|leggere",
-          kb=[[BOTTONE_INDIETRO]])
-    p.tmpString = None
-    person.setState(p, 41)
-
-def goToEliminaFromGloassario(p, msg=''):
-    if msg:
-        msg += "\n\n"
-    tell(p.chat_id, msg + "ELIMINA una voce nel glossario nel seguente formato: 'emoji|testo' ad esempio:\n" +
-          CAPIRE + "|capire" + "\n" + LEGGERE + "|leggere",
-          kb=[[BOTTONE_INDIETRO]])
-    p.tmpString = None
-    person.setState(p, 42)
-
-def askToConfirmNormalization(p, emojiNorm, newState):
-    txtMsg = CANCEL + "Il testo inserito contiene un emoji non standard." + \
-             "\nEmoji normalizzato: " + emojiNorm + \
-             "\nConfermi che l'emoji normalizzato è corretto?"
-    tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
-    p.tmpString = emojiNorm
-    person.setState(p, newState)
-
 def sendGlossarioNotification(p, inserito, emoji_text):
     if WORK_IN_PROGRESS:
         return
@@ -386,16 +390,16 @@ def restart(p, msg=None):
 # ================================
 # SWITCH TO STATE
 # ================================
-def redirectToState(p, new_state, **kwargs):
+def redirectToState(p, new_state, *args, **kwargs):
     if p.state != new_state:
         logging.debug("In redirectToState. current_state:{0}, new_state: {1}".format(str(p.state),str(new_state)))
         p.setState(new_state)
-    repeatState(p, **kwargs)
+    repeatState(p, *args, **kwargs)
 
 # ================================
 # REPEAT STATE
 # ================================
-def repeatState(p, **kwargs):
+def repeatState(p, *args, **kwargs):
     methodName = "goToState" + str(p.state)
     method = possibles.get(methodName)
     if not method:
@@ -406,7 +410,7 @@ def repeatState(p, **kwargs):
              "Detected error for user {}: unexisting method {}.".format(p.getUserInfoString(), methodName))
         restart(p)
     else:
-        method(p, **kwargs)
+        method(p, *args, **kwargs)
 
 # ================================
 # ================================
@@ -480,10 +484,10 @@ def goToState0(p, input=None, **kwargs):
                 line = int(input_split[1].strip())
                 sentence = pinocchio.getPinocchioEmojiChapterSentence(ch, line)
                 tell(p.chat_id, sentence)
-            elif input.startswith("/normalizePinocchioChapter"):
+            elif input.startswith("/checkPinocchioNormalizatin"):
                 input_split = input.split(' ')
                 ch = int(input_split[1].strip())
-                result = pinocchio.normalizePinocchioChapter(ch)
+                result = pinocchio.checkPinocchioNormalizatin(ch)
                 tell(p.chat_id, result)
             elif input.startswith("/getEmojiCodePoint"):
                 input_split = input.split(' ')
@@ -524,6 +528,10 @@ def goToState0(p, input=None, **kwargs):
                         tell(p.chat_id, textMsg)
                 else:
                     tell(p.chat_id, 'No glosses found with inconsistencies')
+            elif input.startswith('/normalizeEmoji'):
+                emoji_string = input.split(' ')[1]
+                norm_string = pinocchio.normalizeEmojis(emoji_string)
+                tell(p.chat_id, norm_string)
             elif input == '/glossStats':
                 emojiTranslationsCounts = gloss.getEmojiTranslationsCount()
                 textMsg = "Emoji and Translations counts: " + str(emojiTranslationsCounts) + "\n"
@@ -572,49 +580,258 @@ def goToState0(p, input=None, **kwargs):
 # ================================
 
 def goToState30(p, input=None, **kwargs):
-    logging.debug('In state 30')
     giveInstruction = input is None
-    kb = [
-        [BOTTONE_GLOSSARIO, BOTTONE_GRAMMATICA],
-        [BOTTONE_INDIETRO]
-    ]
     if giveInstruction:
+        kb = [
+            [BOTTONE_GLOSSARIO, BOTTONE_GRAMMATICA],
+            [LEGGGI_PINOCCHIO_BUTTON],
+            [BOTTONE_INDIETRO]
+        ]
         msg = "(Area riservata) Premi uno dei pulsanti per entrare nel mondo di PINOCCHIO."
         tell(p.chat_id, msg, kb)
     else:
         if input == BOTTONE_INDIETRO:
             restart(p)
         elif input == BOTTONE_GLOSSARIO and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
-            tell(p.chat_id, "Vuoi INSERIRE o ELIMINARE una voce nel glossario?",
-                 kb=[['INSERIRE', 'ELIMINARE'], [BOTTONE_INDIETRO]])
-            person.setState(p, 40)
+            redirectToState(p, 310)
         elif input == BOTTONE_GRAMMATICA and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
-            redirectToState(p, 60)
+            redirectToState(p, 32)
+        elif input == LEGGGI_PINOCCHIO_BUTTON and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+            redirectToState(p, 330)
         else:
             tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco")
 
 # ================================
-# GO TO STATE 60: PINOCCHIO GRAMMATICA
+# GO TO STATE 310: GLOSSARIO PINOCCHIO
 # ================================
 
-def goToState60(p, input=None, **kwargs):
-    logging.debug('In state 42')
+def goToState310(p, input=None, **kwargs):
     giveInstruction = input is None
-    kb = [
-        [grammar_rules.REGOLE_GENERALI_BUTTON],
-        grammar_rules.FUNCTIONAL_EMOJIS,
-        [BOTTONE_INDIETRO]
-    ]
     if giveInstruction:
-        msg = "Premi uno dei pulsanti per avere informazioni sulle corrispondenti regole grammaticali."
+        kb=[[INSERIRE_GLOSSARIO_BUTTON, ELIMINARE_GLOSSARIO_BUTTON],[BOTTONE_INDIETRO]]
+        msg = "Vuoi {} o {} una voce nel glossario?".format(INSERIRE_GLOSSARIO_BUTTON, ELIMINARE_GLOSSARIO_BUTTON)
         tell(p.chat_id, msg, kb)
     else:
         if input == BOTTONE_INDIETRO:
-            restart(p)
-        elif input in grammar_rules.GRAMMAR_RULES.keys():
-            tell(p.chat_id, grammar_rules.GRAMMAR_RULES[input], kb)
+            redirectToState(p, 30)
+        elif input == INSERIRE_GLOSSARIO_BUTTON:
+            p.tmpString = None
+            redirectToState(p, 311)
+        elif input == ELIMINARE_GLOSSARIO_BUTTON:
+            redirectToState(p, 312)
+        elif input == BOTTONE_GRAMMATICA and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+            redirectToState(p, 32)
         else:
             tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco")
+
+# ================================
+# GO TO STATE 311: GLOSSARIO PINOCCHIO - INSERIRE VOCE
+# ================================
+
+def goToState311(p, input=None, **kwargs):
+    giveInstruction = input is None
+    if giveInstruction:
+        p.resetTmpStrIfNotNone()
+        kb = [[BOTTONE_INDIETRO]]
+        msg = INSERISCI_ELIMINA_VOCE_TEXT('INSERISCI')
+        tell(p.chat_id, msg, kb)
+    else:
+        if input == BOTTONE_INDIETRO:
+            redirectToState(p, 310)
+        else:
+            if p.tmpString:
+                if input == BOTTONE_SI:
+                    input = p.tmpString.encode('utf-8')
+                elif input == BOTTONE_NO:
+                    tell(p.chat_id, "Inserimento Annullato.")
+                    redirectToState(p, 310)
+                    return
+                else:
+                    tell(p.chat_id, FROWNING_FACE + " Scusa non capisco quello che hai detto, capisco solo SI o NO.")
+                    return
+            else:
+                input = input.strip()
+            split = input.split('|')
+            if len(split) == 2 and len(split[0]) > 0 and len(split[1]) > 0:
+                word = split[1].strip()
+                emoji = split[0].replace(' ', '')
+                if emojiUtil.stringHasOnlyStandardEmojis(emoji):
+                    present_emojis = gloss.getEmojiListFromText(word)
+                    txtMsg = ''
+                    if present_emojis:
+                        if emoji in present_emojis:
+                            txtMsg = "{} L'emoji {} è già associato al testo '{}'".format(CANCEL, emoji, word)
+                            tell(p.chat_id, txtMsg)
+                            repeatState(p)
+                            return
+                        present_emoji_str = ', '.join(present_emojis)
+                        txtMsg += "{} Omonimia! Parola già presente nel glossario " \
+                                  "associata a questo/i emoji: {}\n\n".format(EXCLAMATION, present_emoji_str)
+                    sendGlossarioNotification(p, True, input)
+                    present_gloss = gloss.getGlossFromEmoji(emoji)
+                    if present_gloss:
+                        gloss.appendTargetText(p, present_gloss, word)
+                        present_words = present_gloss.target_text
+                        words = [x.encode('utf-8') for x in present_words]
+                        txtMsg += "{} Voce aggiornata nel glossario: " \
+                                  "{}|{}\nGrazie! {}".format(CHECK, emoji, ', '.join(words),CLAPPING_HANDS)
+                        tell(p.chat_id, txtMsg)
+                        repeatState(p)
+                    else:
+                        gloss.addGloss(p, emoji, word)
+                        txtMsg += "{} Voce inserita nel glossario, grazie! {}".format(CHECK, CLAPPING_HANDS)
+                        tell(p.chat_id, txtMsg)
+                        repeatState(p)
+                else:
+                    emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
+                    emojiNorm_word = emojiNorm + "|" + word
+                    txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
+                    tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
+                    p.setTmpStr(emojiNorm_word)
+            else:
+                txtMsg = CANCEL + " Input non valido."
+                tell(p.chat_id, txtMsg)
+                repeatState(p)
+
+# ================================
+# GO TO STATE 312: GLOSSARIO PINOCCHIO - ELIMINARE VOCE
+# ================================
+
+
+def goToState312(p, input=None, **kwargs):
+    giveInstruction = input is None
+    if giveInstruction:
+        p.resetTmpStrIfNotNone()
+        kb = [[BOTTONE_INDIETRO]]
+        msg = INSERISCI_ELIMINA_VOCE_TEXT('ELIMINA')
+        tell(p.chat_id, msg, kb)
+    else:
+        if input == BOTTONE_INDIETRO:
+            redirectToState(p, 310)
+        else:
+            if p.tmpString:
+                if input == BOTTONE_SI:
+                    input = p.tmpString.encode('utf-8')
+                elif input == BOTTONE_NO:
+                    tell(p.chat_id, "Eliminazione Annullata.")
+                    redirectToState(p, 310)
+                    return
+                else:
+                    tell(p.chat_id, FROWNING_FACE + " Scusa non capisco quello che hai detto, capisco solo SI o NO.")
+                    return
+            else:
+                input = input.strip()
+            split = input.split('|')
+            logging.debug("Split: {}".format(split))
+            if len(split) == 2 and len(split[0]) > 0 and len(split[1]) > 0:
+                word = split[1].strip()
+                emoji = split[0].replace(' ', '')
+                if emojiUtil.stringHasOnlyStandardEmojis(emoji):
+                    present_gloss = gloss.getGloss(emoji, word)
+                    if present_gloss:
+                        sendGlossarioNotification(p, False, input)
+                        if len(present_gloss.target_text) == 1:
+                            gloss.deleteGloss(present_gloss)
+                            txtMsg = CHECK + " Voce eliminata dal glossario, grazie! " + CLAPPING_HANDS
+                            tell(p.chat_id, txtMsg)
+                            repeatState(p)
+                        else:
+                            if gloss.deleteEntry(p, present_gloss, word):
+                                present_words = present_gloss.target_text
+                                words = [x.encode('utf-8') for x in present_words]
+                                txtMsg = "{} Voce eliminata dal glossario!\n" \
+                                         "L'emoji {} rimane associato alle seguenti parole: {}".format(CHECK, emoji, ', '.join(words))
+                                tell(p.chat_id, txtMsg)
+                                repeatState(p)
+                            else:
+                                txtMsg = '❗❗ Non riesco ad eliminare questa voce, ti prego di contattare @kercos.'
+                                tell(p.chat_id, txtMsg)
+                                redirectToState(p, 310)
+                    else:
+                        txtMsg = CANCEL + " Voce non presente nel glossario."
+                        tell(p.chat_id, txtMsg)
+                        repeatState(p)
+                else:
+                    emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
+                    emojiNorm_word = emojiNorm + "|" + word
+                    txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
+                    tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
+                    p.setTmpStr(emojiNorm_word)
+            else:
+                txtMsg = CANCEL + " Input non valido."
+                tell(p.chat_id, txtMsg)
+                repeatState(p)
+
+
+# ================================
+# GO TO STATE 32: PINOCCHIO GRAMMATICA
+# ================================
+
+def goToState32(p, input=None, **kwargs):
+    giveInstruction = input is None
+    COMMANDS = grammar_rules.COMMANDS
+    kb = utility.distributeElementMaxSize([str(x) for x in range(1, len(COMMANDS) + 1)])
+    kb.append([BOTTONE_INDIETRO])
+    if giveInstruction:
+        msg = grammar_rules.GRAMMAR_INSTRUCTIONS
+        tell(p.chat_id, msg, kb, markdown=True)
+    else:
+        if input == BOTTONE_INDIETRO:
+            redirectToState(p, 30)
+        elif input == LISTA_REGOLE_BUTTON:
+            repeatState(p)
+        else:
+            if input.startswith('/'):
+                numberStr = input[1:]
+            else:
+                numberStr = input
+            if utility.representsIntBetween(numberStr, 1, len(COMMANDS)):
+                command = COMMANDS[int(numberStr) - 1]
+                kb= [[LISTA_REGOLE_BUTTON], [BOTTONE_INDIETRO]]
+                msg = grammar_rules.GRAMMAR_RULES[command]
+                tell(p.chat_id, msg, kb, markdown=False)
+            else:
+                tell(p.chat_id, "Input non valido.")
+
+# ================================
+# GO TO STATE 330: LGEGI PINOCCHIO
+# ================================
+
+def goToState330(p, input=None, **kwargs):
+    giveInstruction = input is None
+    sentenceIdString = p.getPinocchioSentenceIndex()
+    if giveInstruction:
+        kb = [[PREV_BUTTON, NEXT_BUTTON],[BOTTONE_INDIETRO]]
+        msg = pinocchio_sentence.getSentenceEmojiString(sentenceIdString)
+        tell(p.chat_id, msg, kb)
+    else:
+        if input == BOTTONE_INDIETRO:
+            redirectToState(p, 30)
+        elif input == PREV_BUTTON:
+            prevSentenceIndex = pinocchio_sentence.getPrevSentenceIdString(sentenceIdString)
+            if prevSentenceIndex:
+                p.setPinocchioSentenceIndex(prevSentenceIndex)
+                repeatState(p)
+            else:
+                tell(p.chat_id, "❗  Hai raggiunto l'inizio del libro.")
+                repeatState(p)
+        elif input == NEXT_BUTTON:
+            nextSentenceIndex = pinocchio_sentence.getNextSentenceIdString(sentenceIdString)
+            if nextSentenceIndex:
+                p.setPinocchioSentenceIndex(nextSentenceIndex)
+                repeatState(p)
+            else:
+                tell(p.chat_id, "❗  Hai raggiunto la fine del libro.")
+                repeatState(p)
+        elif ':' in input:
+            if pinocchio_sentence.getSentenceByUniqueId(input):
+                p.setPinocchioSentenceIndex(input)
+                repeatState(p)
+            else:
+                tell(p.chat_id, "Frase non trovata. Se vuoi andare alla frase 3 del capitolo 1 inserisci 1:3")
+        else:
+            tell(p.chat_id, "Input non valido. Se vuoi andare alla frase 3 del capitolo 1 inserisci 1:3")
+
 
 # ================================
 # GO TO STATE 80: Futuro Remoto Start Participants
@@ -1096,123 +1313,6 @@ class WebhookHandler(webapp2.RequestHandler):
                     else:
                         string = getStringFromEmoji(text, italian=False)
                         reply(string, kb=[[BOTTONE_INDIETRO]])
-            elif p.state == 40:
-                if text == BOTTONE_INDIETRO:
-                    restart(p)
-                    # state = 0
-                elif text == 'INSERIRE':
-                    goToInserisciInGloassario(p)
-                    # state 41
-                elif text == 'ELIMINARE':
-                    goToEliminaFromGloassario(p)
-                    # state 42
-                else:
-                    reply(FROWNING_FACE + " Scusa non capisco quello che hai detto.")
-            elif p.state == 41:
-                # GLOASSARIO INSERISCI VOCE
-                if text == BOTTONE_INDIETRO:
-                    restart(p)
-                    # state = -1
-                else:
-                    if p.tmpString:
-                        if text == BOTTONE_SI:
-                            text_strip = p.tmpString.encode('utf-8')
-                        elif text == BOTTONE_NO:
-                            goToInserisciInGloassario(p, "Inserimento Annullato.")
-                            return
-                        else:
-                            reply(FROWNING_FACE + " Scusa non capisco quello che hai detto.")
-                            return
-                    else:
-                        text_strip = text.strip()
-                    split = text_strip.split('|')
-                    if len(split)==2 and len(split[0])>0 and len(split[1])>0:
-                        word = split[1].strip()
-                        emoji = split[0].replace(' ','')
-                        if emojiUtil.stringHasOnlyStandardEmojis(emoji):
-                            present_emojis = gloss.getEmojiListFromText(word)
-                            txtMsg = ''
-                            if present_emojis:
-                                if emoji in present_emojis:
-                                    txtMsg = CANCEL + " L'emoji " + emoji + " è già associato al testo '" + word + "'"
-                                    goToInserisciInGloassario(p, txtMsg)
-                                    return
-                                present_emoji_str = ', '.join(present_emojis)
-                                txtMsg += EXCLAMATION + " Omonimia! " \
-                                          "Parola già presente nel glossario associata a questo/i emoji: " + \
-                                          present_emoji_str + "\n\n"
-                            sendGlossarioNotification(p, True, text_strip)
-                            present_gloss = gloss.getGlossFromEmoji(emoji)
-                            if present_gloss:
-                                gloss.appendTargetText(p, present_gloss, word)
-                                present_words = present_gloss.target_text
-                                words = [x.encode('utf-8') for x in present_words]
-                                txtMsg += CHECK + "Voce aggiornata nel glossario: " + emoji + \
-                                          "|" + ', '.join(words) + \
-                                          "\nGrazie! " + CLAPPING_HANDS
-                                goToInserisciInGloassario(p, txtMsg)
-                            else:
-                                gloss.addGloss(p, emoji, word)
-                                txtMsg += CHECK + " Voce inserita nel glossario, grazie! " + CLAPPING_HANDS
-                                goToInserisciInGloassario(p, txtMsg)
-                        else:
-                            emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
-                            emojiNorm_word = emojiNorm + "|" + word
-                            askToConfirmNormalization(p, emojiNorm_word, 41)
-                    else:
-                        txtMsg = CANCEL + " Input non valido."
-                        goToInserisciInGloassario(p, txtMsg)
-            elif p.state == 42:
-                # GLOASSARIO ELIMINA VOCE
-                if text == BOTTONE_INDIETRO:
-                    restart(p)
-                    # state = -1
-                else:
-                    if p.tmpString:
-                        if text == BOTTONE_SI:
-                            text_strip = p.tmpString.encode('utf-8')
-                        elif text == BOTTONE_NO:
-                            goToEliminaFromGloassario(p, "Eliminazione Annullata.")
-                            return
-                        else:
-                            reply(FROWNING_FACE + " Scusa non capisco quello che hai detto.")
-                            return
-                    else:
-                        text_strip = text.strip()
-                    split = text_strip.split('|')
-                    if len(split)==2 and len(split[0])>0 and len(split[1])>0:
-                        word = split[1].strip()
-                        emoji = split[0].replace(' ','')
-                        if emojiUtil.stringHasOnlyStandardEmojis(emoji):
-                            present_gloss = gloss.getGloss(emoji, word)
-                            if present_gloss:
-                                # sendGlossarioNotification(p, False, emoji + '|' + word)
-                                sendGlossarioNotification(p, False, text_strip)
-                                if len(present_gloss.target_text) == 1:
-                                    gloss.deleteGloss(present_gloss)
-                                    txtMsg = CHECK + " Voce eliminata dal glossario, grazie! " + CLAPPING_HANDS
-                                    goToEliminaFromGloassario(p, txtMsg)
-                                else:
-                                    if gloss.deleteEntry(p, present_gloss, word):
-                                        present_words = present_gloss.target_text
-                                        words = [x.encode('utf-8') for x in present_words]
-                                        txtMsg = CHECK + " Voce eliminata dal glossario! " +\
-                                                 "L'emoji rimane associato alle seguenti parole:\n" + \
-                                                 emoji + "|" + ', '.join(words)
-                                        goToEliminaFromGloassario(p, txtMsg)
-                                    else:
-                                        txtMsg = CANCEL + ' Non riesco ad eliminare questa voce.'
-                                        goToEliminaFromGloassario(p, txtMsg)
-                            else:
-                                txtMsg = CANCEL + " Voce non presente nel glossario."
-                                goToEliminaFromGloassario(p, txtMsg)
-                        else:
-                            emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
-                            emojiNorm_word = emojiNorm + "|" + word
-                            askToConfirmNormalization(p, emojiNorm_word, 42)
-                    else:
-                        txtMsg = CANCEL + " Input non valido."
-                        goToEliminaFromGloassario(p, txtMsg)
             elif p.state == 50:
                 #GAME PANEL
                 if text == BOTTONE_INDIETRO:
@@ -1318,6 +1418,7 @@ app = webapp2.WSGIApplication([
     ('/webhook', WebhookHandler),
     ('/infouser_weekly_all', InfouserAllHandler),
     ('/glossario', gloss.GlossarioTableHtml),
+    ('/glossario_invertito', gloss.GlossarioTableHtmlInverted),
 ], debug=True)
 
 possibles = globals().copy()

@@ -6,6 +6,8 @@ import logging
 import re
 import emoji_tables
 
+# titoli: https://docs.google.com/spreadsheets/d/1EviZIbjoK9x3WV65S18KYZO3u39NrFsfGpbBofABN9c/edit?usp=sharing
+
 PINOCCHIO_CHAPTERS_DOC_KEYS = [
     '11mufZ56LAENBIiCXCMTHhQuqKCbFWnOpqPf_iAi35Dk', #CH 1
     '1321CXesORVKQUziGiTRofXCO1Mz2Rx8E7aV9_fUQ3p0', #CH 2
@@ -26,7 +28,6 @@ PINOCCHIO_CHAPTERS_DOC_KEYS = [
 
 
 PINOCCHIO_CHAPTER_URL = "https://docs.google.com/spreadsheets/d/{0}/export?format=tsv&gid=0"
-
 
 PINOCCHIO_CHAPTERS = None
 
@@ -144,7 +145,7 @@ def getLatexParcolPinocchioChapter(chapter_number):
 
     return '\n'.join(lines)
 
-def normalizePinocchioChapter(chapter_number):
+def checkPinocchioNormalizatin(chapter_number):
     exceptions = []
     chapter = getPinocchioChapters()[chapter_number-1]
     for l, line in enumerate(chapter, start=1):
@@ -159,7 +160,6 @@ def normalizePinocchioChapter(chapter_number):
     if exceptions:
         return '\n'.join(exceptions)
     return "All OK!"
-
 
 def splitEmojiLine(emoji_punct_list):
     result = []
@@ -221,6 +221,13 @@ def normalizeEmojisWithTable(text_utf):
     for find, replace in EMOJI_NORMALIZATION_TABLE.iteritems():
         text_utf = text_utf.replace(find, replace)
     return text_utf
+
+def normalizeEmojis(text_utf):
+    import emojiUtil
+    text_uni = text_utf.decode('utf-8')
+    norm_uni = emojiUtil.getNormalizedEmojiUni(text_uni)
+    return norm_uni.encode('utf-8')
+
 
 def splitEmojiString(text):
     #import emojiUtil

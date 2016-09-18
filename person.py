@@ -5,6 +5,7 @@ from google.appengine.ext import ndb
 
 from gloss import Gloss
 import key
+import pinocchio_sentence
 
 class Person(ndb.Model):
     chat_id = ndb.IntegerProperty()
@@ -17,10 +18,10 @@ class Person(ndb.Model):
     glossGame = ndb.StructuredProperty(Gloss)
     tmpInt = ndb.IntegerProperty()
     tmpString = ndb.StringProperty()
+    pinocchioSentenceIndex = ndb.StringProperty(default=pinocchio_sentence.getSentenceUniqueId(1, 1))
 
     def isAdmin(self):
         return self.chat_id in key.MASTER_CHAT_ID
-
 
     def getFirstName(self):
         return self.name.encode('utf-8') if self.name else None
@@ -58,6 +59,22 @@ class Person(ndb.Model):
         self.enabled = enabled
         if put:
             self.put()
+
+    def resetTmpStrIfNotNone(self):
+        if self.tmpString != None:
+            self.tmpString = None
+            self.put()
+
+    def setTmpStr(self, value):
+        self.tmpString = value
+        self.put()
+
+    def setPinocchioSentenceIndex(self, value):
+        self.pinocchioSentenceIndex = value
+        self.put()
+
+    def getPinocchioSentenceIndex(self):
+        return self.pinocchioSentenceIndex.encode('utf-8')
 
 def getPersonByChatId(chat_id):
     return Person.get_by_id(str(chat_id))

@@ -11,6 +11,7 @@ from operator import itemgetter
 
 import webapp2
 import json
+from collections import defaultdict
 
 class Gloss(ndb.Model):
     source_emoji = ndb.StringProperty()
@@ -179,12 +180,31 @@ def getEmojiTranslationsCount():
 
 def getGlossTableRows():
     rows = []
-    for e in Gloss.query():
+    for g in Gloss.query().fetch():
         rows.append(
             (
-                e.getEmoji(),
-                ", ".join(e.getGlossTags()),
-                date_util.dateString(e.last_mod)
+                g.getEmoji(),
+                ", ".join(g.getGlossTags()),
+                date_util.dateString(g.last_mod)
+            )
+        )
+    rows = sorted(rows, key=itemgetter(0))
+    return rows
+
+def getGlossTableRowsInverted():
+    wordEmojiTable = defaultdict(list)
+    wordEmojiLasMod = defaultdict(lambda: date_util.get_date_long_time_ago())
+    for g in Gloss.query().fetch():
+        for w in g.getGlossTags():
+            wordEmojiTable[w].append(g.getEmoji())
+            wordEmojiLasMod[w] = max(wordEmojiLasMod[w],g.last_mod)
+    rows = []
+    for w, eList in wordEmojiTable.iteritems():
+        rows.append(
+            (
+                w,
+                ", ".join(eList),
+                date_util.dateString(wordEmojiLasMod[w])
             )
         )
     rows = sorted(rows, key=itemgetter(0))
@@ -213,7 +233,10 @@ class GlossarioTableJson(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
         self.response.out.write(json.dumps(result, indent=4, ensure_ascii=False))
 
-def getGlossarioHtml():
+def getGlossarioHtml(inverted=False):
+    fileds = ['Emoji','Parola']
+    if inverted:
+        fileds.reverse()
     htmlText = "<html><body>"
     htmlText += '<p>Ultimo aggiornamento: {}</p>'.format(date_util.dateTimeString())
     htmlText += '\n<br>\n'
@@ -221,12 +244,13 @@ def getGlossarioHtml():
         """
         <table border = "1">
         <tr>
-            <th width="100px">Emoji</th>
-            <th width="400px">Parola/e</th>
+            <th width="100px">{}</th>
+            <th width="400px">{}/e</th>
             <th width="100px">Data ultima modifica</th>
         </tr>
-        """
-    for row in getGlossTableRows():
+        """.format(fileds[0],fileds[1])
+    table = getGlossTableRowsInverted() if inverted else getGlossTableRows()
+    for row in table:
         htmlText += \
             """
             <table border = "1">
@@ -243,5 +267,11 @@ def getGlossarioHtml():
 class GlossarioTableHtml(webapp2.RequestHandler):
     def get(self):
         htmlText = getGlossarioHtml()
+        self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
+        self.response.out.write(htmlText)
+
+class GlossarioTableHtmlInverted(webapp2.RequestHandler):
+    def get(self):
+        htmlText = getGlossarioHtml(inverted=True)
         self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
         self.response.out.write(htmlText)
