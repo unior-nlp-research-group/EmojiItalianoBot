@@ -10,6 +10,8 @@ import time_util
 QUIZ_MANAGER_ID = "QUIZ_MANAGER"
 
 class QuizManager(ndb.Model):
+    quizOpen = ndb.BooleanProperty(default=False)
+    quizManagerId = ndb.IntegerProperty()
     questionIndex = ndb.IntegerProperty(default=0)
     acceptingAnswers = ndb.BooleanProperty(default=False)
     questionStartTimestamps = ndb.PickleProperty()
@@ -23,13 +25,34 @@ def initQuizManager():
 def getQuizManager():
     return QuizManager.get_by_id(QUIZ_MANAGER_ID)
 
-def resetQuizManager():
+def startQuiz(quizManagerId):
     quizManager = getQuizManager()
+    quizManager.quizManagerId = quizManagerId
+    quizManager.quizOpen = True
     quizManager.questionIndex = 0
     quizManager.acceptingAnswers = False
     quizManager.questionStartTimestamps = []
     quizManager.userAnswersTable = {} #'name (chat_id)': {'correct': x, 'ellapsed': y, 'chat_id': id}
     quizManager.put()
+    deleteAllAnswers()
+
+def stopQuiz():
+    quizManager = getQuizManager()
+    quizManager.quizOpen = False
+    quizManager.put()
+
+def isQuizOpen():
+    return getQuizManager().quizOpen
+
+def getQuizAdminId():
+    return getQuizManager().quizManagerId
+
+def getQuizAdminName():
+    import person
+    quizManagerId = getQuizAdminId
+    assert quizManagerId
+    return person.getPersonByChatId(quizManagerId).getFirstName()
+
 
 def addQuestion():
     quizManager = getQuizManager()
