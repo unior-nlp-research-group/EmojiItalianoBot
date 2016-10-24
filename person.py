@@ -19,6 +19,7 @@ class Person(ndb.Model):
     tmpInt = ndb.IntegerProperty()
     tmpString = ndb.StringProperty()
     pinocchioSentenceIndex = ndb.StringProperty(default=pinocchio_sentence.getSentenceUniqueId(1, 1))
+    costituzioneSentenceIndex = ndb.IntegerProperty(default=1)
 
     def isAdmin(self):
         return self.chat_id in key.MASTER_CHAT_ID
@@ -76,6 +77,11 @@ class Person(ndb.Model):
 
     def getPinocchioSentenceIndex(self):
         return self.pinocchioSentenceIndex.encode('utf-8')
+
+    def setCostituzioneSentenceIndex(self, value):
+        self.costituzioneSentenceIndex = value
+        self.put()
+
 
 def getPersonByChatId(chat_id):
     return Person.get_by_id(str(chat_id))

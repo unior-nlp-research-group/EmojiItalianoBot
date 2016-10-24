@@ -28,6 +28,7 @@ import unicodedata
 import string
 import pinocchio
 import pinocchio_sentence
+import costituzione
 import grammar_rules
 import quizGame
 import date_util
@@ -128,6 +129,7 @@ STATES = {
     32:   'GRAMMATICA PINOCCHIO',
     330:  'LEGGI PINOCCHIO - scegli capitolo',
     331:    'LEGGI PINOCCHIO - frasi capitolo',
+    40: 'COSTITUZIONE',
     50: 'GAME PANEL',
     51: 'GAME PANEL -> word to emoji',
     52: 'GAME PANEL -> emoji to word',
@@ -176,9 +178,11 @@ EXCLAMATION = u'\U00002757'.encode('utf-8')
 UNDER_CONSTRUCTION = u'\U0001F6A7'.encode('utf-8')
 FROWNING_FACE = u'\U0001F641'.encode('utf-8')
 
+
 BOTTONE_ANNULLA = CANCEL + " Annulla"
 BOTTONE_INDIETRO = LEFTWARDS_BLACK_ARROW + ' ' + "Indietro"
 BOTTONE_PINOCCHIO = PINOCCHIO + ' PINOCCHIO'
+BOTTONE_COSTITUZIONE = '📜 COSTITUZIONE'
 BOTTONE_GLOSSARIO = PINOCCHIO + '📖 GLOSSARIO'
 BOTTONE_GRAMMATICA = PINOCCHIO + '📐 GRAMMATICA'
 BOTTONE_INFO = INFO + ' INFO'
@@ -191,8 +195,8 @@ INSERIRE_GLOSSARIO_BUTTON = '⤵ INSERIRE'
 ELIMINARE_GLOSSARIO_BUTTON = '❌ ELIMINARE'
 LISTA_REGOLE_BUTTON = '📐 LISTA REGOLE'
 LEGGGI_PINOCCHIO_BUTTON = PINOCCHIO + '📗 LEGGI PINOCCHIO'
-NEXT_BUTTON = '⏭'
-PREV_BUTTON = '⏮'
+NEXT_BUTTON = '⏭ succ.'
+PREV_BUTTON = '⏮ prec.'
 
 BUTTON_FUTURO_REMOTO = "FUTURO REMOTO"
 BUTTON_QUIZ = "QUIZ"
@@ -460,6 +464,7 @@ def goToState0(p, input=None, **kwargs):
         secondLine = [BOTTONE_GIOCA]
         if p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
             secondLine.insert(0, BOTTONE_PINOCCHIO)
+            secondLine.insert(1, BOTTONE_COSTITUZIONE)
         keyboard.insert(1, secondLine)
         tell(p.chat_id, "Schermata Iniziale.", kb=keyboard)
         #logging.debug("restart kb: " + str(keyboard))
@@ -493,6 +498,8 @@ def goToState0(p, input=None, **kwargs):
             # state 21
         elif input == BOTTONE_PINOCCHIO and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
             redirectToState(p, 30)
+        elif input == BOTTONE_COSTITUZIONE and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+            redirectToState(p, 40)
         elif input == BOTTONE_GIOCA:
             goToGamePanel(p)
             # state 50
@@ -884,6 +891,43 @@ def goToState330(p, input=None, **kwargs):
         else:
             tell(p.chat_id, "Input non valido. Se vuoi andare alla frase 3 del capitolo 1 inserisci 1:3")
 
+
+# ================================
+# GO TO STATE 40: LEGGI COSTITUZIONE
+# ================================
+
+def goToState40(p, input=None, **kwargs):
+    giveInstruction = input is None
+    sentenceId = p.costituzioneSentenceIndex
+    if giveInstruction:
+        kb = [[PREV_BUTTON, NEXT_BUTTON],[BOTTONE_INDIETRO]]
+        msg = costituzione.getSentenceEmojiString(sentenceId)
+        tell(p.chat_id, msg, kb)
+    else:
+        if input == BOTTONE_INDIETRO:
+            restart(p)
+        elif input == PREV_BUTTON:
+            prevSentenceIndex = costituzione.getPrevSentenceId(sentenceId)
+            if prevSentenceIndex:
+                p.setCostituzioneSentenceIndex(prevSentenceIndex)
+                repeatState(p)
+            else:
+                tell(p.chat_id, "❗  Hai raggiunto l'inizio del libro.")
+                repeatState(p)
+        elif input == NEXT_BUTTON:
+            nextSentenceIndex = costituzione.getNextSentenceId(sentenceId)
+            if nextSentenceIndex:
+                p.setCostituzioneSentenceIndex(nextSentenceIndex)
+                repeatState(p)
+            else:
+                tell(p.chat_id, "❗  Hai raggiunto la fine del libro.")
+                repeatState(p)
+        else:
+            tell(p.chat_id, "Input non valido.")
+
+# ================================
+# aux functions
+# ================================
 
 def goToGamePanel(p):
     msg = utility.unindent(
