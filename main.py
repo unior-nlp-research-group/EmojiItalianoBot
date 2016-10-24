@@ -39,6 +39,8 @@ from jinja2 import Environment, FileSystemLoader
 # ================================
 
 WORK_IN_PROGRESS = False
+FUTURO_REMOTO_ON = False
+PINOCHHIO_PUBLIC_ACCESS = True
 
 # ================================
 # ================================
@@ -129,7 +131,9 @@ STATES = {
     50: 'GAME PANEL',
     51: 'GAME PANEL -> word to emoji',
     52: 'GAME PANEL -> emoji to word',
-    80: 'Quiz'
+    80: 'Quiz',
+    81:   'Quiz Participants',
+    82:   'Quiz Admin'
 }
 
 CANCEL = u'\U0000274C'.encode('utf-8')
@@ -190,9 +194,11 @@ LEGGGI_PINOCCHIO_BUTTON = PINOCCHIO + '📗 LEGGI PINOCCHIO'
 NEXT_BUTTON = '⏭'
 PREV_BUTTON = '⏮'
 
-FUTURO_REMOTO_COMMAND = "futuroremoto"
-START_QUIZ_BUTTON = "START QUIZ"
-QUIZ_BUTTON = "QUIZ"
+BUTTON_FUTURO_REMOTO = "FUTURO REMOTO"
+BUTTON_QUIZ = "QUIZ"
+BUTTON_START_QUIZ = "INIZIA QUIZ"
+BUTTON_REFRESH = "AGGIORNA"
+
 
 # ================================
 # AUXILIARY FUNCTIONS
@@ -394,6 +400,14 @@ def tell(chat_id, msg, kb=None, markdown=False, inlineKeyboardMarkup=False,
     except:
         report_exception()
 
+def tell_person(chat_id, msg, markdown=False):
+    tell(chat_id, msg, markdown=markdown)
+    p = person.getPersonByChatId(chat_id)
+    if p and p.enabled:
+        return True
+    return False
+
+
 # ================================
 # ================================
 # ================================
@@ -556,6 +570,8 @@ def goToState0(p, input=None, **kwargs):
                 textMsg = "Emoji and Translations counts: " + str(emojiTranslationsCounts) + "\n"
                 textMsg += "Gaps in numbering: " + str(gloss.getNumberingGaps())
                 tell(p.chat_id, textMsg)
+            elif input.startswith('/sendText'):
+                dealWithsendTextCommand(p, input, markdown=False)
             elif input.startswith('/restartUsers'):
                 msgTxt = None
                 if ' ' in input:
@@ -593,6 +609,23 @@ def goToState0(p, input=None, **kwargs):
             tell(p.chat_id,
                  "Scusa non capisco quello che hai detto.\n"
                  "Usa i pulsanti sotto o premi /help per avere informazioni.")
+
+def dealWithsendTextCommand(p, sendTextCommand, markdown=False):
+    split = sendTextCommand.split()
+    if len(split) < 3:
+        tell(p.chat_id, 'Commands should have at least 2 spaces')
+        return
+    if not split[1].isdigit():
+        tell(p.chat_id, 'Second argumnet should be a valid chat_id')
+        return
+    id = int(split[1])
+    sendTextCommand = ' '.join(split[2:])
+    if tell_person(id, sendTextCommand, markdown=markdown):
+        user = person.getPersonByChatId(id)
+        tell(p.chat_id, 'Successfully sent text to ' + user.getFirstName())
+    else:
+        tell(p.chat_id, 'Problems in sending text')
+
 
 # ================================
 # GO TO STATE 30: PINOCCHIO
@@ -852,139 +885,6 @@ def goToState330(p, input=None, **kwargs):
             tell(p.chat_id, "Input non valido. Se vuoi andare alla frase 3 del capitolo 1 inserisci 1:3")
 
 
-# ================================
-# GO TO STATE 80: Futuro Remoto Participants
-# ================================
-ANSWER_BUTTONS = ['A','B','C','D']
-
-def goToState80(p, input=None, **kwargs):
-    #logging.debug('In state 80: Futuro Remoto')
-    giveInstruction = input is None
-    if giveInstruction:
-        msg = "Benvenuta/o nel quiz di Emojitalianobot."
-        kb = [ANSWER_BUTTONS]
-        tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
-    else:
-        message_timestamp = kwargs['message_timestamp']
-        if input in ANSWER_BUTTONS:
-            #tell(p.chat_id, "You sent the message at: {}".format(message_timestamp))
-            questionNumber, ellapsedSeconds = quizGame.addAnswer(p, input, message_timestamp)
-            if ellapsedSeconds == -1:
-                # answers are not currently accepted
-                msg = 'In questo momento le risposte sono bloccate.'
-                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
-            elif ellapsedSeconds == -2:
-                # user already answered to the question
-                msg = 'Hai già risposto alla domanda {} del quiz.'.format(questionNumber)
-                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
-            else: # >0
-                msg = "Grazie! 😊" \
-                      "Hai risposto in {} secondi. " \
-                      "La tua risposta ({}) alla domanda {} è stata registrata. ".format(ellapsedSeconds, input, questionNumber)
-                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
-        else:
-            tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco. Rispondi A, B, C o D.")
-
-# ================================
-# GO TO STATE 81: Futuro Remoto ADMIN
-# ================================
-
-def goToState81(p, input=None, **kwargs):
-    #logging.debug('In state 81: Futuro Remoto')
-    NEXT_QUESTION_BUTTON = 'NEXT QUESTION'
-    STOP_ANSWERS_BUTTON = 'STOP ANSWERS'
-    END_QUIZ_BUTTON = 'END QUIZ'
-    PEOPLE_IN_QUIZ_BUTTON = 'PEOPLE IN QUIZ'
-    GLOBAL_STATS_BUTTON = 'GLOBAL STATS'
-    RESTART_QUIZ_BUTTON = 'RESTART QUIZ'
-    WINNING_MSG = [
-        "COMPLIMENTI, HAI VINTO IL QUIZ! SALI SUL PALCO A RITIRARE IL PREMIO.",
-        "COMPLIMENTI, SEI ARRIVATO/A SECONDO NEL QUIZ! SALI SUL PALCO A RITIRARE IL PREMIO.",
-        "COMPLIMENTI, SEI ARRIVATO/A TERZO NEL QUIZ! SALI SUL PALCO A RITIRARE IL PREMIO.",
-    ]
-    giveInstruction = input is None
-    if giveInstruction:
-        kb = [
-            [NEXT_QUESTION_BUTTON],
-            [PEOPLE_IN_QUIZ_BUTTON, GLOBAL_STATS_BUTTON],
-            [END_QUIZ_BUTTON, RESTART_QUIZ_BUTTON]
-        ]
-        msg = "Ciao Fede, benvenuto in Futuro Remoto."
-        tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
-    else:
-        if input == END_QUIZ_BUTTON:
-            userAnswersTable = quizGame.getUserAnswersTable()
-            firstN_chat_id, summary = quizGame.getUserAnswersTableSorted(3)
-            tell(p.chat_id, summary, sleepDelay=True, one_time_keyboard=False)
-            enuList = list(enumerate(firstN_chat_id))
-            deferred.defer(broadcast_quiz_final_msg, p.chat_id, 80, userAnswersTable, restart_user=True)
-            sleep(3)
-            for i, id in enuList:
-                tell(id, WINNING_MSG[i])
-            sleep(1)
-            quizGame.stopQuiz()
-            restart(p)
-        elif input == PEOPLE_IN_QUIZ_BUTTON:
-            c = person.getPeopleCountInState(80)
-            msg = 'Ci sono {} persone iscritte al quiz.'.format(c)
-            tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
-        elif input == RESTART_QUIZ_BUTTON:
-            quizGame.startQuiz(p.chat_id)
-            msg = 'Quiz risettato con successo'
-            tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
-        elif input == NEXT_QUESTION_BUTTON:
-            quizGame.addQuestion()
-            kb = [[STOP_ANSWERS_BUTTON]]
-            msg = 'Fai la domanda e quando vuoi terminare di accettare risposte premi su {}.'.format(STOP_ANSWERS_BUTTON)
-            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
-        elif input == STOP_ANSWERS_BUTTON:
-            quizGame.stopAcceptingAnswers()
-            kb = [ANSWER_BUTTONS]
-            msg = 'Le risposte sono state bloccate. Inserisci la risposta corretta.'
-            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
-        elif input in ANSWER_BUTTONS:
-            resultTable, correctNamesTimeSorted = quizGame.validateAnswers(input)
-            correctNamesStr = ', '.join([x.encode('utf-8') for x in correctNamesTimeSorted])
-            msg = 'Le risposte sono state validate. \n' \
-                  'Le persone che hanno indovinato sono {}: {}'.format(len(correctNamesTimeSorted), str(correctNamesStr))
-            kb = [
-                [NEXT_QUESTION_BUTTON],
-                [PEOPLE_IN_QUIZ_BUTTON, GLOBAL_STATS_BUTTON],
-                [END_QUIZ_BUTTON, RESTART_QUIZ_BUTTON]
-            ]
-            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
-        elif input == GLOBAL_STATS_BUTTON:
-            firstN_chat_id, summary = quizGame.getUserAnswersTableSorted()
-            tell(p.chat_id, summary, sleepDelay=True, one_time_keyboard=False)
-        else:
-            tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco")
-
-def broadcast_quiz_final_msg(sender_id, state, userAnswersTable, restart_user=False, markdown=False, curs=None):
-    users, next_curs, more = Person.query(Person.state == state).fetch_page(50, start_cursor=curs)
-    try:
-        for p in users:
-            if p.enabled:
-                if restart_user:
-                    restart(p)
-                msg = quizGame.getUserSpecificSummary(p, userAnswersTable),
-                tell(p.chat_id, msg, sleepDelay=True)
-    except datastore_errors.Timeout:
-        sleep(1)
-        deferred.defer(broadcast_quiz_final_msg, sender_id, state, userAnswersTable, restart_user, markdown, curs)
-        return
-    if more:
-        deferred.defer(broadcast_quiz_final_msg, sender_id, state, userAnswersTable, restart_user, markdown, next_curs)
-    else:
-        msg_debug = "Messagio finale inviato."
-        tell(sender_id, msg_debug)
-
-
-# ================================
-# ================================
-# ================================
-
-QUIZ_ACTIVE = False
-
 def goToGamePanel(p):
     msg = utility.unindent(
         """
@@ -994,11 +894,8 @@ def goToGamePanel(p):
         """.format(IT_TO_EMOJI, EMOJI_TO_IT)
     )
     kb = [[IT_TO_EMOJI, EMOJI_TO_IT], [BOTTONE_INDIETRO]]
-    if QUIZ_ACTIVE:
-        if quizGame.isQuizOpen():
-            kb.insert(1, [QUIZ_BUTTON])
-        elif p.isAdmin():
-            kb.insert(1,[START_QUIZ_BUTTON])
+    if FUTURO_REMOTO_ON:
+        kb.insert(1, [BUTTON_FUTURO_REMOTO])
     tell(p.chat_id, msg, kb)
     person.setState(p, 50)
 
@@ -1039,12 +936,209 @@ def aiutinoEmojiToWord(p):
         kb.append([BOTTONE_INDIETRO])
         tell(p.chat_id, "Ecco alcune possibilità: ", kb)
 
+# ================================
+# ================================
+# ================================
 
+# ================================
+# GO TO STATE 80: FUTURO REMOTO
+# ================================
 
+def goToState80(p, input=None, **kwargs):
+    giveInstruction = input is None
+    quizOpen = quizGame.isQuizOpen()
+    quizAdmin = quizGame.getQuizAdminId() if quizOpen else None
+    if giveInstruction:
+        msg = utility.unindent(
+            """
+            Benvenuto/a Futuro Remoto!
+            Da questa schermata potrai accedere al quiz di Futuro Remoto!
+            Qua sotto troverai il pulsante {} quando il QUIZ verrà aperto; se vuoi aggiornare la schermata premi su {}.
+            """.format(BUTTON_QUIZ, BUTTON_REFRESH)
+        )
+        kb = [[BOTTONE_INDIETRO]]
+        if quizOpen:
+            kb.insert(0, [BUTTON_QUIZ])
+        elif p.isAdmin():
+            kb.insert(0, [BUTTON_START_QUIZ])
+            msg = "Premi su {} se vuoi iniziare il quiz.".format(BUTTON_START_QUIZ)
+        else:
+            kb.insert(0, [BUTTON_REFRESH])
+        tell(p.chat_id, msg, kb)
+    else:
+        if input == BOTTONE_INDIETRO:
+            restart(p)
+        elif input == BUTTON_REFRESH:
+            repeatState(p)
+        elif input == BUTTON_START_QUIZ and p.isAdmin():
+            if quizGame.isQuizOpen():
+                if quizAdmin == p.chat_id:
+                    redirectToState(p, 82)
+                else:
+                    msg = 'Il quiz è già stato attivato da {}\n' \
+                          'Sei entrato/a come partecipante'.format(quizGame.getQuizAdminName())
+                    tell(p.chat_id, msg)
+                    redirectToState(p, 80)
+            else:
+                quizGame.startQuiz(p.chat_id)
+                redirectToState(p, 82)
+        elif input == BUTTON_QUIZ:
+            if quizGame.isQuizOpen():
+                if quizAdmin == p.chat_id:
+                    msg = 'Sei di nuovo nel quiz come amministratore'
+                    tell(p.chat_id, msg)
+                    redirectToState(p, 82)
+                else:
+                    redirectToState(p, 81)
+            else:
+                msg = 'Il quiz non è più attivo'
+                tell(p.chat_id, msg)
+                repeatState(p)
+        else:
+            tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco.")
+
+# ================================
+# GO TO STATE 81: Futuro Remoto Participants
+# ================================
+ANSWER_BUTTONS = ['A','B','C','D']
+
+def goToState81(p, input=None, **kwargs):
+    giveInstruction = input is None
+    if giveInstruction:
+        msg = "Ciao {}, benvenuto/a al quiz di Emojitaliano!".format(p.getFirstName())
+        kb = [ANSWER_BUTTONS]
+        tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+    else:
+        message_timestamp = kwargs['message_timestamp']
+        if input in ANSWER_BUTTONS:
+            #tell(p.chat_id, "You sent the message at: {}".format(message_timestamp))
+            questionNumber, ellapsedSeconds = quizGame.addAnswer(p, input, message_timestamp)
+            if ellapsedSeconds == -1:
+                # answers are not currently accepted
+                msg = FROWNING_FACE + ' Mi dispiace, le risposte sono bloccate in questo momento.'
+                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+            elif ellapsedSeconds == -2:
+                # user already answered to the question
+                msg = FROWNING_FACE + ' Mi dispiace, hai già risposto alla domanda numero {}.'.format(questionNumber)
+                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+            else: # >0
+                msg = utility.unindent(
+                    """
+                    Grazie!  😊
+                    Hai risposto in {} secondi.
+                    La tua risposta ({}) alla domanda {} è stata registrata.
+                    """.format(ellapsedSeconds, input, questionNumber)
+                )
+                tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+        else:
+            tell(p.chat_id, FROWNING_FACE + " Mi dispiace, non capisco. Premi su A, B, C o D.")
+
+# ================================
+# GO TO STATE 82: Futuro Remoto ADMIN
+# ================================
+
+def goToState82(p, input=None, **kwargs):
+    NEXT_QUESTION_BUTTON = 'PROSSIMA DOMANDA'
+    STOP_ANSWERS_BUTTON = 'STOP RISPOSTE'
+    END_QUIZ_BUTTON = 'FINE QUIZ'
+    PEOPLE_IN_QUIZ_BUTTON = 'PERSONE NEL QUIZ'
+    GLOBAL_STATS_BUTTON = 'GLOBAL STATS'
+    RESTART_QUIZ_BUTTON = 'RESTART QUIZ'
+    WINNING_MSG = [
+        "🎉🎉🎉 CONGRATULAZIONI, HAI VINTO IL QUIZ!\nVIENI A RITIRARE IL TUO PREMIO!  🎉🎉🎉",
+        "🎉🎉🎉 CONGRATULAZIONI, HAI VINTO IL 2° POSTO!\nVIENI A RITIRARE IL TUO PREMIO! 🎉🎉🎉",
+        "🎉🎉🎉 CONGRATULAZIONI, HAI VINTO IL 3° POSTO!\nVIENI A RITIRARE IL TUO PREMIO! 🎉🎉🎉",
+    ]
+    giveInstruction = input is None
+    if giveInstruction:
+        kb = [
+            [NEXT_QUESTION_BUTTON],
+            [PEOPLE_IN_QUIZ_BUTTON, GLOBAL_STATS_BUTTON],
+            [END_QUIZ_BUTTON, RESTART_QUIZ_BUTTON]
+        ]
+        msg = "Sei l'amministratore del quiz!"
+        tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+    else:
+        if input == END_QUIZ_BUTTON:
+            userAnswersTable = quizGame.getUserAnswersTable()
+            firstN_chat_id, summary = quizGame.getUserAnswersTableSorted(3)
+            tell(p.chat_id, summary, sleepDelay=True, one_time_keyboard=False)
+            enuList = list(enumerate(firstN_chat_id))
+            deferred.defer(broadcast_quiz_final_msg, p.chat_id, 81, userAnswersTable, restart_user=True)
+            sleep(3)
+            for i, id in enuList:
+                tell(id, WINNING_MSG[i])
+            sleep(1)
+            quizGame.stopQuiz()
+            restart(p)
+        elif input == PEOPLE_IN_QUIZ_BUTTON:
+            c = person.getPeopleCountInState(81)
+            msg = 'Ci sono {} persone nel quiz.'.format(c)
+            tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+        elif input == RESTART_QUIZ_BUTTON:
+            quizGame.startQuiz(p.chat_id)
+            msg = 'Il quiz è stato resettato.'
+            tell(p.chat_id, msg, sleepDelay=True, one_time_keyboard=False)
+        elif input == NEXT_QUESTION_BUTTON:
+            quizGame.addQuestion()
+            kb = [[STOP_ANSWERS_BUTTON]]
+            msg = 'Fai la domanda (a voce) e quando vuoi bloccare le risposte premi su {}.'.format(STOP_ANSWERS_BUTTON)
+            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+        elif input == STOP_ANSWERS_BUTTON:
+            quizGame.stopAcceptingAnswers()
+            kb = [ANSWER_BUTTONS]
+            msg = 'Le risposte sono state bloccate. Inserisci la risposta corretta.'
+            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+        elif input in ANSWER_BUTTONS:
+            correctNamesTimeSorted = quizGame.validateAnswers(input)
+            correctNamesStr = ', '.join([x for x in correctNamesTimeSorted])
+            msg = 'Le risposte sono state controllate. \n' \
+                  "Le persone che hanno risposto correttamente all'ultima domanda sono {}: {}".format(
+                len(correctNamesTimeSorted), str(correctNamesStr))
+            kb = [
+                [NEXT_QUESTION_BUTTON],
+                [PEOPLE_IN_QUIZ_BUTTON, GLOBAL_STATS_BUTTON],
+                [END_QUIZ_BUTTON, RESTART_QUIZ_BUTTON]
+            ]
+            tell(p.chat_id, msg, kb, sleepDelay=True, one_time_keyboard=False)
+        elif input == GLOBAL_STATS_BUTTON:
+            firstN_chat_id, summary = quizGame.getUserAnswersTableSorted()
+            tell(p.chat_id, summary, sleepDelay=True, one_time_keyboard=False)
+        else:
+            tell(p.chat_id, FROWNING_FACE + "Mi dispiace, non capisco")
+
+def broadcast_quiz_final_msg(sender_id, state, userAnswersTable, restart_user=False, markdown=False, curs=None):
+    users, next_curs, more = Person.query(Person.state == state).fetch_page(50, start_cursor=curs)
+    try:
+        for p in users:
+            if p.enabled:
+                if restart_user:
+                    restart(p)
+                score, ellapsed = quizGame.getUserScoreEllapsed(p, userAnswersTable)
+                if score == 0:
+                    msg = "Hai risposto correttamente a 0 domande."
+                else:
+                    msg = utility.unindent(
+                        """
+                        Hai risposto correttamente a {} domande in {} secondi complessivi.
+                        Grazie per aver partecipato al quiz!
+                        """.format(score, ellapsed)
+                    )
+                tell(p.chat_id, msg, sleepDelay=True)
+    except datastore_errors.Timeout:
+        sleep(1)
+        deferred.defer(broadcast_quiz_final_msg, sender_id, state, userAnswersTable, restart_user, markdown, curs)
+        return
+    if more:
+        deferred.defer(broadcast_quiz_final_msg, sender_id, state, userAnswersTable, restart_user, markdown, next_curs)
+    else:
+        msg_debug = "Il messaggio finale è stato inviato ai partecipanti."
+        tell(sender_id, msg_debug)
 
 # ================================
 # ================================
 # ================================
+
 
 def getEmojiListFromTagInDictAndGloss(string):
     result = set()
@@ -1351,32 +1445,12 @@ class WebhookHandler(webapp2.RequestHandler):
                     #state 0
                 elif text==IT_TO_EMOJI:
                     playWordToEmoji(p)
-                    # state 51
+                    # state 81
                 elif text==EMOJI_TO_IT:
                     playEmojiToWord(p)
                     # state 52
-                elif text == START_QUIZ_BUTTON and p.isAdmin():
-                    if quizGame.isQuizOpen():
-                        if quizGame.getQuizAdminId()==p.chat_id:
-                            redirectToState(p, 81)
-                        else:
-                            msg = 'Il quiz è già stato attivato da {}\n' \
-                                  'Verrai ora reindirizzato al quiz come partecipante'.format(quizGame.getQuizAdminName())
-                            tell(p.chat_id, msg)
-                            redirectToState(p, 80)
-                    else:
-                        quizGame.startQuiz(p.chat_id)
-                        redirectToState(p, 81)
-                elif text == QUIZ_BUTTON:
-                    if quizGame.isQuizOpen():
-                        if quizGame.getQuizAdminId() == p.chat_id:
-                            redirectToState(p, 81)
-                        else:
-                            redirectToState(p, 80)
-                    else:
-                        msg = 'Il quiz non è più attivo'
-                        tell(p.chat_id, msg)
-                        goToGamePanel(p)
+                elif text == BUTTON_FUTURO_REMOTO and FUTURO_REMOTO_ON:
+                    redirectToState(p, 80)
                 else:
                     reply(FROWNING_FACE + " Scusa non capisco quello che hai detto.")
             elif p.state == 51:

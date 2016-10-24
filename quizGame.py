@@ -6,6 +6,7 @@ import logging
 from collections import defaultdict
 
 import time_util
+from time import sleep
 
 QUIZ_MANAGER_ID = "QUIZ_MANAGER"
 
@@ -76,8 +77,8 @@ def getUserAnswersTable():
     quizManager = getQuizManager()
     return quizManager.userAnswersTable
 
-def getUserAnswersTableKey(name_uni, chat_id):
-    return "{} ({})".format(name_uni.encode('utf-8'), chat_id)
+def getUserAnswersTableKey(name_utf, chat_id):
+    return "{} ({})".format(name_utf, chat_id)
 
 def getUserAnswersTableSorted(top_N = 5):
     quizManager = getQuizManager()
@@ -91,12 +92,12 @@ def getUserAnswersTableSorted(top_N = 5):
     firstN_keys = sortedUsers[:top_N]
     firstN_chat_id = [userAnswersTable[x]['chat_id'] for x in firstN_keys]
     listEnum = list(enumerate(firstN_keys, start=1))
-    summary = "Domande totali: {}\n\n".format(quizManager.questionIndex)
+    summary = "Total questions: {}\n\n".format(quizManager.questionIndex)
     if len(firstN_keys)==0:
-        summary += "Nessuna persona ha risposto in maniera corretta ad alcuna domanda."
+        summary += "Nobody has answered correctly to any question."
     else:
         summary += '\n'.join([
-            '{} - {} - Correct: {} - Ellapsed: {}'.format(
+            '{} - {} - Corrette: {} - Tempo : {} sec'.format(
                 pos,
                 name_chat_id,
                 userAnswersTable[name_chat_id]['correct'],
@@ -104,27 +105,29 @@ def getUserAnswersTableSorted(top_N = 5):
         ])
     return firstN_chat_id, summary
 
-def getUserSpecificSummary(person, userAnswersTable):
-    tableKey = getUserAnswersTableKey(person.name, person.chat_id)
+def getUserScoreEllapsed(person, userAnswersTable):
+    tableKey = getUserAnswersTableKey(person.getFirstLastName(), person.chat_id)
     if tableKey in userAnswersTable:
         value = userAnswersTable[tableKey]
-        return "Hai risposto correttamente a {} domande in {} secondi complessivi" \
-               "Grazie di aver partecipato al quiz!".format(value['correct'], value['ellapsed'])
+        return value['correct'], value['ellapsed']
     else:
-        return "Hai rispopsto correttamente a 0 domande."
+        return 0, 0
 
 ############################################
 ############################################
 ############################################
 
-class UserAnswer(ndb.Model):
+class UserQuizAnswer(ndb.Model):
     # id = chat_id questionIndex
     chat_id = ndb.IntegerProperty()
     questionIndex = ndb.IntegerProperty()
-    name = ndb.StringProperty()
+    firstLastName = ndb.StringProperty()
     answer = ndb.StringProperty()
     correct = ndb.BooleanProperty()
     ellapsedSeconds = ndb.IntegerProperty()
+
+    def getFirstLastName(self):
+        return self.firstLastName.encode('utf-8')
 
 def getAnswerID(chat_id, questionIndex):
     return "{} {}".format(chat_id, questionIndex)
@@ -142,14 +145,14 @@ def addAnswer(person, answer, answerTimestamp):
     if not quizManager.acceptingAnswers:
         return questionNumber, -1
     answerID = getAnswerID(person.chat_id, questionIndex)
-    if UserAnswer.get_by_id(answerID)!=None:
+    if UserQuizAnswer.get_by_id(answerID)!=None:
         return questionNumber, -2
     questionTimestamp = quizManager.questionStartTimestamps[quizManager.questionIndex]
     ellapsedSeconds = answerTimestamp-questionTimestamp
     assert ellapsedSeconds >= 0
-    answerEntry = UserAnswer(
+    answerEntry = UserQuizAnswer(
         chat_id = person.chat_id,
-        name = person.name,
+        firstLastName = person.getFirstLastName(),
         questionIndex = questionIndex,
         id=answerID,
         answer=answer,
@@ -162,17 +165,17 @@ def validateAnswers(correctAnswer):
     logging.debug("Validating answers")
     quizManager = getQuizManager()
     questionIndex = quizManager.questionIndex
-    answers = UserAnswer.query(UserAnswer.questionIndex==questionIndex).fetch()
+    answers = UserQuizAnswer.query(UserQuizAnswer.questionIndex == questionIndex).fetch()
     userAnswersTable = quizManager.userAnswersTable
     resultTable = {} # chat_id: true|false
     correctNamesTime = {}
     for a in answers:
         a.correct = a.answer == correctAnswer
-        logging.debug("{} {}".format(a.name, a.correct))
+        logging.debug("{} {}".format(a.getFirstLastName(), a.correct))
         resultTable[a.chat_id] = a.correct
         if a.correct:
-            correctNamesTime[a.name] = a.ellapsedSeconds
-            tableKey = getUserAnswersTableKey(a.name, a.chat_id)
+            correctNamesTime[a.getFirstLastName()] = a.ellapsedSeconds
+            tableKey = getUserAnswersTableKey(a.getFirstLastName(), a.chat_id)
             if tableKey in userAnswersTable.keys():
                 userTotalCounts = userAnswersTable[tableKey]
             else:
@@ -185,13 +188,15 @@ def validateAnswers(correctAnswer):
     quizManager.put()
     correctNamesTimeSortedKey = sorted(correctNamesTime, key=correctNamesTime.get)
     correctNamesTimeSorted = ["{} ({} sec)".format(k,correctNamesTime[k]) for k in correctNamesTimeSortedKey]
-    return resultTable, correctNamesTimeSorted
+    #return resultTable, correctNamesTimeSorted
+    return correctNamesTimeSorted
 
 def deleteAllAnswers():
-    ndb.delete_multi(
-        UserAnswer.query().fetch(keys_only=True)
+    delete_futures = ndb.delete_multi_async(
+        UserQuizAnswer.query().fetch(keys_only=True)
     )
-    assert UserAnswer.query().count()==0
+    ndb.Future.wait_all(delete_futures)
+    #assert UserAnswer.query().count()==0
 
 def test():
     return

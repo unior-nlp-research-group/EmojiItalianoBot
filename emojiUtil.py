@@ -107,17 +107,21 @@ def getRandomGlossEmoji():
     g = gloss.getRandomGloss()
     return g.source_emoji.encode('utf-8')
 
-def getRandomGlossMultiEmoji():
+def getRandomGlossMultiEmoji(escludeStar = True):
     while True:
         g = gloss.getRandomGloss()
-        if getNumberOfEmojisInString(g.source_emoji)>1:
+        if getNumberOfEmojisInString(g.source_emoji)>1 and (not escludeStar or '*' not in g.getEmoji()):
             return g
 
-def getRandomSingleEmoji(italian=True):
+
+def getRandomSingleEmoji(italian=True, escludeStar = True):
     if italian:
-        return EMOJI_TO_TEXT_TABLE_IT.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_IT) - 1)]
+        result = EMOJI_TO_TEXT_TABLE_IT.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_IT) - 1)]
     else:
-        return EMOJI_TO_TEXT_TABLE_EN.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_EN) - 1)]
+        result = EMOJI_TO_TEXT_TABLE_EN.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_EN) - 1)]
+    if escludeStar and '*' in result:
+        return getRandomSingleEmoji(italian, escludeStar)
+    return result
 
 ##################
 ## FUNCTIONS

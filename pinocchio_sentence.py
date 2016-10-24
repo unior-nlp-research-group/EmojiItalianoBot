@@ -83,3 +83,9 @@ def populatePinocchioSentences(chapter_number):
         to_add.append(ps)
     ndb.put_multi(to_add)
     return "Successfully added {} sentences of chapter {}.".format(len(chapter_sentences), chapter_number)
+
+def deleteAllSentences():
+    delete_futures = ndb.delete_multi_async(
+        PinocchioSentence.query().fetch(keys_only=True)
+    )
+    ndb.Future.wait_all(delete_futures)

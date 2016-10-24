@@ -34,10 +34,11 @@ class Person(ndb.Model):
     def getUsername(self):
         return self.username.encode('utf-8') if self.username else None
 
-
-    def getNameLastName(self):
-        return self.getFirstName() + ' ' + self.getLastName()
-
+    def getFirstLastName(self):
+        result = self.getFirstName()
+        if self.last_name:
+            result += ' ' + self.getLastName()
+        return result
 
     def getUserInfoString(self):
         info = self.getFirstName()
