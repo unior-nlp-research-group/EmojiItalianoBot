@@ -9,8 +9,11 @@ import emoji_tables
 
 COSTITUZIONE_ICON = '📜'
 
-class CostituzinoeSentence(ndb.Model):
+class CostituzioneSentence(ndb.Model):
     #id = sentence number
+    chapter = ndb.IntegerProperty()
+    article = ndb.IntegerProperty()
+    sentence = ndb.IntegerProperty()
     word_text = ndb.StringProperty()
     emoji_text = ndb.StringProperty()
 
@@ -20,9 +23,15 @@ class CostituzinoeSentence(ndb.Model):
     def getWordText(self):
         return self.word_text.encode('utf-8')
 
-def addSentence(sentenceNumber, word_text, emoji_text, put=False):
-    cs = CostituzinoeSentence(
-        id = sentenceNumber,
+def getSentenceUniqueId(chapter, article, sentence):
+    return "{}:{}:{}".format(chapter, article, sentence)
+
+def addSentence(chapter, article, sentence, word_text, emoji_text, put=False):
+    cs = CostituzioneSentence(
+        id=getSentenceUniqueId(chapter, article, sentence),
+        chapter = chapter,
+        article = article,
+        sentence = sentence,
         word_text = word_text,
         emoji_text = emoji_text
     )
@@ -30,38 +39,64 @@ def addSentence(sentenceNumber, word_text, emoji_text, put=False):
         cs.put()
     return cs
 
+def getSentenceByUniqueId(id):
+    return CostituzioneSentence.get_by_id(id)
+
+def splitUniqueId(idString):
+    chapter, article, sentence = idString.split(':')
+    return int(chapter), int(article), int(sentence)
+
 def getSentenceEmojiString(id):
-    cs = CostituzinoeSentence.get_by_id(id)
-    #header = "{}{}".format(COSTITUZIONE_ICON,id)
-    #return "{}\n\n{}\n\n{}".format(header, ps.getWordText(), ps.getEmojiText())
-    return "{}\n\n{}".format(cs.getWordText(), cs.getEmojiText())
+    cs = CostituzioneSentence.get_by_id(id)
+    header = "{} Art. {}:{}".format(COSTITUZIONE_ICON,cs.article,cs.sentence)
+    return "{}\n\n{}\n\n{}".format(header, cs.getWordText(), cs.getEmojiText())
+    #return "{}\n\n{}".format(cs.getWordText(), cs.getEmojiText())
 
 def getNextSentenceId(id):
-    cs = CostituzinoeSentence.get_by_id(id+1)
-    if cs:
-        return cs.key.id()
+    if id == "0:0:0":
+        return "1:1:1"
+    chapter, article, sentence = splitUniqueId(id)
+    new_id = getSentenceUniqueId(chapter, article, sentence + 1)
+    entry = getSentenceByUniqueId(new_id)
+    if entry == None:
+        new_id = getSentenceUniqueId(chapter, article+1, 1)
+        entry = getSentenceByUniqueId(new_id)
+    if entry != None:
+        return entry.key.id()
     return None
 
 def getPrevSentenceId(id):
-    cs = CostituzinoeSentence.get_by_id(id-1)
-    if cs:
-        return cs.key.id()
+    if id == "1:1:1":
+        return "0:0:0"
+    chapter, article, sentence = splitUniqueId(id)
+    new_id = getSentenceUniqueId(chapter, article, sentence - 1)
+    entry = getSentenceByUniqueId(new_id)
+    if entry == None or entry.sentence==0:
+        entry = getLastSentenceInChapterArticle(chapter, article-1)
+    if entry != None:
+        return entry.key.id()
     return None
 
+def getLastSentenceInChapterArticle(chapter,article):
+    return CostituzioneSentence.query(
+        CostituzioneSentence.chapter == chapter,
+        CostituzioneSentence.article == article,
+    ).order(-CostituzioneSentence.sentence).get()
+
 def populateSentences():
-    sentences = getCostituzioneSentences()
+    tuples = getCostituzioneFromGdoc()
     to_add = []
-    for n, row in enumerate(sentences, start=1):
-        word_text = row[0]
-        emoji_text = ''.join(row[1])
-        ps = addSentence(n, word_text, emoji_text, put=False)
+    for t in tuples:
+        chapter, article, sentence, words_sentence, emojis_sentence = t
+        emoji_text = ''.join(emojis_sentence)
+        ps = addSentence(chapter, article, sentence, words_sentence, emoji_text, put=False)
         to_add.append(ps)
     ndb.put_multi(to_add)
-    return "Successfully added {} sentences.".format(len(sentences))
+    return "Successfully added {} sentences.".format(len(tuples))
 
 def deleteAllSentences():
     delete_futures = ndb.delete_multi_async(
-        CostituzinoeSentence.query().fetch(keys_only=True)
+        CostituzioneSentence.query().fetch(keys_only=True)
     )
     ndb.Future.wait_all(delete_futures)
 
@@ -75,26 +110,29 @@ COSTITUZIONE_GLOSS_DOC_KEY = '1Gjy23bp_GizhcVzHWRlF7ZQu6X049010UJQtynjOBBw'
 
 GDOC_TSV_BASE_URL = "https://docs.google.com/spreadsheets/d/{0}/export?format=tsv&gid=0"
 
-def getCostituzioneSentences():
-    sentences = []
+def getCostituzioneFromGdoc():
+    result = []
     url = GDOC_TSV_BASE_URL.format(COSTITUZIONE_DOC_KEY)
     spreadSheetTsv = urllib2.urlopen(url)
     spreadSheetReader = csv.reader(spreadSheetTsv, delimiter='\t', quoting=csv.QUOTE_NONE)
     for row in spreadSheetReader:
-        words_sentence = row[0]
-        emojis_sentence = tokenize(row[1])
-        sentence = (words_sentence, emojis_sentence)
-        sentences.append(sentence)
-    return sentences
+        chapter = int(row[0])
+        article = int(row[1])
+        sentence = int(row[2])
+        words_sentence = row[3]
+        emojis_sentence = tokenize(row[4])
+        tuple = (chapter, article, sentence, words_sentence, emojis_sentence)
+        result.append(tuple)
+    return result
 
 def tokenize(text):
     return [x.strip() for x in re.split("([\s_,;.:!?\"'])",text.strip()) if x.strip()!='' and x.strip()!=' ']
 
 def checkNormalization():
     exceptions = []
-    sentences = getCostituzioneSentences()
-    for l, line in enumerate(sentences, start=1):
-        emojiLine = line[1]
+    tuples = getCostituzioneFromGdoc()
+    for l, line in enumerate(tuples, start=1):
+        emojiLine = line[4]
         try:
             splitEmojiLine(emojiLine)
         except Exception as error:

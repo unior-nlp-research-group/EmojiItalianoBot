@@ -6,6 +6,7 @@ from google.appengine.ext import ndb
 from gloss import Gloss
 import key
 import pinocchio_sentence
+import costituzione
 
 class Person(ndb.Model):
     chat_id = ndb.IntegerProperty()
@@ -19,7 +20,7 @@ class Person(ndb.Model):
     tmpInt = ndb.IntegerProperty()
     tmpString = ndb.StringProperty()
     pinocchioSentenceIndex = ndb.StringProperty(default=pinocchio_sentence.getSentenceUniqueId(1, 1))
-    costituzioneSentenceIndex = ndb.IntegerProperty(default=1)
+    costituzioneSentenceIndex = ndb.StringProperty(default=costituzione.getSentenceUniqueId(0,0,0))
 
     def isAdmin(self):
         return self.chat_id in key.MASTER_CHAT_ID
@@ -101,3 +102,10 @@ def setState(p, state):
 
 def getPeopleCountInState(state):
     return Person.query(Person.state == state).count()
+
+def resetePeople():
+    selected_people = Person.query(Person.costituzioneSentenceIndex != None).fetch()
+    for p in selected_people:
+        p.costituzioneSentenceIndex = costituzione.getSentenceUniqueId(0, 0, 0)
+    create_futures = ndb.put_multi_async(selected_people)
+    ndb.Future.wait_all(create_futures)

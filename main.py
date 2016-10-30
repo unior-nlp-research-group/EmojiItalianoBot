@@ -197,6 +197,7 @@ LISTA_REGOLE_BUTTON = '📐 LISTA REGOLE'
 LEGGGI_PINOCCHIO_BUTTON = PINOCCHIO + '📗 LEGGI PINOCCHIO'
 NEXT_BUTTON = '⏭ succ.'
 PREV_BUTTON = '⏮ prec.'
+BOTTONE_INDICE = '👆 indice'
 
 BUTTON_FUTURO_REMOTO = "FUTURO REMOTO"
 BUTTON_QUIZ = "QUIZ"
@@ -896,12 +897,19 @@ def goToState330(p, input=None, **kwargs):
 # GO TO STATE 40: LEGGI COSTITUZIONE
 # ================================
 
+COSTITUZIONE_INDICE = "📜🇮🇹 Costituzione italiana\n" \
+                      "	_☝️️📃_🔝_☝️️📃_🔝 Principi fondamentali\n" + \
+                      ' '.join(['/Art_{}'.format(x) for x in range(1,13)])
+
 def goToState40(p, input=None, **kwargs):
     giveInstruction = input is None
     sentenceId = p.costituzioneSentenceIndex
     if giveInstruction:
-        kb = [[PREV_BUTTON, NEXT_BUTTON],[BOTTONE_INDIETRO]]
-        msg = costituzione.getSentenceEmojiString(sentenceId)
+        kb = [[PREV_BUTTON, NEXT_BUTTON],[BOTTONE_INDICE],[BOTTONE_INDIETRO]]
+        if sentenceId == "0:0:0":
+            msg = COSTITUZIONE_INDICE
+        else:
+            msg = costituzione.getSentenceEmojiString(sentenceId)
         tell(p.chat_id, msg, kb)
     else:
         if input == BOTTONE_INDIETRO:
@@ -912,7 +920,7 @@ def goToState40(p, input=None, **kwargs):
                 p.setCostituzioneSentenceIndex(prevSentenceIndex)
                 repeatState(p)
             else:
-                tell(p.chat_id, "❗  Hai raggiunto l'inizio del libro.")
+                tell(p.chat_id, "❗  Hai raggiunto l'inizio.")
                 repeatState(p)
         elif input == NEXT_BUTTON:
             nextSentenceIndex = costituzione.getNextSentenceId(sentenceId)
@@ -920,8 +928,19 @@ def goToState40(p, input=None, **kwargs):
                 p.setCostituzioneSentenceIndex(nextSentenceIndex)
                 repeatState(p)
             else:
-                tell(p.chat_id, "❗  Hai raggiunto la fine del libro.")
+                tell(p.chat_id, "❗  Hai raggiunto la fine.")
                 repeatState(p)
+        elif input == BOTTONE_INDICE:
+            p.setCostituzioneSentenceIndex("0:0:0")
+            repeatState(p)
+        elif input.startswith('/Art_'):
+            art_number = input[5:]
+            if utility.representsIntBetween(art_number,1,12):
+                art_number = int(art_number)
+                p.setCostituzioneSentenceIndex('1:{}:1'.format(art_number))
+                repeatState(p)
+            else:
+                tell(p.chat_id, "Input non valido.")
         else:
             tell(p.chat_id, "Input non valido.")
 

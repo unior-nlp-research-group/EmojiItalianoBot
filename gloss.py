@@ -6,7 +6,6 @@ from google.appengine.api import urlfetch
 from random import randint, shuffle
 
 import csv
-import date_util
 from operator import itemgetter
 
 import webapp2
@@ -179,6 +178,7 @@ def getEmojiTranslationsCount():
 #################
 
 def getGlossTableRows():
+    import date_util
     rows = []
     for g in Gloss.query().fetch():
         rows.append(
@@ -192,6 +192,7 @@ def getGlossTableRows():
     return rows
 
 def getGlossTableRowsInverted():
+    import date_util
     wordEmojiTable = defaultdict(list)
     wordEmojiLasMod = defaultdict(lambda: date_util.get_date_long_time_ago())
     for g in Gloss.query().fetch():
@@ -234,6 +235,7 @@ class GlossarioTableJson(webapp2.RequestHandler):
         self.response.out.write(json.dumps(result, indent=4, ensure_ascii=False))
 
 def getGlossarioHtml(inverted=False):
+    import date_util
     fileds = ['Emoji','Parola']
     if inverted:
         fileds.reverse()

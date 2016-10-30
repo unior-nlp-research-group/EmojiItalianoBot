@@ -17,6 +17,12 @@ indexes:
   - name: line
     direction: desc
 
+- kind: CostituzioneSentence
+  properties:
+  - name: article
+  - name: chapter
+  - name: sentence
+    direction: desc
 
 # This index.yaml is automatically updated whenever the dev_appserver
 # detects that a new type of query is run.  If you want to manage the
