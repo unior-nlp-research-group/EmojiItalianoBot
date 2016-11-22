@@ -462,10 +462,9 @@ def goToState0(p, input=None, **kwargs):
     giveInstruction = input is None
     if giveInstruction:
         keyboard = [[IT_TEXT_TOFROM_EMOJI, EN_TEXT_TOFROM_EMOJI], [BOTTONE_INVITA_AMICO, BOTTONE_INFO]]
-        secondLine = [BOTTONE_GIOCA]
+        secondLine = [BOTTONE_COSTITUZIONE, BOTTONE_GIOCA]
         if p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
             secondLine.insert(0, BOTTONE_PINOCCHIO)
-            secondLine.insert(1, BOTTONE_COSTITUZIONE)
         keyboard.insert(1, secondLine)
         tell(p.chat_id, "Schermata Iniziale.", kb=keyboard)
         #logging.debug("restart kb: " + str(keyboard))
@@ -499,7 +498,7 @@ def goToState0(p, input=None, **kwargs):
             # state 21
         elif input == BOTTONE_PINOCCHIO and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
             redirectToState(p, 30)
-        elif input == BOTTONE_COSTITUZIONE and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
+        elif input == BOTTONE_COSTITUZIONE:
             redirectToState(p, 40)
         elif input == BOTTONE_GIOCA:
             goToGamePanel(p)
@@ -897,9 +896,12 @@ def goToState330(p, input=None, **kwargs):
 # GO TO STATE 40: LEGGI COSTITUZIONE
 # ================================
 
-COSTITUZIONE_INDICE = "📜🇮🇹 Costituzione italiana\n" \
+index_array = utility.distributeElementMaxSize(['/Art_{}'.format(x) for x in range(1,13)],4)
+
+COSTITUZIONE_INDICE = "📜🇮🇹 Costituzione italiana\n\n" \
                       "	_☝️️📃_🔝_☝️️📃_🔝 Principi fondamentali\n" + \
-                      ' '.join(['/Art_{}'.format(x) for x in range(1,13)])
+                      '\n'.join(' '.join(line) for line in index_array) + \
+                      "\n\n(N.B. La Costituzione in emojitaliano è suscettibile di revisione)"
 
 def goToState40(p, input=None, **kwargs):
     giveInstruction = input is None

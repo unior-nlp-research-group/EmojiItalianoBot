@@ -128,6 +128,7 @@ def getCostituzioneFromGdoc():
 def tokenize(text):
     return [x.strip() for x in re.split("([\s_,;.:!?\"'])",text.strip()) if x.strip()!='' and x.strip()!=' ']
 
+# to be called as print(costituzione.checkNormalization())
 def checkNormalization():
     exceptions = []
     tuples = getCostituzioneFromGdoc()
@@ -208,7 +209,9 @@ EMOJI_NORMALIZATION_TABLE = {
     "✂️": "✂",
     "⛪️":"⛪",
     "⚪️":"⚪",
-    "❤️":"❤"    
+    "❤️":"❤",
+    "✍️️":"✍",
+    "☮️":"☮"
 }
 
 def normalizeEmojisWithTable(text_utf):
