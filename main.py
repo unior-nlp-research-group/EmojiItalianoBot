@@ -1509,7 +1509,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         reply(emoji, kb=[[BOTTONE_INDIETRO]])
                     else:
                         string = getStringFromEmoji(text, italian=True, pinocchioSearch=p.isAdmin())
-                        reply(string, kb = [[BOTTONE_INDIETRO]])
+                        reply(string, kb = [[BOTTONE_INDIETRO]], markdown=False)
             elif p.state == 21:
                 # EN <-> EMOJI
                 if text == BOTTONE_INDIETRO:
@@ -1520,7 +1520,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         reply(emoji, kb=[[BOTTONE_INDIETRO]])
                     else:
                         string = getStringFromEmoji(text, italian=False)
-                        reply(string, kb=[[BOTTONE_INDIETRO]])
+                        reply(string, kb=[[BOTTONE_INDIETRO]], markdown=False)
             elif p.state == 50:
                 #GAME PANEL
                 if text == BOTTONE_INDIETRO:
