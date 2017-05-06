@@ -222,7 +222,7 @@ def normalizeEmojisWithTable(text_utf):
 def normalizeEmojis(text_utf):
     import emojiUtil
     text_uni = text_utf.decode('utf-8')
-    norm_uni = emojiUtil.getNormalizedEmojiUni(text_uni)
+    norm_uni = emojiUtil.getNormalizedEmojiUni_via_emoji_unicode_lib(text_uni)
     return norm_uni.encode('utf-8')
 
 def splitEmojiString(text):    

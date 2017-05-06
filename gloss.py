@@ -159,8 +159,11 @@ def getEmojiListFromText(target_text):
 def hasText(target_text):
     return Gloss.query(Gloss.target_text.IN([target_text])).get() is not None
 
+def getGlossWithEmoji(source_emoji):
+    return Gloss.query(Gloss.source_emoji == source_emoji).get()
+
 def hasEmoji(source_emoji):
-    return Gloss.query(Gloss.source_emoji == source_emoji).get() is not None
+    return getGlossWithEmoji(source_emoji) is not None
 
 def getEmojiTranslationsCount():
     qry = Gloss.query()
@@ -177,17 +180,28 @@ def getEmojiTranslationsCount():
 # remote_api_shell.py -s emojitalianobot.appspot.com
 #################
 
+def getAllGlossEmojis():
+    allEmojis = []
+    more, cursor = True, None
+    while more:
+        records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
+        allEmojis.extend([g.getEmoji() for g in records])
+    return allEmojis
+
 def getGlossTableRows():
     import date_util
     rows = []
-    for g in Gloss.query().fetch():
-        rows.append(
-            (
-                g.getEmoji(),
-                ", ".join(g.getGlossTags()),
-                date_util.dateString(g.last_mod)
+    more, cursor = True, None
+    while more:
+        records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
+        for g in records:
+            rows.append(
+                (
+                    g.getEmoji(),
+                    ", ".join(g.getGlossTags()),
+                    date_util.dateString(g.last_mod)
+                )
             )
-        )
     rows = sorted(rows, key=itemgetter(0))
     return rows
 
@@ -195,10 +209,13 @@ def getGlossTableRowsInverted():
     import date_util
     wordEmojiTable = defaultdict(list)
     wordEmojiLasMod = defaultdict(lambda: date_util.get_date_long_time_ago())
-    for g in Gloss.query().fetch():
-        for w in g.getGlossTags():
-            wordEmojiTable[w].append(g.getEmoji())
-            wordEmojiLasMod[w] = max(wordEmojiLasMod[w],g.last_mod)
+    more, cursor = True, None
+    while more:
+        records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
+        for g in records:
+            for w in g.getGlossTags():
+                wordEmojiTable[w].append(g.getEmoji())
+                wordEmojiLasMod[w] = max(wordEmojiLasMod[w],g.last_mod)
     rows = []
     for w, eList in wordEmojiTable.iteritems():
         rows.append(
@@ -221,6 +238,34 @@ def exportToCsv():
         for r in rows:
             csvWriter.writerow(r)
     print 'Finished saving ' + str(len(rows)) + ' rows.'
+
+def normalizeGlosses():
+    import emojiUtil
+    needNormalizaton = []
+    normalized = []
+    merged = []
+    more, cursor = True, None
+    while more:
+        records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
+        for g in records:
+            e = g.getEmoji()
+            if not emojiUtil.stringHasOnlyStandardEmojis(e):
+                needNormalizaton.append(e)
+                normalizedEmoji = emojiUtil.normalizeEmojiText(e)
+                normalized.append(normalizedEmoji)
+                alreadyPresentGloss = getGlossWithEmoji(normalizedEmoji)
+                if alreadyPresentGloss:
+                    merged.append(normalizedEmoji)
+                    for x in g.target_text:
+                        if x not in alreadyPresentGloss.target_text:
+                            alreadyPresentGloss.target_text.append(x)
+                    alreadyPresentGloss.put()
+                    deleteGloss(g)
+                else:
+                    g.source_emoji = normalizedEmoji
+                    g.put()
+    return '{} Emoji normalized: {} -> {}. Merged: {}'.format(
+        len(needNormalizaton), ', '.join(needNormalizaton), ', '.join(normalized), ', '.join(merged))
 
 class GlossarioTableJson(webapp2.RequestHandler):
     def get(self):

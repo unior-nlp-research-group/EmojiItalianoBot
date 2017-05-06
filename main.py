@@ -524,23 +524,27 @@ def goToState0(p, input=None, **kwargs):
                 line = int(input_split[1].strip())
                 sentence = pinocchio.getPinocchioEmojiChapterSentence(ch, line)
                 tell(p.chat_id, sentence)
-            elif input.startswith("/checkPinocchioNormalizatin"):
+            elif input.startswith("/checkPinocchioNormalization"):
                 input_split = input.split(' ')
                 ch = int(input_split[1].strip())
-                result = pinocchio.checkPinocchioNormalizatin(ch)
+                result = pinocchio.checkPinocchioNormalization(ch)
                 tell(p.chat_id, result)
             elif input.startswith("/getEmojiCodePoint"):
                 input_split = input.split(' ')
                 e = input_split[1].strip()
                 result = emojiUtil.getCodePointWithInitialZeros(e)
                 tell(p.chat_id, result)
+            elif input.startswith('/decodeEmoji'):
+                test = input[input.index(' ') + 1:].replace(' ', '')
+                codePointMsg = pinocchio.getCodePointStr(test)
+                tell(p.chat_id, codePointMsg)
             elif input.startswith('/testEmoji'):
                 if ' ' in input:
                     test = input[input.index(' ') + 1:].replace(' ', '')
                     # test_without_emoji = emojiUtil.getStringWithoutStandardEmojis(test)
                     # msgTxt = "Testo senza emojis: '" + test_without_emoji + "'\n"
                     msgTxt = "Testo inserito: '" + test + "'\n"
-                    normalized = emojiUtil.getNormalizedEmojiUtf(test)
+                    normalized = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(test)
                     if emojiUtil.stringHasOnlyStandardEmojis(test):
                         msgTxt += "Il testo contiene solo emoji standard"
                     # elif emojiUtil.stringContainsAnyStandardEmoji(test):
@@ -571,6 +575,10 @@ def goToState0(p, input=None, **kwargs):
             elif input.startswith('/normalizeEmoji'):
                 emoji_string = input.split(' ')[1]
                 norm_string = pinocchio.normalizeEmojis(emoji_string)
+                tell(p.chat_id, norm_string)
+            elif input.startswith('/normalizeEmojiWithTable'):
+                emoji_string = input.split(' ')[1]
+                norm_string = pinocchio.normalizeEmojisWithTable(emoji_string)
                 tell(p.chat_id, norm_string)
             elif input == '/glossStats':
                 emojiTranslationsCounts = gloss.getEmojiTranslationsCount()
@@ -742,7 +750,7 @@ def goToState311(p, input=None, **kwargs):
                         tell(p.chat_id, txtMsg)
                         repeatState(p)
                 else:
-                    emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
+                    emojiNorm = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(emoji)
                     emojiNorm_word = emojiNorm + "|" + word
                     txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
                     tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
@@ -811,7 +819,7 @@ def goToState312(p, input=None, **kwargs):
                         tell(p.chat_id, txtMsg)
                         repeatState(p)
                 else:
-                    emojiNorm = emojiUtil.getNormalizedEmojiUtf(emoji)
+                    emojiNorm = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(emoji)
                     emojiNorm_word = emojiNorm + "|" + word
                     txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
                     tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
@@ -1253,7 +1261,8 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
     msg = ''
 
     if not emojiUtil.stringHasOnlyStandardEmojis(input_emoji):
-        input_emoji = emojiUtil.getNormalizedEmojiUtf(input_emoji)
+        #input_emoji = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(input_emoji)
+        input_emoji = emojiUtil.normalizeEmojiText(input_emoji)
         if italian:
             msg += EXCLAMATION + " Il testo inserito contiene emoji non standard.\n" + \
                    "Provo a normalizzarlo: " + input_emoji + '\n\n'
@@ -1271,10 +1280,10 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
             words = ', '.join([x.encode('utf-8') for x in gloss_text])
             msg += 'Trovata voce nel glossario: ' + input_emoji + " = " + words + '\n'
         if pinocchioSearch:
-            msg += 'Occorrenze in Pinocchio (ricerca parole): ' + ' '.join(
+            msg += 'Occorrenze in Pinocchio: ' + ' '.join(
                 pinocchio.findEmojiInPinocchio(input_emoji)) + '\n'
-            msg += 'Occorrenze in Pinocchio (ricerca completa): ' + ' '.join(
-                pinocchio.findEmojiInPinocchio(input_emoji,deepSearch=True)) + '\n'
+            #msg += 'Occorrenze in Pinocchio (ricerca completa): ' + ' '.join(
+            #    pinocchio.findEmojiInPinocchio(input_emoji,deepSearch=True)) + '\n'
         if tags:
             found = True
             annotations = ', '.join(tags)
@@ -1550,7 +1559,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     text = text.strip() #.replace(' ','')
                     warning = ''
                     if not emojiUtil.stringHasOnlyStandardEmojis(text):
-                        text = emojiUtil.getNormalizedEmojiUtf(text)
+                        text = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(text)
                         reply(CANCEL + "La stringa inserita contiene emoji non standard. " +
                               "Emoji normalizzato: " + text)
                         return
