@@ -61,3 +61,17 @@ def escapeMarkdown(text):
 
 def unindent(s):
     return re.sub('[ ]+', ' ', textwrap.dedent(s))
+
+#####
+
+def isAlphaAndNotEmoji(uchr):
+    import emoji_tables
+    return uchr.isalpha() and not uchr in emoji_tables.ALL_EMOJIS
+
+def allAlpha(str):
+    unistr = str.decode('utf-8')
+    return all(isAlphaAndNotEmoji(uchr) for uchr in unistr)
+
+def containsAlpha(str):
+    unistr = str.decode('utf-8')
+    return any(isAlphaAndNotEmoji(uchr) for uchr in unistr)

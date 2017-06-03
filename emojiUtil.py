@@ -150,6 +150,26 @@ def splitEmojis(text_utf, normalize=True):
             if s==e:
                 return None
 
+def splitEmojisUni(textuni, normalize=True):
+    parts = []
+    s = 0
+    e = len(textuni)
+    while (True):
+        span = textuni[s:e]
+        # print "span:{} s:{} e:{}".format([str(hex(ord(c)))[2:] for c in span], s, e)
+        span, spanIsValidEmoji = checkIfValidEmoji(span, normalize)
+        if spanIsValidEmoji:
+            parts.append(span)
+            if e == len(textuni):
+                return parts
+            textuni = textuni[e:]
+            s = 0
+            e = len(textuni)
+        else:
+            e -= 1
+            if s == e:
+                return None
+
 def getStringWithoutStandardEmojis(text):
     textuni = text.decode('utf-8')
     return emoji_tables.emoji_pattern.sub('', textuni).encode('utf-8')  # no emoji
@@ -158,13 +178,17 @@ def stringContainsAnyStandardEmoji(text):
     return getStringWithoutStandardEmojis(text) != text
 
 
+'''
 def getNormalizedEmojiUni_via_emoji_unicode_lib(text_uni):
     emoji = Emoji(text_uni)
     norm = u''
     for e in emoji.as_map():
        norm += code_point_to_unicode(e[1]) #e[0] #
     return norm
+'''
 
+def getNumberOfEmojisInString(text_uni):
+    return len(splitEmojisUni(text_uni, normalize=True))
 
 def getNumberOfEmojisInString_via_emoji_unicode_lib(text_uni):
     emoji = Emoji(text_uni)
@@ -224,7 +248,7 @@ def getRandomGlossMultiEmoji(escludeStar = True):
     import gloss
     while True:
         g = gloss.getRandomGloss()
-        if getNumberOfEmojisInString_via_emoji_unicode_lib(g.source_emoji)>1 and (not escludeStar or '*' not in g.getEmoji()):
+        if getNumberOfEmojisInString(g.source_emoji)>1 and (not escludeStar or '*' not in g.getEmoji()):
             return g
 
 def checkForGlossUniProblems():

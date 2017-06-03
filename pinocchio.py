@@ -25,7 +25,7 @@ PINOCCHIO_CHAPTERS_DOC_KEYS = [
 
 PINOCCHIO_CHAPTER_URL = "https://docs.google.com/spreadsheets/d/{0}/export?format=tsv&gid=0"
 
-ASCII_PUNCTS = "_,;.:!?\"'"
+ASCII_PUNCTS = "_,;.:!?\"'()="
 PUNCT_RE_MATCH = "^[{}]$".format(ASCII_PUNCTS)
 TOKEN_RE_SPLIT = "([\s{}])".format(ASCII_PUNCTS)
 UNDER_OPEN = '⌊'
@@ -40,8 +40,6 @@ NON_ASCII_PUNCTS = [UNDER_OPEN, UNDER_CLOSE, QUOTE_OPEN, QUOTE_CLOSE, THREE_DOTS
 def isPunctuation(ch):
     return re.match(PUNCT_RE_MATCH, ch) or ch in NON_ASCII_PUNCTS
 
-
-
 PUNCTUATION_LATEXT_TABLE = {
     "_": r'\under',
     "'": r'\sq',
@@ -55,6 +53,7 @@ PUNCTUATION_LATEXT_TABLE = {
     "?": r'\quest',
     "(": r'\opar',
     ")": r'\cpar',
+    "=": r'\eq',
     UNDER_OPEN: r'\underOpen',
     UNDER_CLOSE: r'\underClose',
     THREE_DOTS: r'\threeDots',
@@ -69,6 +68,10 @@ SPACE_MEDIUM = r'\mSp'
 SPACE_BIG = r'\bSp'
 
 PINOCCHIO_CHAPTERS = None
+
+#################
+# PINOCCHIO BUILDING
+#################
 
 def getPinocchioChapters():
     global PINOCCHIO_CHAPTERS
@@ -91,11 +94,20 @@ def buildPinocchioChapters():
             if len(row)<2:
                 break
             words_sentence = row[0]
-            emoji_sentence = convertPunctuation(row[1])
+            emoji_sentence = convertPunctuation(row[1], ch_num, line_num)
             emojis_tokens = tokenize(emoji_sentence)
             emojis_tokens = fixPunctuationInGroups(emojis_tokens, ch_num, line_num)
-            lines_in_paragraph = int(row[2]) if len(row)>2 and utility.representsInt(row[2]) else -1
-            sentence = (words_sentence, emojis_tokens, lines_in_paragraph)
+            char_list, error = splitEmojiLineDebug(emojis_tokens)
+            if error:
+                print(error + " ch {} line {}".format(ch_num, line_num))
+                break
+            if len(row)>2 and utility.representsInt(row[2]):
+                lines_in_paragraph = int(row[2])
+            else:
+                lines_in_paragraph = 0
+                print("Missing lines in paragraph ch {} line {}".format(ch_num, line_num))
+            clear_page = len(row) > 3 and row[3] == 'clear'
+            sentence = (words_sentence, char_list, lines_in_paragraph, clear_page)
             chapterSentences.append(sentence)
             line_num += 1
         PINOCCHIO_CHAPTERS.append(chapterSentences)
@@ -110,7 +122,7 @@ def formatEmojiText(emojiText):
 def getPinocchioEmojiChapterSentence(chapter, sentence):
     return getPinocchioChapters()[chapter-1][sentence-1][1]
 
-def convertPunctuation(text):
+def convertPunctuation(text, ch_num=1, line_num=1):
     text = text.replace('...', THREE_DOTS)
     for p in NON_ASCII_PUNCTS:
         text = text.replace(p, ' {} '.format(p))
@@ -126,6 +138,10 @@ def convertPunctuation(text):
                 quotation_was_opened = not quotation_was_opened
             ch = ' {} '.format(ch)
         newChars.append(ch)
+    if underscore_was_opened:
+        print "Uneven underscores in ch {} line {}".format(ch_num, line_num)
+    if quotation_was_opened:
+        print "Uneven quotation in ch {} line {}".format(ch_num, line_num)
     return ''.join(newChars)
 
 # separate emoji from punctuation
@@ -155,32 +171,14 @@ def fixPunctuationInGroups(tokens, ch_num=1, line_num=1):
             inside_concatenation = not inside_concatenation
     return new_tokens
 
-def findEmojiInPinocchio(inputEmojiText, deepSearch=False):
-    PC = getPinocchioChapters()
-    result = []
-    for ch_num, chapter in enumerate(PC, 1):
-        for line_num, row in enumerate(chapter, 1):
-            emojiLineTokens = row[1]
-            charList = splitEmojiLineDebug(emojiLineTokens)
-            emojiWords = getEmojiWords(charList)
-            for ew in emojiWords:
-                emojiWord = ''.join(ew)
-                if inputEmojiText == emojiWord:
-                    result.append("{0}.{1}".format(str(ch_num),str(line_num)))
-                    break
-                elif deepSearch:
-                    line = ''.join(emojiLineTokens)
-                    if line.find(inputEmojiText)>=0:
-                        result.append("{0}.{1}".format(str(ch_num), str(line_num)))
-                        break
-    return result
-
+# emoji_line_tokens must be a list of strings
 # return a list of elements where each element is either
 # - a punctuation
 # - a single emoji
 def splitEmojiLineDebug(emoji_line_tokens):
     import emojiUtil
     result = []
+    error = ''
     for i, text_token in enumerate(emoji_line_tokens):
         if isPunctuation(text_token):
             parts = [text_token]
@@ -189,18 +187,109 @@ def splitEmojiLineDebug(emoji_line_tokens):
         if parts:
             result.extend(parts)
         else:
-            raise Exception('Problem in splitting {} ({}) in position {}/{}'.format(
-                text_token, emojiUtil.getCodePointStr(text_token), i, len(emoji_line_tokens)))
+            error = 'Problem in splitting {} ({}) in position {}/{}'.format(
+                text_token, emojiUtil.getCodePointStr(text_token), i, len(emoji_line_tokens))
+    return result, error
+
+#################
+# FIND FUNCTIONS
+#################
+
+
+def findEmojiInPinocchio(inputEmojiText, deepSearch=False):
+    PC = getPinocchioChapters()
+    result = []
+    for ch_num, chapter in enumerate(PC, 1):
+        for line_num, row in enumerate(chapter, 1):
+            charList = row[1]
+            emojiWords = getEmojiWords(charList)
+            for ew in emojiWords:
+                emojiWord = ''.join(ew)
+                if inputEmojiText == emojiWord:
+                    result.append("{0}.{1}".format(str(ch_num),str(line_num)))
+                    break
+                elif deepSearch:
+                    line = ''.join(charList)
+                    if line.find(inputEmojiText)>=0:
+                        result.append("{0}.{1}".format(str(ch_num), str(line_num)))
+                        break
     return result
+
+def findTextInPinocchio(text):
+    PC = getPinocchioChapters()
+    result = []
+    for ch_num, chapter in enumerate(PC, 1):
+        for line_num, row in enumerate(chapter, 1):
+            line = row[0]
+            if line.find(text) >= 0:
+                result.append("{0}.{1}".format(str(ch_num), str(line_num)))
+    return result
+
+##########################
+# READ PINOCCHIO FROM BOT
+##########################
+
+PINOCCHIO_EMOJI = '🏃'
+
+def isValidChLineIndexStr(chLineIndex):
+    ch_num, line_num = parseChLineIndex(chLineIndex)
+    if ch_num is None:
+        return None
+    return isValidChLineIndex(ch_num, line_num)
+
+def isValidChLineIndex(ch_num, line_num):
+    PC = getPinocchioChapters()
+    return ch_num>0 and ch_num<=len(PC) and line_num>0 and line_num<=len(PC[ch_num-1])
+
+def parseChLineIndex(chLineIndex):
+    import utility
+    split = chLineIndex.split(':')
+    if len(split) != 2:
+        return None, None
+    if not all([utility.representsInt(x) for x in split]):
+        return None, None
+    return [int(x) for x in split]
+
+# idString is of type 1:1
+def getSentenceEmojiString(chLineIndex):
+    ch_num, line_num = parseChLineIndex(chLineIndex)
+    if ch_num is None:
+        return None
+    PC = getPinocchioChapters()
+    row = PC[ch_num-1][line_num-1]
+    wordText = row[0]
+    emojiTextGroup = getEmojiSpacingGroups(row[1])
+    emojiText = ' '.join(''.join(g) for g in emojiTextGroup)
+    header = "{}{}".format(PINOCCHIO_EMOJI, chLineIndex)
+    return "{}\n\n{}\n\n{}".format(header, wordText, emojiText)
+
+def getPrevChapterLineIndex(chLiIndex):
+    ch_num, line_num = [int(x) for x in chLiIndex.split(':')]
+    PC = getPinocchioChapters()
+    if isValidChLineIndex(ch_num, line_num-1):
+        return '{}:{}'.format(ch_num, line_num-1)
+    if ch_num>1:
+        return '{}:{}'.format(ch_num-1, len(PC[ch_num-2]))
+    return None # beginning of book
+
+def getNextChapterLineIndex(chLiIndex):
+    ch_num, line_num = [int(x) for x in chLiIndex.split(':')]
+    if isValidChLineIndex(ch_num, line_num + 1):
+        return '{}:{}'.format(ch_num, line_num + 1)
+    if isValidChLineIndex(ch_num+1, 1):
+        return '{}:{}'.format(ch_num+1, 1)
+    return None # end of book
+
 
 #################
 # EXPORT
 #################
 
 VERSION = '5'
-LATEX_DIR = "/Users/fedja/GDrive/Joint Projects/Emoji/Emojitaliano/" \
-                "Pinocchio/EmojiPinocchioLatex/Prova{}".format(VERSION.zfill(2))
-
+BASE_DIR = "/Users/fedja/GDrive/Joint Projects/Emoji/Emojitaliano/Pinocchio/"
+CHAPTER_TEXT_DIR = BASE_DIR + "/ChaptersText"
+LATEX_DIR = BASE_DIR + "/EmojiPinocchioLatex/Prova{}".format(VERSION.zfill(2))
+LATEX_DIR_CHECK = LATEX_DIR + '/check'
 
 TAG_PASSATO = '◀'
 TAG_FUTURO = '▶'
@@ -210,9 +299,18 @@ TAG_RIFLESSIVO = '👈'
 TAG_RECIPROCO = '👥'
 TAG_CONDIZIONALE = '🎲'
 TAG_IMPERATIVO_ESORTATIVO = '❗'
+TAG_DOPPIO_IMPERATIVO = '‼️'
+TAG_IMPERATIVO_INTERROGATIVO = '⁉️'
 TAG_INTERROGATIVO = '❓'
-FUNCTIONAL_TAGS_END = [TAG_PASSATO,TAG_FUTURO,TAG_GERUNDIO_PART_PRESENTE_AVVERBIO,TAG_CAUSATIVO,TAG_RIFLESSIVO,TAG_RECIPROCO]
-FUNCTIONAL_TAGS_BEGINNING = [TAG_CONDIZIONALE, TAG_IMPERATIVO_ESORTATIVO, TAG_INTERROGATIVO]
+TAG_POSSESSIVO = '⏩'
+TAG_DIMINUTIVO = '👶🏻'
+TAG_DISPREGIATIVO = '👹'
+FUNCTIONAL_TAGS = {TAG_PASSATO, TAG_FUTURO, TAG_GERUNDIO_PART_PRESENTE_AVVERBIO, TAG_CAUSATIVO,
+                   TAG_RIFLESSIVO, TAG_RECIPROCO, TAG_CONDIZIONALE, TAG_IMPERATIVO_ESORTATIVO,
+                   TAG_DOPPIO_IMPERATIVO, TAG_IMPERATIVO_INTERROGATIVO, TAG_INTERROGATIVO, TAG_POSSESSIVO,
+                   TAG_DIMINUTIVO, TAG_DISPREGIATIVO}
+FUNCTIONAL_TAGS_END = [TAG_PASSATO,TAG_FUTURO,TAG_GERUNDIO_PART_PRESENTE_AVVERBIO,TAG_RIFLESSIVO,TAG_RECIPROCO, TAG_DIMINUTIVO, TAG_DISPREGIATIVO]
+FUNCTIONAL_TAGS_BEGINNING = [TAG_POSSESSIVO, TAG_CAUSATIVO,TAG_CONDIZIONALE, TAG_IMPERATIVO_ESORTATIVO, TAG_INTERROGATIVO]
 
 def removeFunctionalTagsAndMakeSingular(emojiSequence):
     while len(emojiSequence)>1 and emojiSequence[-1] in FUNCTIONAL_TAGS_END:
@@ -233,8 +331,7 @@ def testPinocchioEmojisAgainstDictionary():
     pinocchioGlossesDict = defaultdict(list)
     for ch_num, chapter in enumerate(PC, 1):
         for line_num, row in enumerate(chapter,1):
-            emojiLineTokens = row[1]
-            charList = splitEmojiLineDebug(emojiLineTokens)
+            charList = row[1]
             emojiWords = getEmojiWords(charList)
             for ew in emojiWords:
                 emojiGloss = ''.join(ew)
@@ -247,10 +344,10 @@ def testPinocchioEmojisAgainstDictionary():
     missingInDictionaryIndexes = ['{}: {}'.format(e, ', '.join(pinocchioGlossesDict[e])) for e in missingInDictionary]
     missingInPinocchio = set(dictionaryGlosses).difference(pinocchioGlosses)
     pinocchioGlossesIndexes = ['{}: {}'.format(e, ', '.join(iList)) for e, iList, in pinocchioGlossesDict.iteritems()]
-    missingInDictionaryFile = LATEX_DIR + '/check_MissingInDictionary.txt'
-    missingInPinocchioFile = LATEX_DIR + '/check_MissingInPinocchio.txt'
-    pinocchioFile = LATEX_DIR + '/check_PinocchioGlosses.txt'
-    dictionaryFile = LATEX_DIR + '/check_DictionaryGlosses.txt'
+    missingInDictionaryFile = LATEX_DIR_CHECK + '/MissingInDictionary.txt'
+    missingInPinocchioFile = LATEX_DIR_CHECK + '/MissingInPinocchio.txt'
+    pinocchioFile = LATEX_DIR_CHECK + '/PinocchioGlosses.txt'
+    dictionaryFile = LATEX_DIR_CHECK + '/DictionaryGlosses.txt'
     for file, emojiList in zip(
             [missingInDictionaryFile, missingInPinocchioFile, pinocchioFile, dictionaryFile],
             [missingInDictionaryIndexes, missingInPinocchio, pinocchioGlossesIndexes, dictionaryGlosses]):
@@ -259,19 +356,87 @@ def testPinocchioEmojisAgainstDictionary():
                 f.write('{}\n'.format(e))
             f.close()
 
+def checkPinocchioTranslation():
+    emoji_singoli_list = []
+    search_tags = {}
+    uneven_under_open_close_list = []
+    for t in FUNCTIONAL_TAGS:
+        search_tags[t] = []
+    PC = getPinocchioChapters()
+    for ch_num, chapter in enumerate(PC, 1):
+        for line_num, row in enumerate(chapter,1):
+            charList = row[1]
+            if hasUnevenUnderOpenClose(charList):
+                uneven_under_open_close_list.append('{}.{}'.format(ch_num, line_num))
+            cornici_groups = getCornici(charList)
+            for cg in cornici_groups:
+                if len(cg)==1:
+                    emoji_singoli_list.append('{}.{} → {}'.format(ch_num, line_num, cg[0]))
+            emojiWords = getEmojiWords(charList)
+            for ew in emojiWords:
+                for t,l in search_tags.items():
+                    if t in ew:
+                        l.append('{}.{} → {}'.format(ch_num, line_num, ''.join(ew)))
+
+    if uneven_under_open_close_list:
+        print 'Problema in cornici non chiuse correttamente: {}'.format(', '.join(uneven_under_open_close_list))
+        return
+
+    out_file = LATEX_DIR_CHECK + '/checkPinocchioTranslation.txt'
+    with open(out_file, 'w') as f:
+        for t, l in search_tags.items():
+            f.write('paragrafi con {}: {}'.format(t, ', '.join(l)))
+            f.write('\n\n')
+        f.write('paragrafi con emoji singoli in cornici: {}'.format(', '.join(emoji_singoli_list)))
+        f.close()
+
+def checkPinocchioGlossario():
+    import gloss
+    import emojiUtil
+    search_tags = {}
+    for t in FUNCTIONAL_TAGS:
+        search_tags[t] = []
+    emojiGloss = gloss.getAllGlossEmojis()
+    for eg in emojiGloss:
+        parts = emojiUtil.splitEmojis(eg)
+        for t, l in search_tags.items():
+            if t in parts:
+                l.append(eg)
+    out_file = LATEX_DIR_CHECK + '/checkPinocchioGlossario.txt'
+    with open(out_file, 'w') as f:
+        for t, l in search_tags.items():
+            f.write('glosses con {}: {}'.format(t, ', '.join(l)))
+            f.write('\n\n')
+        f.close()
+
+
+def hasUnevenUnderOpenClose(charList):
+    inside = False
+    for ch in charList:
+        if ch == UNDER_OPEN:
+            if inside:
+                return True
+            inside = not inside
+        elif ch == UNDER_CLOSE:
+            if not inside:
+                return True
+            inside = not inside
+    if inside:
+        return True
+    return False
 
 def mergePdf():
     from pyPdf import PdfFileReader, PdfFileWriter
     textCompletePdf = LATEX_DIR + "/Pinocchio_TestoCompleto.pdf"
     #emojiCompletePdf = LATEX_DIR + "/Pinocchio_EmojiCompleto.pdf"
-    emojiCompletePdf = LATEX_DIR + "/main.pdf"
+    emojiCompletePdf = LATEX_DIR + "/latex_chapters.pdf"
     mergedCompletePdf = LATEX_DIR + "/Pinocchio_MergedCompleto.pdf"
 
     output = PdfFileWriter()
     input1 = PdfFileReader(file(textCompletePdf, "rb"))
     input2 = PdfFileReader(file(emojiCompletePdf, "rb"))
 
-    for p in range(3):
+    for p in range(56):
         page1 = input1.getPage(p)
         page2 = input2.getPage(p)
         page1.mergePage(page2)
@@ -281,6 +446,18 @@ def mergePdf():
     output.write(outputStream)
     outputStream.close()
 
+def saveTextChapters():
+    for i in range(len(PINOCCHIO_CHAPTERS_DOC_KEYS)):
+        chapter_number = i+1
+        outputFile = CHAPTER_TEXT_DIR + "/Pinocchio_ch{}.txt".format(str(chapter_number).zfill(2))
+        with open(outputFile, 'w') as f:
+            chapter = getPinocchioChapters()[chapter_number - 1]
+            for row in chapter:
+                charList = row[1]
+                charGroups = getEmojiSpacingGroups(charList)
+                line = ' '.join(''.join(g) for g in charGroups)
+                f.write("{}\n".format(line))
+            f.close()
 
 def saveLatexChapters():
     for i in range(len(PINOCCHIO_CHAPTERS_DOC_KEYS)):
@@ -288,13 +465,54 @@ def saveLatexChapters():
         outputFile = LATEX_DIR + "/Pinocchio_ch{}.txt".format(str(chapter_number).zfill(2))
         getLatexPinocchioChapter(chapter_number, outputFile)
 
+def saveLatexGrammar():
+    import utility
+    import grammar_rules
+    outputFile = LATEX_DIR + "/Pinocchio_grammar.txt"
+    with open(outputFile, 'w') as f:
+        GS = grammar_rules.getGrammarStructure()
+        line_num = 0
+        for title in grammar_rules.RULE_TYPES_SORTED:
+            f.write("\n\n" + "\\section{" + title + "}\n\n")
+            f.write("\\begin{enumerate}\n")
+            title_rules = GS[title]['rules']
+            for rule in title_rules:
+                f.write("\\item ")
+                line_num += 1
+                rule_tokens = rule.split()
+                for token in rule_tokens:
+                    if utility.containsAlpha(token):
+                        f.write("{} ".format(token))
+                    else:
+                        for p in ["'", UNDER_OPEN, UNDER_CLOSE]:
+                            token = token.replace(p, ' {} '.format(p))
+                        emoji_parts = tokenize(token)
+                        char_list, error = splitEmojiLineDebug(emoji_parts)
+                        if error:
+                            print('{} at line {}'.format(error, line_num))
+                            return
+                        outputEmojiLineCmds = []
+                        for i, ch in enumerate(char_list):
+                            if i > 0:  # no space before first char in group
+                                if isPunctuation(ch) and ch != UNDER_CLOSE:  # and previous not in [UNDER_OPEN]:
+                                    outputEmojiLineCmds.append(SPACE_MEDIUM)
+                                else:
+                                    outputEmojiLineCmds.append(SPACE_SMALL)
+                            if isPunctuation(ch):
+                                outputEmojiLineCmds.append(PUNCTUATION_LATEXT_TABLE[ch])
+                            else:
+                                codePoint = '-'.join([str(hex(ord(c)))[2:] for c in ch.decode('utf-8')])
+                                outputEmojiLineCmds.append("\\ie{" + codePoint + "}")
+                        f.write("\\RemoveSpaces{" + ' '.join(outputEmojiLineCmds) + "} ") # remove auto spacing
+            f.write("\\end{enumerate}\n\n")
+        f.close()
+
 def getLatexPinocchioChapter(chapter_number, outputFile):
     chapter = getPinocchioChapters()[chapter_number - 1]
     lines = []
     use_frames = False
     for row in chapter:
-        emojiLineTokens = row[1]
-        charList = splitEmojiLineDebug(emojiLineTokens)
+        charList = row[1]
         charGroups = getEmojiSpacingGroups(charList)
         outputEmojiLineCmds = []
         for g, charsInGroup in enumerate(charGroups):
@@ -328,6 +546,7 @@ def getLatexPinocchioChapter(chapter_number, outputFile):
     with open(outputFile, 'w') as f:
         for i, l in enumerate(lines):
             lines_in_paragraph = chapter[i][2]
+            clear_page = chapter[i][3]
             f.write("%{}\n".format(i)) # line number in comment
             l = "\\RemoveSpaces{\n" + l + "\n}" # remove auto spacing
             if i ==0:
@@ -343,6 +562,8 @@ def getLatexPinocchioChapter(chapter_number, outputFile):
                 height = lines_in_paragraph * 13.6
             f.write("\\begin{minipage}" + "[t][{}pt][t]".format(height) + "{\\textwidth}\n" + l + "\n\\end{minipage}")
             f.write('\n\n')
+            if clear_page:
+                f.write('\\clearpage' + '\n\n')
         f.close()
 
 # returns a list of emoji groups according to the concatenation symbols
@@ -368,6 +589,21 @@ def getEmojiSpacingGroups(charList):
         groups.append(current_group)
     return groups
 
+def getCornici(charList):
+    groups = []
+    current_cornice = []
+    inside_cornice = False
+    for ch in charList:
+        if ch in [UNDER_OPEN, UNDER_CLOSE]:
+            inside_cornice = not inside_cornice
+            if current_cornice and ch==UNDER_CLOSE:
+                groups.append(current_cornice)
+                current_cornice = []
+        elif inside_cornice:
+            current_cornice.append(ch)
+    return groups
+
+
 def getEmojiWords(charList):
     groups = []
     current_group = []
@@ -385,153 +621,3 @@ def getEmojiWords(charList):
         groups.append(current_group)
     return groups
 
-
-#################
-# CHECK FUNCTIONS
-#################
-
-def fullCheckPinocchio():
-    for i in range(len(PINOCCHIO_CHAPTERS_DOC_KEYS)):
-        chapter_number = i+1
-        error_types = {
-            'Normalization Errors': checkPinocchioNormalizationChapter(chapter_number),
-            'Line Counts Errors': checkLinesParagraphChapter(chapter_number),
-            'Underscores Errors': checkOpenCloseSymbolChapter(chapter_number, '_'),
-            'Quotations Errors': checkOpenCloseSymbolChapter(chapter_number, '"'),
-        }
-        errors = any(len(e)>0 for e in error_types.values())
-        if errors:
-            print "ch {}: ERRORS!".format(chapter_number)
-            for error_title, errors in error_types.iteritems():
-                if errors:
-                    print '\t{}'.format(error_title)
-                    for e in errors:
-                        print '\t\t- {}'.format(e)
-        if not errors:
-            print "ch {}: All OK!".format(chapter_number)
-
-
-def checkPinocchioNormalizationChapter(chapter_number):
-    errors = []
-    chapter = getPinocchioChapters()[chapter_number-1]
-    for i, row in enumerate(chapter, start=1):
-        emojiLineTokens = row[1]
-        try:
-            splitEmojiLineDebug(emojiLineTokens)
-        except Exception as error:
-            msg = str(error) + " line {}".format(chapter_number, i)
-            errors.append(msg)
-            #if len(exceptions)==10:
-            #    return '\n'.join(exceptions)
-    return errors
-
-def checkLinesParagraphChapter(chapter_number):
-    error_lines = []
-    chapter = getPinocchioChapters()[chapter_number - 1]
-    for i, row in enumerate(chapter, start=1):
-        line_count = row[2]
-        if line_count==-1:
-            error_lines.append('Wrong field in line: {}'.format(i))
-    return error_lines
-
-def checkOpenCloseSymbolChapter(chapter_number, symbol):
-    errors = []
-    chapter = getPinocchioChapters()[chapter_number - 1]
-    for i, row in enumerate(chapter, start=1):
-        emojiLine = row[1]
-        symbol_was_opened = False
-        for e in emojiLine: #charList
-            if e == symbol:
-                symbol_was_opened = not symbol_was_opened
-        if symbol_was_opened:
-            errors.append("Error at row {}".format(i))
-    return errors
-
-'''
-
-EMOJI_NORMALIZATION_TABLE = {
-    "◀️": "◀",
-    "▶️": "▶",
-    "ℹ️": "ℹ",
-    "↩️": "↩",
-    "↪️": "↪",
-    "⤵️": "⤵",
-    "⤴️": "⤴",
-    "↗️": "↗",
-    "⬆️": "⬆",
-    "➡️": "➡",
-    "↘️": "↘",
-    "⬇️": "⬇",
-    "↙️": "↙",
-    "⬅️": "⬅",
-    "↖️": "↖",
-    "↕️": "↕",
-    "↔️": "↔",
-    "↪️": "↪",
-    "↩️": "↩",
-    "♨️": "♨",
-    "🏭️": "🏭",
-    "‼️": "‼",
-    "❗️": "❗",
-    "⁉️": "⁉",
-    "✔️": "✔",
-    "♒️": "♒",
-    "⚠️": "⚠",
-    "🍒️": "🍒",
-    "⚡️": "⚡",
-    "✴️": "✴",
-    "❄️": "❄",
-    "♻️": "♻",
-    "♊️": "♊",
-    "🅰️": "🅰",
-    "〽️": "〽",
-    "☁️": "☁",
-    "☹️": "☹",
-    "✂️": "✂",
-    "🏃️": "🏃",
-    "⌛️": "⌛",
-    "☝️": "☝",
-    "✌️": "✌",
-    "✋️": "✋",
-    "⛳️": "⛳",
-    "⛔️": "⛔",
-    "⚔️": "⚔",
-    "☮️": "☮",
-    "⚫️": "⚫",
-    "⚪️": "⚪",
-    "⬜️": "⬜",
-    "✈️": "✈"
-}
-
-
-def normalizeEmojisWithTable(text_utf):
-    for find, replace in EMOJI_NORMALIZATION_TABLE.iteritems():
-        text_utf = text_utf.replace(find, replace)
-    return text_utf
-
-def normalizeEmojis(text_utf):
-    import emojiUtil
-    text_uni = text_utf.decode('utf-8')
-    norm_uni = emojiUtil.getNormalizedEmojiUni(text_uni)
-    return norm_uni.encode('utf-8')
-
-def checkSmartNormalization():
-    uni_emptySymbol = u'\ufe0f'
-    for k,v in EMOJI_NORMALIZATION_TABLE.iteritems():
-        uni_k = k.decode('utf-8')
-        uni_v = v.decode('utf-8')
-        if len(uni_k)==2 and uni_k[0]==uni_v and uni_k[1]==uni_emptySymbol:
-            print "Norm {}  OK!".format(k)
-        else:
-            print "Norm {}  PROBLEM: k={}   v={}!".format(k, getCoidePointStr(k), getCoidePointStr(v))
-
-
-def checkNormalizationTable():
-    for old,new in EMOJI_NORMALIZATION_TABLE.iteritems():
-        old_is_emoji = old.decode('utf-8') in emoji_tables.ALL_EMOJIS
-        new_is_emoji = new.decode('utf-8') in emoji_tables.ALL_EMOJIS
-        if old_is_emoji or not new_is_emoji:
-            print '{} - {} ({} - {}) {} {}'.format(old, new, getCoidePointStr(old), getCoidePointStr(new), old_is_emoji, new_is_emoji)
-
-
-'''

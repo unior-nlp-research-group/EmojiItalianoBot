@@ -27,7 +27,6 @@ import utility
 import unicodedata
 import string
 import pinocchio
-import pinocchio_sentence
 import costituzione
 import grammar_rules
 import quizGame
@@ -455,6 +454,19 @@ def repeatState(p, *args, **kwargs):
 # ================================
 
 # ================================
+# UNIVERSAL COMMANDS
+# ================================
+
+def dealWithUniversalCommands(p, input):
+    if p.chat_id in key.MASTER_CHAT_ID:
+        if input == '/aggiorna':
+            pinocchio.buildPinocchioChapters()
+            grammar_rules.buildGrammarRules()
+            tell(p.chat_id, "Aggiornamento completato!")
+    return False
+
+
+# ================================
 # GO TO STATE 0: STAT SCREEN
 # ================================
 
@@ -614,9 +626,6 @@ def goToState0(p, input=None, **kwargs):
             elif input.startswith('/restartBroadcast ') and len(input) > 18:
                 msg = input[18:]
                 deferred.defer(broadcast, p.chat_id, msg, restart_user=True)
-            elif input == '/aggiornaPinocchio':
-                pinocchio.buildPinocchioChapters()
-                tell(p.chat_id, "Aggiornamento completato!")
             else:
                 tell(p.chat_id, 'Scusa, capisco solo /help /start '
                                 'e altri comandi segreti...')
@@ -853,10 +862,10 @@ def goToState32(p, input=None, **kwargs):
             else:
                 numberStr = input
             if utility.representsIntBetween(numberStr, 1, len(COMMANDS)):
-                command = COMMANDS[int(numberStr) - 1]
-                kb= [[LISTA_REGOLE_BUTTON], [BOTTONE_INDIETRO]]
-                msg = grammar_rules.GRAMMAR_RULES[command]
-                tell(p.chat_id, msg, kb, markdown=False)
+                position = int(numberStr)
+                msg = grammar_rules.getGrammarRulesText(position)
+                kb = [[LISTA_REGOLE_BUTTON], [BOTTONE_INDIETRO]]
+                tell(p.chat_id, msg, kb, markdown=True)
             else:
                 tell(p.chat_id, "Input non valido.")
 
@@ -869,13 +878,13 @@ def goToState330(p, input=None, **kwargs):
     sentenceIdString = p.getPinocchioSentenceIndex()
     if giveInstruction:
         kb = [[PREV_BUTTON, NEXT_BUTTON],[BOTTONE_INDIETRO]]
-        msg = pinocchio_sentence.getSentenceEmojiString(sentenceIdString)
+        msg = pinocchio.getSentenceEmojiString(sentenceIdString)
         tell(p.chat_id, msg, kb)
     else:
         if input == BOTTONE_INDIETRO:
             redirectToState(p, 30)
         elif input == PREV_BUTTON:
-            prevSentenceIndex = pinocchio_sentence.getPrevSentenceIdString(sentenceIdString)
+            prevSentenceIndex = pinocchio.getPrevChapterLineIndex(sentenceIdString)
             if prevSentenceIndex:
                 p.setPinocchioSentenceIndex(prevSentenceIndex)
                 repeatState(p)
@@ -883,7 +892,7 @@ def goToState330(p, input=None, **kwargs):
                 tell(p.chat_id, "❗  Hai raggiunto l'inizio del libro.")
                 repeatState(p)
         elif input == NEXT_BUTTON:
-            nextSentenceIndex = pinocchio_sentence.getNextSentenceIdString(sentenceIdString)
+            nextSentenceIndex = pinocchio.getNextChapterLineIndex(sentenceIdString)
             if nextSentenceIndex:
                 p.setPinocchioSentenceIndex(nextSentenceIndex)
                 repeatState(p)
@@ -891,7 +900,7 @@ def goToState330(p, input=None, **kwargs):
                 tell(p.chat_id, "❗  Hai raggiunto la fine del libro.")
                 repeatState(p)
         elif ':' in input:
-            if pinocchio_sentence.getSentenceByUniqueId(input):
+            if pinocchio.isValidChLineIndexStr(input):
                 p.setPinocchioSentenceIndex(input)
                 repeatState(p)
             else:
@@ -1223,26 +1232,35 @@ def getEmojiListFromTagInDictAndGloss(string):
         result.update([gloss_emoji for gloss_emoji in gloss_emoji_list])
     return list(result)
 
-def getEmojiFromString(string, italian=True):
+def getEmojiFromString(input_string, italian=True, pinocchioSearch=False):
 
-    if emojiUtil.stringContainsAnyStandardEmoji(string):
-        return "Il testo inserito non deve contenere emoji"
+    if emojiUtil.stringContainsAnyStandardEmoji(input_string):
+        if italian:
+            msg = EXCLAMATION + " Il testo inserito deve contenere solo emoji o solo lettere.\n"
+        else:
+            msg = EXCLAMATION + " The inserted text should contain only emoji or only alphabetic characters.\n"
+        return msg
 
-    gloss_emoji_list = gloss.getEmojiListFromText(string)
+    gloss_emoji_list = gloss.getEmojiListFromText(input_string)
 
     msg = []
-    emojiList = emojiUtil.getEmojisForTag(string, italian)
+    emojiList = emojiUtil.getEmojisForTag(input_string, italian)
 
     if italian:
         found = False
         if gloss_emoji_list:
             found = True
             gloss_emoji_list_str = ', '.join(gloss_emoji_list)
-            msg.append('Trovata voce nel glossario: ' + string + " = " + gloss_emoji_list_str)
+            msg.append('Trovata voce nel glossario: ' + input_string + " = " + gloss_emoji_list_str)
         if emojiList:
             found = True
             emojisListStr = ', '.join(set(emojiList))
             msg.append('Trovati emoji in tabella unicode con questo tag: ' + emojisListStr)
+        if pinocchioSearch:
+            index_list = pinocchio.findTextInPinocchio(input_string)
+            if index_list:
+                found = True
+            msg.append('Occorrenze in Pinocchio: ' + ' '.join(index_list))
         if not found:
             msg.append("Nessun emoji trovato per la stringa inserita")
     else:
@@ -1258,50 +1276,58 @@ def getEmojiFromString(string, italian=True):
 
 def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
 
-    msg = ''
+    #logging.debug('getStringFromEmoji italian {} pinocchioSearch {}'.format(italian, pinocchioSearch))
 
     if not emojiUtil.stringHasOnlyStandardEmojis(input_emoji):
         #input_emoji = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(input_emoji)
         input_emoji = emojiUtil.normalizeEmojiText(input_emoji)
-        if italian:
-            msg += EXCLAMATION + " Il testo inserito contiene emoji non standard.\n" + \
-                   "Provo a normalizzarlo: " + input_emoji + '\n\n'
+        if input_emoji:
+            if italian:
+                return EXCLAMATION + " Il testo inserito contiene emoji non standard.\n" + \
+                       "Provo a normalizzarlo: " + input_emoji + '\n\n'
+            else:
+                return EXCLAMATION + " The inserted text contains non-standard emojis.\n" + \
+                       "I'm trying to normalize it: " + input_emoji + '\n\n'
         else:
-            msg += EXCLAMATION + " The inserted text contains non-standard emojis.\n" + \
-                   "I'm trying to normalize it: " + input_emoji + '\n\n'
+            if italian:
+                return EXCLAMATION + " Il testo inserito deve contenere solo emoji o solo lettere.\n"
+            else:
+                return EXCLAMATION + " The inserted text should contain only emoji or only alphabetic characters.\n"
 
     tags = emojiUtil.getTagsForEmoji(input_emoji, italian)
     found = False
+
+    msg = []
 
     if italian:
         gloss_text = gloss.getTextFromEmoji(input_emoji)
         if gloss_text:
             found = True
             words = ', '.join([x.encode('utf-8') for x in gloss_text])
-            msg += 'Trovata voce nel glossario: ' + input_emoji + " = " + words + '\n'
+            msg.append('Trovata voce nel glossario: ' + input_emoji + " = " + words)
         if pinocchioSearch:
-            msg += 'Occorrenze in Pinocchio: ' + ' '.join(
-                pinocchio.findEmojiInPinocchio(input_emoji)) + '\n'
-            #msg += 'Occorrenze in Pinocchio (ricerca completa): ' + ' '.join(
-            #    pinocchio.findEmojiInPinocchio(input_emoji,deepSearch=True)) + '\n'
+            index_list = pinocchio.findEmojiInPinocchio(input_emoji)
+            if index_list:
+                found = True
+            msg.append('Occorrenze in Pinocchio: ' + ' '.join(index_list))
         if tags:
             found = True
             annotations = ', '.join(tags)
-            msg += "Trovato emoji in tabella unicode con questi tags: " + annotations + '\n'
+            msg.append("Trovato emoji in tabella unicode con questi tags: " + annotations)
         if not found:
-            msg += "L'emoji inserito non è presente nel glossario o nella tabella unicode." + '\n'
+            msg.append("L'emoji inserito non è presente nel glossario o nella tabella unicode.")
     else:
         if tags:
             found = True
             annotations = ', '.join(tags)
-            msg += "Found emoji in unicode table with the following tags: " + annotations + '\n'
+            msg.append("Found emoji in unicode table with the following tags: " + annotations)
         description = emojiUtil.getDescriptionForEmoji(input_emoji)
         if description:
-            msg += "and the following description (identification string): " + description + '\n'
+            msg.append("and the following description (identification string): " + description)
         if not found:
-            msg += "The emoji you have inserted is not present in the unicode table." + '\n'
+            msg.append("The emoji you have inserted is not present in the unicode table.")
 
-    return msg
+    return '\n'.join(msg)
 
 # ================================
 # INLINE QUERY
@@ -1435,7 +1461,8 @@ class InfouserAllHandler(webapp2.RequestHandler):
     def get(self):
         urlfetch.set_default_fetch_deadline(60)
         msg = getInfoCount()
-        broadcast(key.FEDE_CHAT_ID, msg, markdown=True)
+        #broadcast(key.FEDE_CHAT_ID, msg, markdown=True)
+        tell(key.FEDE_CHAT_ID, msg, markdown=True)
 
 # ================================
 # ================================
@@ -1514,7 +1541,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     restart(p)
                 else:
                     if has_roman_chars(text):
-                        emoji = getEmojiFromString(text)
+                        emoji = getEmojiFromString(text, italian=True, pinocchioSearch=p.isAdmin())
                         reply(emoji, kb=[[BOTTONE_INDIETRO]])
                     else:
                         string = getStringFromEmoji(text, italian=True, pinocchioSearch=p.isAdmin())
@@ -1621,8 +1648,10 @@ class WebhookHandler(webapp2.RequestHandler):
                 else:
                     reply(FROWNING_FACE + " Scusa non capisco quello che hai detto.")
             else:
-                logging.debug("Sending {} to state {}. Input: '{}'".format(p.getUserInfoString(), p.state, text))
-                repeatState(p, input=text, message_timestamp=message_timestamp)
+                if not dealWithUniversalCommands(p, input=text):
+                    logging.debug("Sending {} to state {}. Input: '{}'".format(p.getUserInfoString(), p.state, text))
+                    repeatState(p, input=text, message_timestamp=message_timestamp)
+
 
     def handle_exception(self, exception, debug_mode):
         logging.exception(exception)

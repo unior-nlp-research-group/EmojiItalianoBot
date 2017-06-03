@@ -5,7 +5,6 @@ from google.appengine.ext import ndb
 
 from gloss import Gloss
 import key
-import pinocchio_sentence
 import costituzione
 
 class Person(ndb.Model):
@@ -19,7 +18,7 @@ class Person(ndb.Model):
     glossGame = ndb.StructuredProperty(Gloss)
     tmpInt = ndb.IntegerProperty()
     tmpString = ndb.StringProperty()
-    pinocchioSentenceIndex = ndb.StringProperty(default=pinocchio_sentence.getSentenceUniqueId(1, 1))
+    pinocchioSentenceIndex = ndb.StringProperty(default='1:1')
     costituzioneSentenceIndex = ndb.StringProperty(default=costituzione.getSentenceUniqueId(0,0,0))
 
     def isAdmin(self):
