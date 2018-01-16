@@ -622,7 +622,12 @@ def goToState0(p, input=None, **kwargs):
                 tell(p.chat_id, getInfoCount(), markdown=True)
             elif input.startswith('/broadcast ') and len(input) > 11:
                 msg = input[11:]
-                deferred.defer(broadcast, p.chat_id, msg, restart_user=False)
+                deferred.defer(broadcast, p.chat_id, msg, markdown=True, restart_user=False)
+            elif input.startswith('/testText '):
+                text = input.split(' ', 1)[1]
+                if text:
+                    logging.debug("Test broadcast " + text)
+                    tell(p.chat_id, text, markdown=True)
             elif input.startswith('/restartBroadcast ') and len(input) > 18:
                 msg = input[18:]
                 deferred.defer(broadcast, p.chat_id, msg, restart_user=True)
@@ -1310,6 +1315,10 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
             if index_list:
                 found = True
             msg.append('Occorrenze in Pinocchio: ' + ' '.join(index_list))
+            index_list = pinocchio.findEmojiInPinocchio(input_emoji, deepSearch=True)
+            if index_list:
+                found = True
+            msg.append('Occorrenze in Pinocchio (deep search): ' + ' '.join(index_list))
         if tags:
             found = True
             annotations = ', '.join(tags)
@@ -1542,7 +1551,7 @@ class WebhookHandler(webapp2.RequestHandler):
                 else:
                     if has_roman_chars(text):
                         emoji = getEmojiFromString(text, italian=True, pinocchioSearch=p.isAdmin())
-                        reply(emoji, kb=[[BOTTONE_INDIETRO]])
+                        reply(emoji, kb=[[BOTTONE_INDIETRO]], markdown=False)
                     else:
                         string = getStringFromEmoji(text, italian=True, pinocchioSearch=p.isAdmin())
                         reply(string, kb = [[BOTTONE_INDIETRO]], markdown=False)
@@ -1553,7 +1562,7 @@ class WebhookHandler(webapp2.RequestHandler):
                 else:
                     if has_roman_chars(text):
                         emoji = getEmojiFromString(text, italian=False)
-                        reply(emoji, kb=[[BOTTONE_INDIETRO]])
+                        reply(emoji, kb=[[BOTTONE_INDIETRO]], markdown=False)
                     else:
                         string = getStringFromEmoji(text, italian=False)
                         reply(string, kb=[[BOTTONE_INDIETRO]], markdown=False)

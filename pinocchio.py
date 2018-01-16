@@ -87,7 +87,7 @@ def buildPinocchioChapters():
         chapterSentences = []
         url = PINOCCHIO_CHAPTER_URL.format(ch_key)
         r = requests.get(url)
-        spreadSheetTsv = r.iter_lines()
+        spreadSheetTsv = r.content.split('\n')
         spreadSheetReader = csv.reader(spreadSheetTsv, delimiter='\t', quoting=csv.QUOTE_NONE)
         line_num = 1
         for row in spreadSheetReader:
@@ -305,25 +305,26 @@ TAG_INTERROGATIVO = '❓'
 TAG_POSSESSIVO = '⏩'
 TAG_DIMINUTIVO = '👶🏻'
 TAG_DISPREGIATIVO = '👹'
+TAG_SUPERLATIVO = '🔝'
 FUNCTIONAL_TAGS = {TAG_PASSATO, TAG_FUTURO, TAG_GERUNDIO_PART_PRESENTE_AVVERBIO, TAG_CAUSATIVO,
                    TAG_RIFLESSIVO, TAG_RECIPROCO, TAG_CONDIZIONALE, TAG_IMPERATIVO_ESORTATIVO,
                    TAG_DOPPIO_IMPERATIVO, TAG_IMPERATIVO_INTERROGATIVO, TAG_INTERROGATIVO, TAG_POSSESSIVO,
-                   TAG_DIMINUTIVO, TAG_DISPREGIATIVO}
-FUNCTIONAL_TAGS_END = [TAG_PASSATO,TAG_FUTURO,TAG_GERUNDIO_PART_PRESENTE_AVVERBIO,TAG_RIFLESSIVO,TAG_RECIPROCO, TAG_DIMINUTIVO, TAG_DISPREGIATIVO]
+                   TAG_DIMINUTIVO, TAG_DISPREGIATIVO, TAG_SUPERLATIVO}
+FUNCTIONAL_TAGS_END = [TAG_PASSATO,TAG_FUTURO,TAG_GERUNDIO_PART_PRESENTE_AVVERBIO,TAG_RIFLESSIVO,TAG_RECIPROCO, TAG_DIMINUTIVO, TAG_DISPREGIATIVO, TAG_SUPERLATIVO]
 FUNCTIONAL_TAGS_BEGINNING = [TAG_POSSESSIVO, TAG_CAUSATIVO,TAG_CONDIZIONALE, TAG_IMPERATIVO_ESORTATIVO, TAG_INTERROGATIVO]
 
 def removeFunctionalTagsAndMakeSingular(emojiSequence):
+    if len(emojiSequence)%2==0: #if even
+        halfSize = len(emojiSequence) / 2
+        if emojiSequence[:halfSize] == emojiSequence[halfSize:]: # if double emoji make singular
+            emojiSequence = emojiSequence[:halfSize]
     while len(emojiSequence)>1 and emojiSequence[-1] in FUNCTIONAL_TAGS_END:
         emojiSequence = emojiSequence[:-1]
     while len(emojiSequence)>1 and emojiSequence[0] in FUNCTIONAL_TAGS_BEGINNING:
         emojiSequence = emojiSequence[1:]
-    if len(emojiSequence)%2==0: #if even
-        halfSize = len(emojiSequence) / 2
-        if emojiSequence[:halfSize] == emojiSequence[halfSize:]: # ifdouble emoji make singular
-            emojiSequence = emojiSequence[:halfSize]
     return emojiSequence
 
-def testPinocchioEmojisAgainstDictionary():
+def testPinocchioEmojisAgainstDictionary(deleteGlossarioMissingInPinocchio=False):
     import gloss
     from collections import defaultdict
     PC = getPinocchioChapters()
@@ -343,6 +344,16 @@ def testPinocchioEmojisAgainstDictionary():
     missingInDictionary = set(pinocchioGlosses).difference(dictionaryGlosses)
     missingInDictionaryIndexes = ['{}: {}'.format(e, ', '.join(pinocchioGlossesDict[e])) for e in missingInDictionary]
     missingInPinocchio = set(dictionaryGlosses).difference(pinocchioGlosses)
+    if deleteGlossarioMissingInPinocchio:
+        from google.appengine.ext import ndb
+        to_delete = []
+        for e in missingInPinocchio:
+            g = gloss.getGlossWithEmoji(e)
+            assert g
+            to_delete.append(g.key)
+        print 'deleting {} glosses from dictionary not found in pinocchio'.format(len(to_delete))
+        create_futures = ndb.delete_multi_async(to_delete)
+        ndb.Future.wait_all(create_futures)
     pinocchioGlossesIndexes = ['{}: {}'.format(e, ', '.join(iList)) for e, iList, in pinocchioGlossesDict.iteritems()]
     missingInDictionaryFile = LATEX_DIR_CHECK + '/MissingInDictionary.txt'
     missingInPinocchioFile = LATEX_DIR_CHECK + '/MissingInPinocchio.txt'
@@ -425,6 +436,46 @@ def hasUnevenUnderOpenClose(charList):
         return True
     return False
 
+def saveTextChapters():
+    for i in range(len(PINOCCHIO_CHAPTERS_DOC_KEYS)):
+        chapter_number = i+1
+        outputFile = CHAPTER_TEXT_DIR + "/Pinocchio_ch{}.txt".format(str(chapter_number).zfill(2))
+        with open(outputFile, 'w') as f:
+            chapter = getPinocchioChapters()[chapter_number - 1]
+            for row in chapter:
+                charList = row[1]
+                charGroups = getEmojiSpacingGroups(charList)
+                line = ' '.join(''.join(g) for g in charGroups)
+                f.write("{}\n".format(line))
+            f.close()
+
+def saveLatexChapters():
+    for i in range(len(PINOCCHIO_CHAPTERS_DOC_KEYS)):
+        chapter_number = i+1
+        outputFile = LATEX_DIR + "/Pinocchio_ch{}.txt".format(str(chapter_number).zfill(2))
+        getLatexPinocchioChapter(chapter_number, outputFile)
+
+def saveLatexDictionary():
+    import gloss
+    import emojiUtil
+    outputFile = LATEX_DIR + "/dictionary_entries.txt"
+    source_targets = gloss.getAllGlossSourceTarget()
+    source_targets.sort(key=lambda x:x[0])
+    with open(outputFile, 'w') as f:
+        for st in source_targets:
+            emoji_parts = emojiUtil.splitEmojis(st[0])
+            outputEmojiLineCmds = []
+            #'''
+            for i, ch in enumerate(emoji_parts):
+                if i > 0:  # no space before first char in group
+                    outputEmojiLineCmds.append(SPACE_SMALL)
+                codePoint = '-'.join([str(hex(ord(c)))[2:] for c in ch.decode('utf-8')])
+                outputEmojiLineCmds.append("\\ie{" + codePoint + "}")
+            f.write("\entry{{{}}}{{{}}}.\n\n".format(' '.join(outputEmojiLineCmds), ', '.join(st[1])))
+            #'''
+            #f.write("\entry{{{}}}{{{}}}\n".format(st[0], ', '.join(st[1])))
+        f.close()
+
 def mergePdf():
     from pyPdf import PdfFileReader, PdfFileWriter
     textCompletePdf = LATEX_DIR + "/Pinocchio_TestoCompleto.pdf"
@@ -445,25 +496,6 @@ def mergePdf():
     outputStream = file(mergedCompletePdf, "wb")
     output.write(outputStream)
     outputStream.close()
-
-def saveTextChapters():
-    for i in range(len(PINOCCHIO_CHAPTERS_DOC_KEYS)):
-        chapter_number = i+1
-        outputFile = CHAPTER_TEXT_DIR + "/Pinocchio_ch{}.txt".format(str(chapter_number).zfill(2))
-        with open(outputFile, 'w') as f:
-            chapter = getPinocchioChapters()[chapter_number - 1]
-            for row in chapter:
-                charList = row[1]
-                charGroups = getEmojiSpacingGroups(charList)
-                line = ' '.join(''.join(g) for g in charGroups)
-                f.write("{}\n".format(line))
-            f.close()
-
-def saveLatexChapters():
-    for i in range(len(PINOCCHIO_CHAPTERS_DOC_KEYS)):
-        chapter_number = i+1
-        outputFile = LATEX_DIR + "/Pinocchio_ch{}.txt".format(str(chapter_number).zfill(2))
-        getLatexPinocchioChapter(chapter_number, outputFile)
 
 def saveLatexGrammar():
     import utility

@@ -188,6 +188,15 @@ def getAllGlossEmojis():
         allEmojis.extend([g.getEmoji() for g in records])
     return allEmojis
 
+def getAllGlossSourceTarget():
+    source_targets = []
+    more, cursor = True, None
+    while more:
+        records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
+        source_targets.extend([(g.getEmoji(), g.getGlossTags())  for g in records])
+    return source_targets
+
+
 def getGlossTableRows():
     import date_util
     rows = []
