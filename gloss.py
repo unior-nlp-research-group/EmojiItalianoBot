@@ -52,6 +52,7 @@ def getNumberingGaps():
 
 def getRandomGloss():
     idManager = GlossEntryNumberManager.get_by_id(GLOSS_MANAGER_SINGLETON)
+    g = None
     while(True):
         random_index = randint(1,idManager.count)
         if random_index in idManager.gaps:
@@ -174,6 +175,13 @@ def getEmojiTranslationsCount():
         translationCount += len(g.target_text)
     return (emojiCount, translationCount)
 
+def getRandomGlossMultiEmoji(escludeStar = True):
+    import emojiUtil
+    while True:
+        g = getRandomGloss()
+        emoji = g.getEmoji()
+        if emojiUtil.getNumberOfEmojisInString(emoji)>1 and (not escludeStar or '*' not in emoji):
+            return g
 
 #################
 # UPDATE SPREADSHEET DATA
@@ -248,7 +256,7 @@ def exportToCsv():
             csvWriter.writerow(r)
     print 'Finished saving ' + str(len(rows)) + ' rows.'
 
-def normalizeGlosses():
+def normalizeGlosses(debug=True):
     import emojiUtil
     needNormalizaton = []
     normalized = []
@@ -268,12 +276,14 @@ def normalizeGlosses():
                     for x in g.target_text:
                         if x not in alreadyPresentGloss.target_text:
                             alreadyPresentGloss.target_text.append(x)
-                    alreadyPresentGloss.put()
-                    deleteGloss(g)
+                    if not debug:
+                        alreadyPresentGloss.put()
+                        deleteGloss(g)
                 else:
                     g.source_emoji = normalizedEmoji
-                    g.put()
-    return '{} Emoji normalized: {} -> {}. Merged: {}'.format(
+                    if not debug:
+                        g.put()
+    print '{} Emoji normalized: {} -> {}. Merged: {}'.format(
         len(needNormalizaton), ', '.join(needNormalizaton), ', '.join(normalized), ', '.join(merged))
 
 class GlossarioTableJson(webapp2.RequestHandler):

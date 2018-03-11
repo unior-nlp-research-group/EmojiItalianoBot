@@ -1,5 +1,15 @@
 # -*- coding: utf-8 -*-
 
+# Set up requests
+# see https://cloud.google.com/appengine/docs/standard/python/issue-requests#issuing_an_http_request
+import requests_toolbelt.adapters.appengine
+requests_toolbelt.adapters.appengine.monkeypatch()
+#disable warnings
+import requests
+requests.packages.urllib3.disable_warnings(
+    requests.packages.urllib3.contrib.appengine.AppEnginePlatformWarning
+)
+
 import json
 import logging
 import urllib
@@ -13,7 +23,6 @@ import key
 import gloss
 
 # standard app engine imports
-from google.appengine.api import urlfetch
 from google.appengine.ext import ndb
 from google.appengine.ext import deferred
 from google.appengine.ext.db import datastore_errors
@@ -23,6 +32,7 @@ import webapp2
 from random import randint
 import confusionTables
 import emojiUtil
+import emojiTags
 import utility
 import unicodedata
 import string
@@ -31,8 +41,6 @@ import costituzione
 import grammar_rules
 import quizGame
 import date_util
-
-from jinja2 import Environment, FileSystemLoader
 
 # ================================
 # ================================
@@ -49,8 +57,6 @@ PINOCHHIO_PUBLIC_ACCESS = True
 
 BASE_URL = 'https://api.telegram.org/bot' + key.TOKEN + '/'
 BASE_URL_FILE = 'https://api.telegram.org/bot/file/bot' + key.TOKEN + '/'
-
-DASHBOARD_DIR_ENV = Environment(loader=FileSystemLoader('dashboard'), autoescape = True)
 
 ISTRUZIONI =  \
 """
@@ -164,18 +170,18 @@ EMOJI_TO_EN = SMILY + ' ' + RIGHT_ARROW + ' ' + EN_FLAG
 IT_TEXT_TOFROM_EMOJI = '🇮🇹🔠 ↔ 😊'
 EN_TEXT_TOFROM_EMOJI = '🇬🇧🔠 ↔ 😊'
 
-CAPIRE = u'\U0001F4A1'.encode('utf-8')
-LEGGERE = u'\U0001F440'.encode('utf-8') + u'\U0001F4D6'.encode('utf-8')
-BOOK = u'\U0001F4D6'.encode('utf-8')
-PINOCCHIO = u'\U0001F3C3'.encode('utf-8')
-SOS = u'\U0001F198'.encode('utf-8')
-INFO = u'\U00002139'.encode('utf-8')
-JOKER = u'\U0001F0CF'.encode('utf-8')
-MASCHERE = u'\U0001F3AD'.encode('utf-8')
-WARNING_SIGN = u'\U000026A0'.encode('utf-8')
-EXCLAMATION = u'\U00002757'.encode('utf-8')
-UNDER_CONSTRUCTION = u'\U0001F6A7'.encode('utf-8')
-FROWNING_FACE = u'\U0001F641'.encode('utf-8')
+CAPIRE = '💡'
+LEGGERE = '👀📖'
+BOOK = '📖'
+PINOCCHIO = '🏃'
+SOS = '🆘'
+INFO = 'ℹ'
+JOKER = '🃏'
+MASCHERE = '🎭'
+WARNING_SIGN = '⚠️'
+EXCLAMATION = '❗'
+UNDER_CONSTRUCTION = '🚧'
+FROWNING_FACE = '🙁'
 
 
 BOTTONE_ANNULLA = CANCEL + " Annulla"
@@ -354,6 +360,8 @@ def sendGlossarioNotification(p, inserito, emoji_text):
 
 def tell(chat_id, msg, kb=None, markdown=False, inlineKeyboardMarkup=False,
          one_time_keyboard=False, sleepDelay=False):
+    from google.appengine.api import urlfetch
+    urlfetch.set_default_fetch_deadline(20)
     replyMarkup = {
         'resize_keyboard': True,
         'one_time_keyboard': one_time_keyboard
@@ -489,11 +497,11 @@ def goToState0(p, input=None, **kwargs):
         elif input == '/comeInoltrareUnMessaggio':
             tell(p.chat_id, HOW_TO_FORWARD_A_MESSAGE, markdown=True)
         elif input == IT_TEXT_TOFROM_EMOJI:
-            randomGlossMultiEmoji = emojiUtil.getRandomGlossMultiEmoji()
+            randomGlossMultiEmoji = gloss.getRandomGlossMultiEmoji()
             randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
             randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()
             randomSingleEmoji = emojiUtil.getRandomSingleEmoji()
-            randomWord = emojiUtil.getRandomUnicodeTag()
+            randomWord = emojiUtil.getRandomTag()
             tell(p.chat_id, "Inserisci un emoji, ad esempio {0} o una parola in italiano, ad esempio *{1}*.\n"
                   "Se invece sei interessato in particolare al glossario di Pinocchio puoi inserire anche "
                   "più combinazioni di emoji, ad esempio {2} ({3})".format(
@@ -503,7 +511,7 @@ def goToState0(p, input=None, **kwargs):
             # state 20
         elif input == EN_TEXT_TOFROM_EMOJI:
             randomEmoji = emojiUtil.getRandomSingleEmoji(italian=False)
-            randomWord = emojiUtil.getRandomUnicodeTag(italian=False)
+            randomWord = emojiUtil.getRandomTag(italian=False)
             tell(p.chat_id, "Please entere a single emoji, for instance " + randomEmoji +
                   ", or one or more English words, for instance '" + randomWord + "'", kb=[[BOTTONE_INDIETRO]])
             person.setState(p, 21)
@@ -536,38 +544,34 @@ def goToState0(p, input=None, **kwargs):
                 line = int(input_split[1].strip())
                 sentence = pinocchio.getPinocchioEmojiChapterSentence(ch, line)
                 tell(p.chat_id, sentence)
-            elif input.startswith("/checkPinocchioNormalization"):
-                input_split = input.split(' ')
-                ch = int(input_split[1].strip())
-                result = pinocchio.checkPinocchioNormalization(ch)
-                tell(p.chat_id, result)
+            # elif input.startswith("/checkPinocchioNormalization"):
+            #     input_split = input.split(' ')
+            #     ch = int(input_split[1].strip())
+            #     result = pinocchio.checkPinocchioNormalization(ch)
+            #     tell(p.chat_id, result)
             elif input.startswith("/getEmojiCodePoint"):
                 input_split = input.split(' ')
-                e = input_split[1].strip()
-                result = emojiUtil.getCodePointWithInitialZeros(e)
+                e = input_split[1]
+                result = emojiUtil.getCodePointUpper(e)
                 tell(p.chat_id, result)
-            elif input.startswith('/decodeEmoji'):
-                test = input[input.index(' ') + 1:].replace(' ', '')
-                codePointMsg = pinocchio.getCodePointStr(test)
-                tell(p.chat_id, codePointMsg)
-            elif input.startswith('/testEmoji'):
-                if ' ' in input:
-                    test = input[input.index(' ') + 1:].replace(' ', '')
-                    # test_without_emoji = emojiUtil.getStringWithoutStandardEmojis(test)
-                    # msgTxt = "Testo senza emojis: '" + test_without_emoji + "'\n"
-                    msgTxt = "Testo inserito: '" + test + "'\n"
-                    normalized = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(test)
-                    if emojiUtil.stringHasOnlyStandardEmojis(test):
-                        msgTxt += "Il testo contiene solo emoji standard"
-                    # elif emojiUtil.stringContainsAnyStandardEmoji(test):
-                    #    msgTxt += "Il testo contiene emoji standard e emoji non-standard."
-                    #    msgTxt += "\nVersione normalizzata: " + normalized.encode('utf-8')
-                    else:
-                        msgTxt += "Il testo non contiene emoji standard"
-                        msgTxt += "\nVersione normalizzata: " + normalized
-                    tell(p.chat_id, msgTxt)
-                else:
-                    tell(p.chat_id, "Manca uno spazio dopo /testEmoji")
+            # elif input.startswith('/testEmoji'):
+            #     if ' ' in input:
+            #         test = input[input.index(' ') + 1:].replace(' ', '')
+            #         # test_without_emoji = emojiUtil.getStringWithoutStandardEmojis(test)
+            #         # msgTxt = "Testo senza emojis: '" + test_without_emoji + "'\n"
+            #         msgTxt = "Testo inserito: '" + test + "'\n"
+            #         normalized = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(test)
+            #         if emojiUtil.stringHasOnlyStandardEmojis(test):
+            #             msgTxt += "Il testo contiene solo emoji standard"
+            #         # elif emojiUtil.stringContainsAnyStandardEmoji(test):
+            #         #    msgTxt += "Il testo contiene emoji standard e emoji non-standard."
+            #         #    msgTxt += "\nVersione normalizzata: " + normalized.encode('utf-8')
+            #         else:
+            #             msgTxt += "Il testo non contiene emoji standard"
+            #             msgTxt += "\nVersione normalizzata: " + normalized
+            #         tell(p.chat_id, msgTxt)
+            #     else:
+            #         tell(p.chat_id, "Manca uno spazio dopo /testEmoji")
             elif input.startswith('/checkGlossUnicode'):
                 glosses = emojiUtil.checkForGlossUniProblems()
                 if glosses:
@@ -584,14 +588,14 @@ def goToState0(p, input=None, **kwargs):
                         tell(p.chat_id, textMsg)
                 else:
                     tell(p.chat_id, 'No glosses found with inconsistencies')
-            elif input.startswith('/normalizeEmoji'):
-                emoji_string = input.split(' ')[1]
-                norm_string = pinocchio.normalizeEmojis(emoji_string)
-                tell(p.chat_id, norm_string)
-            elif input.startswith('/normalizeEmojiWithTable'):
-                emoji_string = input.split(' ')[1]
-                norm_string = pinocchio.normalizeEmojisWithTable(emoji_string)
-                tell(p.chat_id, norm_string)
+            # elif input.startswith('/normalizeEmoji'):
+            #     emoji_string = input.split(' ')[1]
+            #     norm_string = pinocchio.normalizeEmojis(emoji_string)
+            #     tell(p.chat_id, norm_string)
+            # elif input.startswith('/normalizeEmojiWithTable'):
+            #     emoji_string = input.split(' ')[1]
+            #     norm_string = pinocchio.normalizeEmojisWithTable(emoji_string)
+            #     tell(p.chat_id, norm_string)
             elif input == '/glossStats':
                 emojiTranslationsCounts = gloss.getEmojiTranslationsCount()
                 textMsg = "Emoji and Translations counts: " + str(emojiTranslationsCounts) + "\n"
@@ -764,7 +768,7 @@ def goToState311(p, input=None, **kwargs):
                         tell(p.chat_id, txtMsg)
                         repeatState(p)
                 else:
-                    emojiNorm = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(emoji)
+                    emojiNorm = emojiUtil.normalizeEmojiText(emoji)
                     emojiNorm_word = emojiNorm + "|" + word
                     txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
                     tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
@@ -833,7 +837,7 @@ def goToState312(p, input=None, **kwargs):
                         tell(p.chat_id, txtMsg)
                         repeatState(p)
                 else:
-                    emojiNorm = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(emoji)
+                    emojiNorm = emojiUtil.normalizeEmojiText(emoji)
                     emojiNorm_word = emojiNorm + "|" + word
                     txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
                     tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
@@ -1229,7 +1233,7 @@ def broadcast_quiz_final_msg(sender_id, state, userAnswersTable, restart_user=Fa
 
 def getEmojiListFromTagInDictAndGloss(string):
     result = set()
-    emojiList = emojiUtil.getEmojisForTag(string)
+    emojiList = emojiTags.getEmojisForTag(string)
     if emojiList:
         result.update([tag_emoji for tag_emoji in emojiList])
     gloss_emoji_list = gloss.getEmojiListFromText(string)
@@ -1249,7 +1253,7 @@ def getEmojiFromString(input_string, italian=True, pinocchioSearch=False):
     gloss_emoji_list = gloss.getEmojiListFromText(input_string)
 
     msg = []
-    emojiList = emojiUtil.getEmojisForTag(input_string, italian)
+    emojiList = emojiTags.getEmojisForTag(input_string, italian)
 
     if italian:
         found = False
@@ -1299,7 +1303,7 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
             else:
                 return EXCLAMATION + " The inserted text should contain only emoji or only alphabetic characters.\n"
 
-    tags = emojiUtil.getTagsForEmoji(input_emoji, italian)
+    tags = emojiTags.getTagsForEmoji(input_emoji, italian)
     found = False
 
     msg = []
@@ -1330,31 +1334,17 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
             found = True
             annotations = ', '.join(tags)
             msg.append("Found emoji in unicode table with the following tags: " + annotations)
-        description = emojiUtil.getDescriptionForEmoji(input_emoji)
-        if description:
-            msg.append("and the following description (identification string): " + description)
-        if not found:
-            msg.append("The emoji you have inserted is not present in the unicode table.")
+        # description = emojiUtil.getDescriptionForEmoji(input_emoji)
+        # if description:
+        #     msg.append("and the following description (identification string): " + description)
+        # if not found:
+        #     msg.append("The emoji you have inserted is not present in the unicode table.")
 
     return '\n'.join(msg)
 
 # ================================
 # INLINE QUERY
 # ================================
-
-EMOJI_PNG_URL = 'https://dl.dropboxusercontent.com/u/12016006/Emoji/png_one/'
-EMOJI_IN_GLOSS_PNG_URL = 'https://dl.dropboxusercontent.com/u/12016006/Emoji/glossary.png'
-
-def getEmojiThumbnailUrl(e):
-    if e in emojiUtil.ALL_EMOJIS:
-        codePoints = emojiUtil.getCodePointWithInitialZeros(e)
-        return EMOJI_PNG_URL + codePoints + ".png"
-    else:
-        e = "🏃"
-        codePoints = emojiUtil.getCodePointWithInitialZeros(e)
-        return EMOJI_PNG_URL + codePoints + ".png"
-        #return EMOJI_IN_GLOSS_PNG_URL
-
 
 ADD_TEXT_TO_EMOJI_IN_INLINE_QUERY = True
 
@@ -1380,7 +1370,7 @@ def createInlineQueryResultArticle(id, tag, query_offset):
                     'title': e,
                     'message_text': msg,
                     'hide_url': True,
-                    'thumb_url': getEmojiThumbnailUrl(e),
+                    'thumb_url': emojiUtil.getEmojiImageDataFromUrl(e),
                 }
             )
             i += 1
@@ -1434,15 +1424,10 @@ def dealWithInlineQuery(body):
 # ================================
 # ================================
 
-class MeHandler(webapp2.RequestHandler):
-    def get(self):
-        urlfetch.set_default_fetch_deadline(60)
-        self.response.write(json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getMe'))))
-
-
 class SetWebhookHandler(webapp2.RequestHandler):
     def get(self):
-        urlfetch.set_default_fetch_deadline(60)
+        from google.appengine.api import urlfetch
+        urlfetch.set_default_fetch_deadline(20)
         allowed_updates = ["message","inline_query", "chosen_inline_result", "callback_query"]
         data = {
             'url': key.WEBHOOK_URL,
@@ -1454,21 +1439,22 @@ class SetWebhookHandler(webapp2.RequestHandler):
 
 class GetWebhookInfo(webapp2.RequestHandler):
     def get(self):
-        urlfetch.set_default_fetch_deadline(60)
+        from google.appengine.api import urlfetch
+        urlfetch.set_default_fetch_deadline(20)
         resp = requests.post(key.BASE_URL + 'getWebhookInfo')
         logging.info('GetWebhookInfo Response: {}'.format(resp.text))
         self.response.write(resp.text)
 
 class DeleteWebhook(webapp2.RequestHandler):
     def get(self):
-        urlfetch.set_default_fetch_deadline(60)
+        from google.appengine.api import urlfetch
+        urlfetch.set_default_fetch_deadline(20)
         resp = requests.post(key.BASE_URL + 'deleteWebhook')
         logging.info('DeleteWebhook Response: {}'.format(resp.text))
         self.response.write(resp.text)
 
 class InfouserAllHandler(webapp2.RequestHandler):
     def get(self):
-        urlfetch.set_default_fetch_deadline(60)
         msg = getInfoCount()
         #broadcast(key.FEDE_CHAT_ID, msg, markdown=True)
         tell(key.FEDE_CHAT_ID, msg, markdown=True)
@@ -1481,6 +1467,7 @@ class InfouserAllHandler(webapp2.RequestHandler):
 class WebhookHandler(webapp2.RequestHandler):
 
     def post(self):
+        from google.appengine.api import urlfetch
         urlfetch.set_default_fetch_deadline(60)
         body = json.loads(self.request.body)
         logging.info('request body:')
@@ -1550,10 +1537,10 @@ class WebhookHandler(webapp2.RequestHandler):
                     restart(p)
                 else:
                     if has_roman_chars(text):
-                        emoji = getEmojiFromString(text, italian=True, pinocchioSearch=p.isAdmin())
+                        emoji = getEmojiFromString(text, italian=True) #, pinocchioSearch=p.isAdmin()
                         reply(emoji, kb=[[BOTTONE_INDIETRO]], markdown=False)
                     else:
-                        string = getStringFromEmoji(text, italian=True, pinocchioSearch=p.isAdmin())
+                        string = getStringFromEmoji(text, italian=True) #, pinocchioSearch=p.isAdmin()
                         reply(string, kb = [[BOTTONE_INDIETRO]], markdown=False)
             elif p.state == 21:
                 # EN <-> EMOJI
@@ -1595,7 +1582,7 @@ class WebhookHandler(webapp2.RequestHandler):
                     text = text.strip() #.replace(' ','')
                     warning = ''
                     if not emojiUtil.stringHasOnlyStandardEmojis(text):
-                        text = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(text)
+                        text = emojiUtil.normalizeEmojiText(text)
                         reply(CANCEL + "La stringa inserita contiene emoji non standard. " +
                               "Emoji normalizzato: " + text)
                         return
@@ -1673,9 +1660,6 @@ def report_exception():
     logging.error(msg)
 
 app = webapp2.WSGIApplication([
-    ('/me', MeHandler),
-#    ('/_ah/channel/connected/', DashboardConnectedHandler),
-#    ('/_ah/channel/disconnected/', DashboardDisconnectedHandler),
     ('/set_webhook', SetWebhookHandler),
     ('/get_webhook_info', GetWebhookInfo),
     ('/delete_webhook', DeleteWebhook),

@@ -1,14 +1,193 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import re
-import json
-import emoji_tables
-from emoji_unicode import Emoji
-from emoji_unicode.utils import code_point_to_unicode, unicode_to_code_point
-from collections import defaultdict
-from random import randint
+import jsonUtil
+import random
+import emojiTags
 
+# imported from https://github.com/iamcal/emoji-data/blob/master/emoji_pretty.json
+EMOJI_JSON_FILE = 'EmojiData/emoji_pretty.json'
+EMOJI_INFO = jsonUtil.json_load_byteified_file(EMOJI_JSON_FILE)
+
+def getEmojiFromCodePoint(code_point, separator='-'):
+    codes = code_point.split(separator)
+    emoji_uni = ''.join(unichr(int(c,16)) for c in codes)
+    emoji_utf = emoji_uni.encode('utf-8')
+    return emoji_utf
+
+ALL_EMOJIS = [getEmojiFromCodePoint(entry['unified']) for entry in EMOJI_INFO]
+UNIFIED_CODE_POINTS = [entry['unified'] for entry in EMOJI_INFO]
+NON_QUALIFIED_CODE_POINTS = [entry['non_qualified'] for entry in EMOJI_INFO]
+
+def makeCodePointUnified(code_point):
+    try:
+        entry = next(x for x in EMOJI_INFO if x['non_qualified']==code_point)
+    except StopIteration:
+        return None
+    return entry['unified']
+
+def getCodePointUpper(e, separator='-'):
+    codePoints = [str(hex(ord(c)))[2:] for c in e.decode('utf-8')]
+    codePoints = [x if len(x)>2 else "00" + x for x in codePoints]
+    result = separator.join(codePoints)
+    return result.upper()
+
+def getCodePointUpperUni(e_uni, separator='-'):
+    codePoints = [str(hex(ord(c)))[2:] for c in e_uni]
+    codePoints = [x if len(x)>2 else "00" + x for x in codePoints]
+    result = separator.join(codePoints)
+    return result.upper()
+
+
+def checkIfEmojiAndGetNormalized(e):
+    if e in ALL_EMOJIS:
+        return e
+    code_point = getCodePointUpper(e)
+    if code_point in NON_QUALIFIED_CODE_POINTS:
+        fixed_code_point = makeCodePointUnified(code_point)
+        e = getEmojiFromCodePoint(fixed_code_point)
+        return e
+    return None
+
+def getRandomEmoji():
+    return random.choice(ALL_EMOJIS)
+
+
+####################################
+# EMOJI IMG UTIL FUNCTIONS
+####################################
+
+EMOJI_PNG_URL = 'https://github.com/iamcal/emoji-data/raw/master/img-twitter-72/'
+
+def getEmojiImageDataFromUrl(e):
+    codePointUpper = getCodePointUpper(e)
+    if e not in ALL_EMOJIS:
+        unifiedUpper = makeCodePointUnified(codePointUpper)
+        codePointUpper = unifiedUpper
+    emojiUrl = EMOJI_PNG_URL + codePointUpper.lower() + ".png"
+    logging.debug('Requesting emoj url: ' + emojiUrl)
+    return emojiUrl
+
+def getEmojiStickerDataFromUrl(e):
+    import requests
+    from google.appengine.api import images
+    png_url = getEmojiImageDataFromUrl(e)
+    png_data = requests.get(png_url).content
+    sticker_data = images.crop(image_data=png_data, left_x=0.0, top_y=0.0,
+        right_x=1.0, bottom_y=1.0, output_encoding=images.WEBP)
+    return sticker_data
+
+
+# =============================
+# Check Emoji image Files and Url
+# =============================
+
+def checkAllEmojiUrl():
+    import requests
+    total = 0
+    error = 0
+    for e in ALL_EMOJIS:
+        total += 1
+        url = getEmojiImageDataFromUrl(e)
+        r = requests.get(url)
+        if r.status_code==200:
+            print("ok: " + url)
+        else:
+            error += 1
+    print("{0}/{1}".format(str(error),str(total)))
+
+# =============================
+# AUX FUNCTIONS
+# =============================
+
+def checkIfValidEmoji(uni_e, normalize):
+    code_point = getCodePointUpperUni(uni_e)
+    #print(code_point)
+    if code_point in UNIFIED_CODE_POINTS:
+        return uni_e, True
+    if normalize and code_point in NON_QUALIFIED_CODE_POINTS:
+        code_point = makeCodePointUnified(code_point)
+        uni_e = getEmojiFromCodePoint(code_point).decode('utf-8')
+        return uni_e, True
+    return uni_e, False
+
+'''
+# uni version of splitEmojis (not needed anymore hopefully)
+def splitEmojisUni(textuni, normalize=True):
+    parts = []
+    s = 0
+    e = len(textuni)
+    while (True):
+        span = textuni[s:e]
+        # print "span:{} s:{} e:{}".format([str(hex(ord(c)))[2:] for c in span], s, e)
+        span, spanIsValidEmoji = checkIfValidEmoji(span, normalize)
+        if spanIsValidEmoji:
+            parts.append(span)
+            if e == len(textuni):
+                return parts
+            textuni = textuni[e:]
+            s = 0
+            e = len(textuni)
+        else:
+            e -= 1
+            if s == e:
+                return None
+'''
+
+# returns None if any emoji is not recognized
+def splitEmojis(text_utf, normalize=True):
+    parts = []
+    textuni = text_utf.decode('utf-8')
+    s = 0
+    e = len(textuni)
+    while(True):
+        span = textuni[s:e]
+        #print "span:{} s:{} e:{}".format([str(hex(ord(c)))[2:] for c in span], s, e)
+        span, spanIsValidEmoji = checkIfValidEmoji(span, normalize)
+        if spanIsValidEmoji:
+            parts.append(span.encode('utf-8'))
+            if e == len(textuni):
+                return parts
+            textuni = textuni[e:]
+            s = 0
+            e = len(textuni)
+        else:
+            e -= 1
+            if s==e:
+                return None
+
+def getNumberOfEmojisInString(text_utf):
+    return len(splitEmojis(text_utf, normalize=True))
+
+def stringHasOnlyStandardEmojis(text):
+    return splitEmojis(text, normalize=False) is not None
+
+def normalizeEmojiText(text_utf):
+    parts = splitEmojis(text_utf)
+    if parts is None:
+        return None
+    return ''.join(parts)
+
+def stringContainsAnyStandardEmoji(text):
+    return any(e in text for e in ALL_EMOJIS)
+
+def getRandomSingleEmoji(italian=True, escludeStar = True):
+    dict = emojiTags.EMOJI_TAGS_IT if italian else emojiTags.EMOJI_TAGS_EN
+    while True:
+        result = random.choice(dict.keys())
+        if not escludeStar or '*' not in result:
+            return result
+
+
+def getRandomTag(italian=True):
+    dict = emojiTags.EMOJI_TAGS_IT if italian else emojiTags.EMOJI_TAGS_EN
+    while True:
+        e, tag_list = random.choice(dict.items())
+        if len(tag_list)>0:
+            return random.choice(tag_list)
+
+
+'''
 ##################
 ## EMOJI TAGS TABLES
 ##################
@@ -57,33 +236,11 @@ for emoji, tags in EMOJI_TO_TEXT_TABLE_EN.iteritems():
 def getDescriptionForEmoji(emoji):
     return EMOJI_TO_DESC_TABLE.get(emoji)
 
-def getTagsForEmoji(emoji, italian=True):
-    if italian:
-        return EMOJI_TO_TEXT_TABLE_IT.get(emoji)
-    return EMOJI_TO_TEXT_TABLE_EN.get(emoji)
-
 def getEmojisForTag(tag, italian=True):
     tagLowerCase = tag.lower()
     if italian:
         return TEXT_TO_EMOJI_TABLE_IT.get(tagLowerCase)
     return TEXT_TO_EMOJI_TABLE_EN.get(tagLowerCase)
-
-
-def getRandomUnicodeTag(italian=True):
-    if italian:
-        return TEXT_TO_EMOJI_TABLE_IT.keys()[randint(1, len(TEXT_TO_EMOJI_TABLE_IT) - 1)]
-    else:
-        return TEXT_TO_EMOJI_TABLE_EN.keys()[randint(1, len(TEXT_TO_EMOJI_TABLE_EN) - 1)]
-
-
-def getRandomSingleEmoji(italian=True, escludeStar = True):
-    if italian:
-        result = EMOJI_TO_TEXT_TABLE_IT.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_IT) - 1)]
-    else:
-        result = EMOJI_TO_TEXT_TABLE_EN.keys()[randint(1, len(EMOJI_TO_TEXT_TABLE_EN) - 1)]
-    if escludeStar and '*' in result:
-        return getRandomSingleEmoji(italian, escludeStar)
-    return result
 
 ##################
 ## FUNCTIONS
@@ -98,85 +255,11 @@ def getCodePointWithInitialZeros(e):
     result = '_'.join(codePoints)
     return result
 
-def stringHasOnlyStandardEmojis(text):
-    return splitEmojis(text, normalize=False) is not None
-
-
-def normalizeEmojiText(text_utf):
-    parts = splitEmojis(text_utf)
-    if parts is None:
-        return None
-    return ''.join(parts)
-
-
-# this is the symbol that creates problems most of the times
-UNI_EMPTY_SYMBOL = u'\ufe0f'
-# key caps #, *, 1-9
-KEY_CAP_NUMBEERS = [u'\u0023', u'\u002A',
-                    u'\u0030', u'\u0031', u'\u0032', u'\u0033', u'\u0034', u'\u0035',
-                    u'\u0036', u'\u0037', u'\u0038', u'\u0039']
-KEY_CAP_FRAME = u'\u20E3'
-
-
-def checkIfValidEmoji(uni_e, normalize):
-    if uni_e in emoji_tables.ALL_EMOJIS:
-        return uni_e, True
-    if normalize and len(uni_e) == 2 :
-        if uni_e[1] == UNI_EMPTY_SYMBOL and uni_e[0] in emoji_tables.ALL_EMOJIS:
-            return uni_e[0], True
-        elif uni_e[0] in KEY_CAP_NUMBEERS and uni_e[1]==KEY_CAP_FRAME:
-            return uni_e[0]+UNI_EMPTY_SYMBOL+uni_e[1], True
-    return uni_e, False
-
-# returns None if any emoji is not recognized
-def splitEmojis(text_utf, normalize=True):
-    parts = []
-    textuni = text_utf.decode('utf-8')
-    s = 0
-    e = len(textuni)
-    while(True):
-        span = textuni[s:e]
-        #print "span:{} s:{} e:{}".format([str(hex(ord(c)))[2:] for c in span], s, e)
-        span, spanIsValidEmoji = checkIfValidEmoji(span, normalize)
-        if spanIsValidEmoji:
-            parts.append(span.encode('utf-8'))
-            if e == len(textuni):
-                return parts
-            textuni = textuni[e:]
-            s = 0
-            e = len(textuni)
-        else:
-            e -= 1
-            if s==e:
-                return None
-
-def splitEmojisUni(textuni, normalize=True):
-    parts = []
-    s = 0
-    e = len(textuni)
-    while (True):
-        span = textuni[s:e]
-        # print "span:{} s:{} e:{}".format([str(hex(ord(c)))[2:] for c in span], s, e)
-        span, spanIsValidEmoji = checkIfValidEmoji(span, normalize)
-        if spanIsValidEmoji:
-            parts.append(span)
-            if e == len(textuni):
-                return parts
-            textuni = textuni[e:]
-            s = 0
-            e = len(textuni)
-        else:
-            e -= 1
-            if s == e:
-                return None
-
 def getStringWithoutStandardEmojis(text):
     textuni = text.decode('utf-8')
     return emoji_tables.emoji_pattern.sub('', textuni).encode('utf-8')  # no emoji
 
-def stringContainsAnyStandardEmoji(text):
-    return getStringWithoutStandardEmojis(text) != text
-
+'''
 
 '''
 def getNormalizedEmojiUni_via_emoji_unicode_lib(text_uni):
@@ -187,14 +270,16 @@ def getNormalizedEmojiUni_via_emoji_unicode_lib(text_uni):
     return norm
 '''
 
-def getNumberOfEmojisInString(text_uni):
-    return len(splitEmojisUni(text_uni, normalize=True))
+'''
 
 def getNumberOfEmojisInString_via_emoji_unicode_lib(text_uni):
+    from emoji_unicode import Emoji
     emoji = Emoji(text_uni)
     return len(emoji.as_map())
 
 def getNormalizedEmojiUtf_via_emoji_unicode_lib(text_utf):
+    from emoji_unicode import Emoji
+    from emoji_unicode.utils import code_point_to_unicode, unicode_to_code_point
     textuni = text_utf.decode('utf-8')
     emoji = Emoji(textuni)
     norm = u''
@@ -244,12 +329,6 @@ def getRandomGlossEmoji():
     g = gloss.getRandomGloss()
     return g.source_emoji.encode('utf-8')
 
-def getRandomGlossMultiEmoji(escludeStar = True):
-    import gloss
-    while True:
-        g = gloss.getRandomGloss()
-        if getNumberOfEmojisInString(g.source_emoji)>1 and (not escludeStar or '*' not in g.getEmoji()):
-            return g
 
 def checkForGlossUniProblems():
     import gloss
@@ -274,7 +353,7 @@ def checkForGlossUniProblems():
 #            if comp in emoji_tables.ALL_EMOJIS:
 #                comp = u''
 #    return comp==u''
-
+'''
 
 '''
 see also:

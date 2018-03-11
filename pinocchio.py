@@ -188,7 +188,7 @@ def splitEmojiLineDebug(emoji_line_tokens):
             result.extend(parts)
         else:
             error = 'Problem in splitting {} ({}) in position {}/{}'.format(
-                text_token, emojiUtil.getCodePointStr(text_token), i, len(emoji_line_tokens))
+                text_token, emojiUtil.getCodePointUpper(text_token), i, len(emoji_line_tokens))
     return result, error
 
 #################
