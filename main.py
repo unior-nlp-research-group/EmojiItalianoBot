@@ -143,23 +143,23 @@ STATES = {
     82:   'Quiz Admin'
 }
 
-CANCEL = u'\U0000274C'.encode('utf-8')
-CHECK = u'\U00002705'.encode('utf-8')
+CANCEL = '❌'
+CHECK = '✅'
 
-THUMB = b'\xF0\x9F\x91\x8D'
-FOOTPRINTS = b'\xF0\x9F\x91\xA3'
-NOENTRY = b'\xF0\x9F\x9A\xAB'
-CLAPPING_HANDS = b'\xF0\x9F\x91\x8F'
-SMILING_FACE = b'\xF0\x9F\x98\x8A'
-GEAR = b'\xE2\x9A\x99'
-LEFTWARDS_BLACK_ARROW = b'\xE2\xAC\x85'
-BLACK_RIGHTWARDS_ARROW = b'\xE2\x9E\xA1'
-LETTERS = u'\U0001F520'.encode('utf-8')
-SMILY = u'\U0001F60A'.encode('utf-8')
-RIGHT_ARROW = u'\U000027A1'.encode('utf-8')
+THUMB = '👍'
+FOOTPRINTS = '👣'
+NOENTRY = '🚫'
+CLAPPING_HANDS = '👏'
+SMILING_FACE = '😊'
+GEAR = '⚙️'
+LEFTWARDS_BLACK_ARROW = '⬅'
+BLACK_RIGHTWARDS_ARROW = '➡'
+LETTERS = '🔠'
+SMILY = '😊'
+RIGHT_ARROW = '➡'
 
-IT_FLAG = u'\U0001F1EE\U0001F1F9'.encode('utf-8')
-EN_FLAG = u'\U0001F1EC\U0001F1E7'.encode('utf-8')
+IT_FLAG = '🇮🇹'
+EN_FLAG = '🇬🇧'
 
 
 IT_TO_EMOJI = IT_FLAG + ' ' + RIGHT_ARROW + ' ' + SMILY
@@ -500,8 +500,8 @@ def goToState0(p, input=None, **kwargs):
             randomGlossMultiEmoji = gloss.getRandomGlossMultiEmoji()
             randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
             randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()
-            randomSingleEmoji = emojiUtil.getRandomSingleEmoji()
-            randomWord = emojiUtil.getRandomTag()
+            randomSingleEmoji = emojiTags.getRandomSingleEmoji()
+            randomWord = emojiTags.getRandomTag()
             tell(p.chat_id, "Inserisci un emoji, ad esempio {0} o una parola in italiano, ad esempio *{1}*.\n"
                   "Se invece sei interessato in particolare al glossario di Pinocchio puoi inserire anche "
                   "più combinazioni di emoji, ad esempio {2} ({3})".format(
@@ -510,8 +510,8 @@ def goToState0(p, input=None, **kwargs):
             person.setState(p, 20)
             # state 20
         elif input == EN_TEXT_TOFROM_EMOJI:
-            randomEmoji = emojiUtil.getRandomSingleEmoji(italian=False)
-            randomWord = emojiUtil.getRandomTag(italian=False)
+            randomEmoji = emojiTags.getRandomSingleEmoji(italian=False)
+            randomWord = emojiTags.getRandomTag(italian=False)
             tell(p.chat_id, "Please entere a single emoji, for instance " + randomEmoji +
                   ", or one or more English words, for instance '" + randomWord + "'", kb=[[BOTTONE_INDIETRO]])
             person.setState(p, 21)
@@ -554,24 +554,6 @@ def goToState0(p, input=None, **kwargs):
                 e = input_split[1]
                 result = emojiUtil.getCodePointUpper(e)
                 tell(p.chat_id, result)
-            # elif input.startswith('/testEmoji'):
-            #     if ' ' in input:
-            #         test = input[input.index(' ') + 1:].replace(' ', '')
-            #         # test_without_emoji = emojiUtil.getStringWithoutStandardEmojis(test)
-            #         # msgTxt = "Testo senza emojis: '" + test_without_emoji + "'\n"
-            #         msgTxt = "Testo inserito: '" + test + "'\n"
-            #         normalized = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(test)
-            #         if emojiUtil.stringHasOnlyStandardEmojis(test):
-            #             msgTxt += "Il testo contiene solo emoji standard"
-            #         # elif emojiUtil.stringContainsAnyStandardEmoji(test):
-            #         #    msgTxt += "Il testo contiene emoji standard e emoji non-standard."
-            #         #    msgTxt += "\nVersione normalizzata: " + normalized.encode('utf-8')
-            #         else:
-            #             msgTxt += "Il testo non contiene emoji standard"
-            #             msgTxt += "\nVersione normalizzata: " + normalized
-            #         tell(p.chat_id, msgTxt)
-            #     else:
-            #         tell(p.chat_id, "Manca uno spazio dopo /testEmoji")
             elif input.startswith('/checkGlossUnicode'):
                 glosses = emojiUtil.checkForGlossUniProblems()
                 if glosses:
@@ -740,7 +722,8 @@ def goToState311(p, input=None, **kwargs):
             if len(split) == 2 and len(split[0]) > 0 and len(split[1]) > 0:
                 word = split[1].strip()
                 emoji = split[0].replace(' ', '')
-                if emojiUtil.stringHasOnlyStandardEmojis(emoji):
+                emojiNorm = emojiUtil.normalizeEmojiText(emoji)
+                if emoji == emojiNorm:
                     present_emojis = gloss.getEmojiListFromText(word)
                     txtMsg = ''
                     if present_emojis:
@@ -767,12 +750,15 @@ def goToState311(p, input=None, **kwargs):
                         txtMsg += "{} Voce inserita nel glossario, grazie! {}".format(CHECK, CLAPPING_HANDS)
                         tell(p.chat_id, txtMsg)
                         repeatState(p)
-                else:
-                    emojiNorm = emojiUtil.normalizeEmojiText(emoji)
+                elif emojiNorm:
                     emojiNorm_word = emojiNorm + "|" + word
                     txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
                     tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
                     p.setTmpStr(emojiNorm_word)
+                else:
+                    txtMsg = CANCEL + " Input non valido."
+                    tell(p.chat_id, txtMsg)
+                    repeatState(p)
             else:
                 txtMsg = CANCEL + " Input non valido."
                 tell(p.chat_id, txtMsg)
@@ -811,7 +797,8 @@ def goToState312(p, input=None, **kwargs):
             if len(split) == 2 and len(split[0]) > 0 and len(split[1]) > 0:
                 word = split[1].strip()
                 emoji = split[0].replace(' ', '')
-                if emojiUtil.stringHasOnlyStandardEmojis(emoji):
+                emojiNorm = emojiUtil.normalizeEmojiText(emoji)
+                if emojiNorm == emoji:
                     present_gloss = gloss.getGloss(emoji, word)
                     if present_gloss:
                         sendGlossarioNotification(p, False, input)
@@ -836,12 +823,15 @@ def goToState312(p, input=None, **kwargs):
                         txtMsg = CANCEL + " Voce non presente nel glossario."
                         tell(p.chat_id, txtMsg)
                         repeatState(p)
-                else:
-                    emojiNorm = emojiUtil.normalizeEmojiText(emoji)
+                elif emojiNorm:
                     emojiNorm_word = emojiNorm + "|" + word
                     txtMsg = CONFIRM_NORM_TEXT(emojiNorm_word)
                     tell(p.chat_id, txtMsg, kb=[[BOTTONE_SI, BOTTONE_NO]])
                     p.setTmpStr(emojiNorm_word)
+                else:
+                    txtMsg = CANCEL + " Input non valido."
+                    tell(p.chat_id, txtMsg)
+                    repeatState(p)
             else:
                 txtMsg = CANCEL + " Input non valido."
                 tell(p.chat_id, txtMsg)
@@ -1277,7 +1267,7 @@ def getEmojiFromString(input_string, italian=True, pinocchioSearch=False):
             emojisListStr = ', '.join(set(emojiList))
             msg.append('Found the following emojis in the unicode table with the given tag: ' + emojisListStr)
         else:
-            msg.append("Nessun emoji trovato per la stringa inserita")
+            msg.append("No emoji has been found that matches the input text.")
 
     return '\n'.join(msg)
 
@@ -1285,18 +1275,14 @@ def getEmojiFromString(input_string, italian=True, pinocchioSearch=False):
 
 def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
 
-    #logging.debug('getStringFromEmoji italian {} pinocchioSearch {}'.format(italian, pinocchioSearch))
-
-    if not emojiUtil.stringHasOnlyStandardEmojis(input_emoji):
-        #input_emoji = emojiUtil.getNormalizedEmojiUtf_via_emoji_unicode_lib(input_emoji)
-        input_emoji = emojiUtil.normalizeEmojiText(input_emoji)
-        if input_emoji:
+    emojiNorm = emojiUtil.normalizeEmojiText(input_emoji)
+    if emojiNorm != input_emoji:
+        if emojiNorm:
+            result = getStringFromEmoji(emojiNorm, italian, pinocchioSearch)
             if italian:
-                return EXCLAMATION + " Il testo inserito contiene emoji non standard.\n" + \
-                       "Provo a normalizzarlo: " + input_emoji + '\n\n'
+                return EXCLAMATION + "Emoji normalizzato: {}\n\n{}".format(emojiNorm, result)
             else:
-                return EXCLAMATION + " The inserted text contains non-standard emojis.\n" + \
-                       "I'm trying to normalize it: " + input_emoji + '\n\n'
+                return EXCLAMATION + "Normalized emoji: {}\n\n{}".format(emojiNorm, result)
         else:
             if italian:
                 return EXCLAMATION + " Il testo inserito deve contenere solo emoji o solo lettere.\n"
@@ -1331,7 +1317,7 @@ def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
             msg.append("L'emoji inserito non è presente nel glossario o nella tabella unicode.")
     else:
         if tags:
-            found = True
+            # found = True
             annotations = ', '.join(tags)
             msg.append("Found emoji in unicode table with the following tags: " + annotations)
         # description = emojiUtil.getDescriptionForEmoji(input_emoji)
@@ -1363,6 +1349,9 @@ def createInlineQueryResultArticle(id, tag, query_offset):
             msg = e
             if ADD_TEXT_TO_EMOJI_IN_INLINE_QUERY:
                 msg += ' (' + tag + ')'
+            numberOfEmoijs = emojiUtil.getNumberOfEmojisInString(e)
+            emoji_for_thumb = e if numberOfEmoijs==1 else '🏃'
+            thumb_url = emojiUtil.getEmojiImageDataFromUrl(emoji_for_thumb)
             result.append(
                 {
                     'type': "article",
@@ -1370,7 +1359,7 @@ def createInlineQueryResultArticle(id, tag, query_offset):
                     'title': e,
                     'message_text': msg,
                     'hide_url': True,
-                    'thumb_url': emojiUtil.getEmojiImageDataFromUrl(e),
+                    'thumb_url': thumb_url,
                 }
             )
             i += 1
@@ -1580,8 +1569,8 @@ class WebhookHandler(webapp2.RequestHandler):
                     aiutinoWordToEmoji(p)
                 elif p.glossGame:
                     text = text.strip() #.replace(' ','')
-                    warning = ''
-                    if not emojiUtil.stringHasOnlyStandardEmojis(text):
+                    emojiNorm = emojiUtil.normalizeEmojiText(text)
+                    if emojiNorm and emojiNorm != text:
                         text = emojiUtil.normalizeEmojiText(text)
                         reply(CANCEL + "La stringa inserita contiene emoji non standard. " +
                               "Emoji normalizzato: " + text)

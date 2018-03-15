@@ -245,8 +245,8 @@ def getGlossTableRowsInverted():
     rows = sorted(rows, key=itemgetter(0))
     return rows
 
-def exportToCsv():
-    csvFileName = "/Users/fedja/Downloads/gloss.csv"
+def exportToTsv():
+    csvFileName = "/Users/fedja/Downloads/gloss.tsv"
 
     rows = getGlossTableRows()
 
@@ -255,6 +255,25 @@ def exportToCsv():
         for r in rows:
             csvWriter.writerow(r)
     print 'Finished saving ' + str(len(rows)) + ' rows.'
+
+def fixSkinTonesInGlosses(debug=True):
+    import emojiUtil
+    more, cursor = True, None
+    to_update = []
+    while more:
+        records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
+        for g in records:
+            e = g.getEmoji()
+            if emojiUtil.containsSkinTone(e):
+                fixed_e = emojiUtil.removeSkinTones(e)
+                g.source_emoji = fixed_e
+                print "{} -> {}".format(e, fixed_e)
+                to_update.append(g)
+    if not debug:
+        create_futures = ndb.put_multi_async(to_update)
+        ndb.Future.wait_all(create_futures)
+        print("Fixed {} gloss entries".format(len(to_update)))
+
 
 def normalizeGlosses(debug=True):
     import emojiUtil
@@ -266,13 +285,13 @@ def normalizeGlosses(debug=True):
         records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
         for g in records:
             e = g.getEmoji()
-            if not emojiUtil.stringHasOnlyStandardEmojis(e):
+            e_norm = emojiUtil.normalizeEmojiText()
+            if e != e_norm:
                 needNormalizaton.append(e)
-                normalizedEmoji = emojiUtil.normalizeEmojiText(e)
-                normalized.append(normalizedEmoji)
-                alreadyPresentGloss = getGlossWithEmoji(normalizedEmoji)
+                normalized.append(e_norm)
+                alreadyPresentGloss = getGlossWithEmoji(e_norm)
                 if alreadyPresentGloss:
-                    merged.append(normalizedEmoji)
+                    merged.append(e_norm)
                     for x in g.target_text:
                         if x not in alreadyPresentGloss.target_text:
                             alreadyPresentGloss.target_text.append(x)
@@ -280,7 +299,7 @@ def normalizeGlosses(debug=True):
                         alreadyPresentGloss.put()
                         deleteGloss(g)
                 else:
-                    g.source_emoji = normalizedEmoji
+                    g.source_emoji = e_norm
                     if not debug:
                         g.put()
     print '{} Emoji normalized: {} -> {}. Merged: {}'.format(

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import jsonUtil
+import random
 
 EMOJI_TAGS_IT = jsonUtil.json_load_byteified_file('EmojiData/emoji_tags_it.json')
 EMOJI_TAGS_EN = jsonUtil.json_load_byteified_file('EmojiData/emoji_tags_en.json')
@@ -12,10 +13,26 @@ def getTagsForEmoji(emoji, italian=True):
 def getEmojisForTag(tag, italian=True, wordOnly=True):
     dict = EMOJI_TAGS_IT if italian else EMOJI_TAGS_EN
     if wordOnly:
-        result = [e for e,tag_list in dict.items() if any(tag in t.split() for t in tag_list)]
+        result = [e for e,tag_list in dict.items() if any(tag in t.lower().split() for t in tag_list)]
     else:
-        result = [e for e, tag_list in dict.items() if any(tag in t for t in tag_list)]
+        result = [e for e, tag_list in dict.items() if any(tag in t.lower() for t in tag_list)]
     return result
+
+
+def getRandomSingleEmoji(italian=True, escludeStar = True):
+    dict = EMOJI_TAGS_IT if italian else EMOJI_TAGS_EN
+    while True:
+        result = random.choice(dict.keys())
+        if not escludeStar or '*' not in result:
+            return result
+
+
+def getRandomTag(italian=True):
+    dict = EMOJI_TAGS_IT if italian else EMOJI_TAGS_EN
+    while True:
+        e, tag_list = random.choice(dict.items())
+        if len(tag_list)>0:
+            return random.choice(tag_list)
 
 
 ##################
@@ -23,7 +40,7 @@ def getEmojisForTag(tag, italian=True, wordOnly=True):
 ##################
 
 EXCLUDE_TAGS = ['skin tone', 'fototipo']
-ANNOTATION_URL = 'http://unicode.org/repos/cldr/trunk/common//annotations/'
+ANNOTATION_URL = 'http://unicode.org/repos/cldr/trunk/common/annotations/'
 ANNOTATION_DERIVED_URL = 'http://unicode.org/repos/cldr/trunk/common/annotationsDerived/'
 
 def getEmojiLanguageTagsFromUrl(language_code):

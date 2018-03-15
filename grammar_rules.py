@@ -60,7 +60,7 @@ BULLET_POINT = '•'
 
 def getGrammarRulesText(position):
     GR = getGrammarStructure()
-    if position >= len(GR):
+    if position<1 or position > len(GR):
         return 'Regola non trovata'
     rule_type = RULE_TYPES_SORTED[position - 1]
     return '*{}*\n\n'.format(rule_type) + '\n\n'.join("{} {}".format(BULLET_POINT, r) for r in GR[rule_type]['rules'])
