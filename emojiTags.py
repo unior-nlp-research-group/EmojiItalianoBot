@@ -39,9 +39,9 @@ def getRandomTag(italian=True):
 # BUILD FUNCTIONS
 ##################
 
-EXCLUDE_TAGS = ['skin tone', 'fototipo']
+#EXCLUDE_TAGS = ['skin tone', 'fototipo']
 ANNOTATION_URL = 'http://unicode.org/repos/cldr/trunk/common/annotations/'
-ANNOTATION_DERIVED_URL = 'http://unicode.org/repos/cldr/trunk/common/annotationsDerived/'
+#ANNOTATION_DERIVED_URL = 'http://unicode.org/repos/cldr/trunk/common/annotationsDerived/'
 
 def getEmojiLanguageTagsFromUrl(language_code):
     import emojiUtil
@@ -49,16 +49,17 @@ def getEmojiLanguageTagsFromUrl(language_code):
     from xml.etree import ElementTree
     from collections import defaultdict
     annotation_dict = defaultdict(set)
-    for base_url in [ANNOTATION_URL, ANNOTATION_DERIVED_URL]:
+    for base_url in [ANNOTATION_URL]: #ANNOTATION_DERIVED_URL
         url = base_url + '{}.xml'.format(language_code)
         print 'parsing {}'.format(url)
         response = requests.get(url)
         root = ElementTree.fromstring(response.content)
         for annotation in root.iter('annotation'):
             emoji = annotation.attrib['cp'].encode('utf-8')
-            if emoji in emojiUtil.ALL_EMOJIS:
+            emoji = emojiUtil.normalizeEmojiText(emoji)
+            if emoji:
                 annotation_entries = [a.strip() for a in annotation.text.encode('utf-8').split('|')]
-                annotation_entries = [a for a in annotation_entries if all(tag not in a for tag in EXCLUDE_TAGS)]
+                #annotation_entries = [a for a in annotation_entries if all(tag not in a for tag in EXCLUDE_TAGS)]
                 annotation_dict[emoji].update(annotation_entries)
     annotation_dict_list = {k:list(v) for k,v in annotation_dict.items()}
     return annotation_dict_list

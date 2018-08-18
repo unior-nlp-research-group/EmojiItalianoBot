@@ -50,7 +50,7 @@ handlers:
 - url: .*
   script: main.app
 
-- url: /emojiLanguages
+- url: /EmojiData
   static_dir: emojiLanguages
   application_readable: true
 

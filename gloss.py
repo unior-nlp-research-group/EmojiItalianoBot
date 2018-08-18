@@ -281,11 +281,13 @@ def normalizeGlosses(debug=True):
     normalized = []
     merged = []
     more, cursor = True, None
+    to_update = []
+    to_delete = []
     while more:
         records, cursor, more = Gloss.query().fetch_page(1000, start_cursor=cursor)
         for g in records:
             e = g.getEmoji()
-            e_norm = emojiUtil.normalizeEmojiText()
+            e_norm = emojiUtil.normalizeEmojiText(e)
             if e != e_norm:
                 needNormalizaton.append(e)
                 normalized.append(e_norm)
@@ -295,13 +297,16 @@ def normalizeGlosses(debug=True):
                     for x in g.target_text:
                         if x not in alreadyPresentGloss.target_text:
                             alreadyPresentGloss.target_text.append(x)
-                    if not debug:
-                        alreadyPresentGloss.put()
-                        deleteGloss(g)
+                    to_update.append(alreadyPresentGloss)
+                    to_delete.append(g)
                 else:
                     g.source_emoji = e_norm
-                    if not debug:
-                        g.put()
+                    to_update.append(g)
+    if not debug:
+        for g in to_delete:
+            deleteGloss(g)
+        create_futures = ndb.put_multi_async(to_update)
+        ndb.Future.wait_all(create_futures)
     print '{} Emoji normalized: {} -> {}. Merged: {}'.format(
         len(needNormalizaton), ', '.join(needNormalizaton), ', '.join(normalized), ', '.join(merged))
 

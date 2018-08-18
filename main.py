@@ -61,20 +61,21 @@ BASE_URL_FILE = 'https://api.telegram.org/bot/file/bot' + key.TOKEN + '/'
 ISTRUZIONI =  \
 """
 @emojitalianobot è un tool gratuito e aperto alla comunità per costruire un dizionario italiano degli emoji.
-Attualmente hai la possibilità di cercare parole o emoji o giocare per indovinare le traduzioni.
 
-Se hai bisogno di aiuto o vuoi aiutarci a migliorare il bot vieni nel gruppo di discussione cliccando su
-telegram.me/joinchat/B8zsMQg_NUYAROsKeUe8Xw
+Hai la possibilità di cercare parole o emoji inserite nel glossario di Emojitaliano usato per tradurre \
+[Pinocchio](scritturebrevi.it/2016/02/05/pinocchio-in-emojitaliano-the-emoji-column) \
+e la [Costituzione](https://www.scritturebrevi.it/2016/10/18/la-costituzione-in-emojitaliano-marina-pierani-libro-delle-firme/):
 
-In @emojitalianobot anche il glossario  di Pinocchio in emojitaliano:
-scritturebrevi.it/2016/02/05/pinocchio-in-emojitaliano-the-emoji-column
+Se hai bisogno di aiuto o vuoi aiutarci a migliorare il bot vieni nel gruppo di discussione cliccando \
+[--> QUI <--](telegram.me/joinchat/B8zsMQg_NUYAROsKeUe8Xw)
 
-Aiutaci a far conoscere questo bot invitando altri amici e votandolo su
-telegramitalia.it/emojitalianobot e su telegram.me/storebot?start=emojitalianobot
+Aiutaci a far conoscere questo bot invitando altri amici e votandolo su \
+[telegramitalia](telegramitalia.it/emojitalianobot) \
+e su [storebot](telegram.me/storebot?start=emojitalianobot).
 
 Per maggiori informazioni visita scritturebrevi.it/emojitalianobot
 
-@emojitalianobot v.6
+@emojitalianobot v.7 (ultima modifica 19 Apr 2018)
 """
 
 INVITE_FRIEND_INSTRUCTION = \
@@ -124,14 +125,14 @@ CONFIRM_NORM_TEXT = lambda emojiNorm: utility.unindent(
 
 
 STATES = {
-    0: 'Initial Screen',
+    0:  'Initial Screen',
+    10: 'GRAMMATICA EMOJITALIANO',
     20: 'IT <-> EMOJI',
     21: 'EN <-> EMOJI',
     30: 'PINOCCHIO',
     310:  'GLOSSARIO PINOCCHIO',
     311:    'GLOSSARIO: INSERISCI VOCE',
     312:    'GLOSSARIO: ELIMINA VOCE',
-    32:   'GRAMMATICA PINOCCHIO',
     330:  'LEGGI PINOCCHIO - scegli capitolo',
     331:    'LEGGI PINOCCHIO - frasi capitolo',
     40: 'COSTITUZIONE',
@@ -189,7 +190,7 @@ BOTTONE_INDIETRO = LEFTWARDS_BLACK_ARROW + ' ' + "Indietro"
 BOTTONE_PINOCCHIO = PINOCCHIO + ' PINOCCHIO'
 BOTTONE_COSTITUZIONE = '📜 COSTITUZIONE'
 BOTTONE_GLOSSARIO = PINOCCHIO + '📖 GLOSSARIO'
-BOTTONE_GRAMMATICA = PINOCCHIO + '📐 GRAMMATICA'
+BOTTONE_GRAMMATICA = '🔤📐 GRAMMATICA'
 BOTTONE_INFO = INFO + ' INFO'
 BOTTONE_GIOCA = JOKER + ' GIOCA!'
 BOTTONE_INVITA_AMICO = MASCHERE + ' INVITA UN AMICO'
@@ -481,16 +482,16 @@ def dealWithUniversalCommands(p, input):
 def goToState0(p, input=None, **kwargs):
     giveInstruction = input is None
     if giveInstruction:
-        keyboard = [[IT_TEXT_TOFROM_EMOJI, EN_TEXT_TOFROM_EMOJI], [BOTTONE_INVITA_AMICO, BOTTONE_INFO]]
-        secondLine = [BOTTONE_COSTITUZIONE, BOTTONE_GIOCA]
+        keyboard = [[IT_TEXT_TOFROM_EMOJI, EN_TEXT_TOFROM_EMOJI], [BOTTONE_INVITA_AMICO, BOTTONE_GIOCA, BOTTONE_INFO]]
+        secondLine = [BOTTONE_GRAMMATICA, BOTTONE_COSTITUZIONE]
         if p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
-            secondLine.insert(0, BOTTONE_PINOCCHIO)
+            secondLine.insert(1, BOTTONE_PINOCCHIO)
         keyboard.insert(1, secondLine)
         tell(p.chat_id, "Schermata Iniziale.", kb=keyboard)
         #logging.debug("restart kb: " + str(keyboard))
     else:
         if input in ['/help', BOTTONE_INFO]:
-            tell(p.chat_id, ISTRUZIONI)
+            tell(p.chat_id, ISTRUZIONI, markdown=True)
         elif input == BOTTONE_INVITA_AMICO:
             tell(p.chat_id, INVITE_FRIEND_INSTRUCTION, markdown=True)
             tell(p.chat_id, MESSAGE_FOR_FRIENDS, markdown=True)
@@ -503,7 +504,7 @@ def goToState0(p, input=None, **kwargs):
             randomSingleEmoji = emojiTags.getRandomSingleEmoji()
             randomWord = emojiTags.getRandomTag()
             tell(p.chat_id, "Inserisci un emoji, ad esempio {0} o una parola in italiano, ad esempio *{1}*.\n"
-                  "Se invece sei interessato in particolare al glossario di Pinocchio puoi inserire anche "
+                  "Se invece sei interessato in particolare al glossario di Emojitaliano puoi inserire anche "
                   "più combinazioni di emoji, ad esempio {2} ({3})".format(
                 randomSingleEmoji, randomWord, randomGlossMultiEmoji_emoji, randomGlossMultiEmoji_translation),
                 kb=[[BOTTONE_INDIETRO]], markdown=True)
@@ -520,6 +521,8 @@ def goToState0(p, input=None, **kwargs):
             redirectToState(p, 30)
         elif input == BOTTONE_COSTITUZIONE:
             redirectToState(p, 40)
+        elif input == BOTTONE_GRAMMATICA:
+            redirectToState(p, 10)
         elif input == BOTTONE_GIOCA:
             goToGamePanel(p)
             # state 50
@@ -641,6 +644,35 @@ def dealWithsendTextCommand(p, sendTextCommand, markdown=False):
     else:
         tell(p.chat_id, 'Problems in sending text')
 
+# ================================
+# GO TO STATE 10: PINOCCHIO GRAMMATICA
+# ================================
+
+def goToState10(p, input=None, **kwargs):
+    giveInstruction = input is None
+    COMMANDS = grammar_rules.COMMANDS
+    kb = utility.distributeElementMaxSize([str(x) for x in range(1, len(COMMANDS) + 1)])
+    kb.append([BOTTONE_INDIETRO])
+    if giveInstruction:
+        msg = grammar_rules.GRAMMAR_INSTRUCTIONS
+        tell(p.chat_id, msg, kb, markdown=True)
+    else:
+        if input == BOTTONE_INDIETRO:
+            restart(p)
+        elif input == LISTA_REGOLE_BUTTON:
+            repeatState(p)
+        else:
+            if input.startswith('/'):
+                numberStr = input[1:]
+            else:
+                numberStr = input
+            if utility.representsIntBetween(numberStr, 1, len(COMMANDS)):
+                position = int(numberStr)
+                msg = grammar_rules.getGrammarRulesText(position)
+                kb = [[LISTA_REGOLE_BUTTON], [BOTTONE_INDIETRO]]
+                tell(p.chat_id, msg, kb, markdown=True)
+            else:
+                tell(p.chat_id, "Input non valido.")
 
 # ================================
 # GO TO STATE 30: PINOCCHIO
@@ -650,7 +682,7 @@ def goToState30(p, input=None, **kwargs):
     giveInstruction = input is None
     if giveInstruction:
         kb = [
-            [BOTTONE_GLOSSARIO, BOTTONE_GRAMMATICA],
+            [BOTTONE_GLOSSARIO],
             [LEGGGI_PINOCCHIO_BUTTON],
             [BOTTONE_INDIETRO]
         ]
@@ -661,8 +693,6 @@ def goToState30(p, input=None, **kwargs):
             restart(p)
         elif input == BOTTONE_GLOSSARIO and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
             redirectToState(p, 310)
-        elif input == BOTTONE_GRAMMATICA and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
-            redirectToState(p, 32)
         elif input == LEGGGI_PINOCCHIO_BUTTON and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
             redirectToState(p, 330)
         else:
@@ -686,8 +716,6 @@ def goToState310(p, input=None, **kwargs):
             redirectToState(p, 311)
         elif input == ELIMINARE_GLOSSARIO_BUTTON:
             redirectToState(p, 312)
-        elif input == BOTTONE_GRAMMATICA and p.chat_id in key.GLOSS_ACCESS_CHAT_ID:
-            redirectToState(p, 32)
         else:
             tell(p.chat_id, FROWNING_FACE + " Scusa, non capisco")
 
@@ -836,37 +864,6 @@ def goToState312(p, input=None, **kwargs):
                 txtMsg = CANCEL + " Input non valido."
                 tell(p.chat_id, txtMsg)
                 repeatState(p)
-
-
-# ================================
-# GO TO STATE 32: PINOCCHIO GRAMMATICA
-# ================================
-
-def goToState32(p, input=None, **kwargs):
-    giveInstruction = input is None
-    COMMANDS = grammar_rules.COMMANDS
-    kb = utility.distributeElementMaxSize([str(x) for x in range(1, len(COMMANDS) + 1)])
-    kb.append([BOTTONE_INDIETRO])
-    if giveInstruction:
-        msg = grammar_rules.GRAMMAR_INSTRUCTIONS
-        tell(p.chat_id, msg, kb, markdown=True)
-    else:
-        if input == BOTTONE_INDIETRO:
-            redirectToState(p, 30)
-        elif input == LISTA_REGOLE_BUTTON:
-            repeatState(p)
-        else:
-            if input.startswith('/'):
-                numberStr = input[1:]
-            else:
-                numberStr = input
-            if utility.representsIntBetween(numberStr, 1, len(COMMANDS)):
-                position = int(numberStr)
-                msg = grammar_rules.getGrammarRulesText(position)
-                kb = [[LISTA_REGOLE_BUTTON], [BOTTONE_INDIETRO]]
-                tell(p.chat_id, msg, kb, markdown=True)
-            else:
-                tell(p.chat_id, "Input non valido.")
 
 # ================================
 # GO TO STATE 330: LGEGI PINOCCHIO
@@ -1273,16 +1270,19 @@ def getEmojiFromString(input_string, italian=True, pinocchioSearch=False):
 
 
 
-def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False):
+def getStringFromEmoji(input_emoji, italian=True, pinocchioSearch=False, normalization_warning=False):
 
     emojiNorm = emojiUtil.normalizeEmojiText(input_emoji)
     if emojiNorm != input_emoji:
         if emojiNorm:
-            result = getStringFromEmoji(emojiNorm, italian, pinocchioSearch)
-            if italian:
-                return EXCLAMATION + "Emoji normalizzato: {}\n\n{}".format(emojiNorm, result)
+            result = getStringFromEmoji(emojiNorm, italian, pinocchioSearch, normalization_warning)
+            if normalization_warning:
+                if italian:
+                    return EXCLAMATION + "Emoji normalizzato: {}\n\n{}".format(emojiNorm, result)
+                else:
+                    return EXCLAMATION + "Normalized emoji: {}\n\n{}".format(emojiNorm, result)
             else:
-                return EXCLAMATION + "Normalized emoji: {}\n\n{}".format(emojiNorm, result)
+                return result
         else:
             if italian:
                 return EXCLAMATION + " Il testo inserito deve contenere solo emoji o solo lettere.\n"
@@ -1350,8 +1350,10 @@ def createInlineQueryResultArticle(id, tag, query_offset):
             if ADD_TEXT_TO_EMOJI_IN_INLINE_QUERY:
                 msg += ' (' + tag + ')'
             numberOfEmoijs = emojiUtil.getNumberOfEmojisInString(e)
-            emoji_for_thumb = e if numberOfEmoijs==1 else '🏃'
+            emoji_for_thumb = e if numberOfEmoijs==1 else '🏃‍♂️'
             thumb_url = emojiUtil.getEmojiImageDataFromUrl(emoji_for_thumb)
+            if thumb_url == None:
+                continue
             result.append(
                 {
                     'type': "article",
@@ -1529,7 +1531,7 @@ class WebhookHandler(webapp2.RequestHandler):
                         emoji = getEmojiFromString(text, italian=True) #, pinocchioSearch=p.isAdmin()
                         reply(emoji, kb=[[BOTTONE_INDIETRO]], markdown=False)
                     else:
-                        string = getStringFromEmoji(text, italian=True) #, pinocchioSearch=p.isAdmin()
+                        string = getStringFromEmoji(text, italian=True, normalization_warning=p.isAdmin()) #, pinocchioSearch=p.isAdmin()
                         reply(string, kb = [[BOTTONE_INDIETRO]], markdown=False)
             elif p.state == 21:
                 # EN <-> EMOJI

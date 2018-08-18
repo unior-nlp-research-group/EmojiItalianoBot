@@ -3,11 +3,11 @@
 import logging
 import jsonUtil
 import random
-import emojiTags
 
 # imported from https://github.com/iamcal/emoji-data/blob/master/emoji_pretty.json
 EMOJI_JSON_FILE = 'EmojiData/emoji_pretty.json'
 EMOJI_INFO = jsonUtil.json_load_byteified_file(EMOJI_JSON_FILE)
+EMOJI_INFO_NO_OBSOLETE = [entry for entry in EMOJI_INFO if entry.get("obsoleted_by",None)==None]
 
 def getEmojiFromCodePoint(code_point, separator='-'):
     codes = code_point.split(separator)
@@ -24,13 +24,14 @@ def getCodePointUpperUni(e_uni, separator='-'):
 def getCodePointUpper(e, separator='-'):
     return getCodePointUpperUni(e.decode('utf-8'), separator)
 
-ALL_EMOJIS = [getEmojiFromCodePoint(entry['unified']) for entry in EMOJI_INFO]
-EMOJI_CODE_POINT_WITH_SKIN_TONES = [entry['unified'] for entry in EMOJI_INFO if 'skin_variations' in entry]
-UNIFIED_CODE_POINTS = [entry['unified'] for entry in EMOJI_INFO if entry['unified']!=None]
-NON_QUALIFIED_CODE_POINTS = [entry['non_qualified'] for entry in EMOJI_INFO if entry['non_qualified']!=None]
+ALL_EMOJIS = [getEmojiFromCodePoint(entry['unified']) for entry in EMOJI_INFO_NO_OBSOLETE]
+EMOJI_CODE_POINT_ADMITTING_SKIN_TONES = [entry['unified'] for entry in EMOJI_INFO_NO_OBSOLETE if 'skin_variations' in entry]
+UNIFIED_CODE_POINTS = [entry['unified'] for entry in EMOJI_INFO_NO_OBSOLETE if entry['unified']!=None]
+NON_QUALIFIED_CODE_POINTS = [entry['non_qualified'] for entry in EMOJI_INFO_NO_OBSOLETE if entry['non_qualified']!=None]
 
 SKIN_TONES = ['🏻', '🏾', '🏿', '🏼', '🏽']
 SKIN_TONES_CODE_POINT = [getCodePointUpper(x) for x in SKIN_TONES]
+VARIANT_SELECTOR_CODE_POINT = 'FE0F'
 
 def containsSkinTone(emoji_text):
     return any(st in emoji_text for st in SKIN_TONES)
@@ -41,32 +42,49 @@ def removeSkinTones(emoji_text):
     return emoji_text
 
 def makeCodePointUnified(code_point):
-    try:
-        entry = next(x for x in EMOJI_INFO if x['non_qualified']==code_point)
-    except StopIteration:
-        return None
-    return entry['unified']
+    entry = next((x for x in EMOJI_INFO_NO_OBSOLETE if x['non_qualified'] == code_point), None)
+    if entry:
+        return entry['unified']
+    return None
+
+def makeCodePointDeObsoleted(code_point):
+    entry = next((x for x in EMOJI_INFO if x['unified'] == code_point), None)
+    if entry:
+        return entry.get("obsoleted_by", None)
+    return None
 
 def getRandomEmoji():
     return random.choice(ALL_EMOJIS)
 
-
-def checkIfValidEmoji(uni_e, normalize):
-    code_point = getCodePointUpperUni(uni_e)
+def checkIfValidSingleEmoji(uni_string, normalize):
+    code_point = getCodePointUpperUni(uni_string)
     if code_point in UNIFIED_CODE_POINTS:
-        return uni_e, True
+        return uni_string, True
     if normalize:
+        # check if emoji is not qualified
         if code_point in NON_QUALIFIED_CODE_POINTS:
             code_point = makeCodePointUnified(code_point)
-            uni_e = getEmojiFromCodePoint(code_point).decode('utf-8')
-            return uni_e, True
+            uni_string = getEmojiFromCodePoint(code_point).decode('utf-8')
+            return uni_string, True
+        # check if emoji has skin tones
         code_point_split = code_point.split('-')
         if len(code_point_split)>1 and code_point_split[-1] in SKIN_TONES_CODE_POINT:
             code_point_without_skin_color = '-'.join(code_point_split[0:-1])
-            if code_point_without_skin_color in EMOJI_CODE_POINT_WITH_SKIN_TONES:
-                uni_e = getEmojiFromCodePoint(code_point_without_skin_color).decode('utf-8')
-                return uni_e, True
-    return uni_e, False
+            if code_point_without_skin_color in EMOJI_CODE_POINT_ADMITTING_SKIN_TONES:
+                uni_string = getEmojiFromCodePoint(code_point_without_skin_color).decode('utf-8')
+                return uni_string, True
+        # check if emoji is obsolete
+        renwed_code_point = makeCodePointDeObsoleted(code_point)
+        if renwed_code_point:
+            uni_string = getEmojiFromCodePoint(renwed_code_point).decode('utf-8')
+            return uni_string, True
+        # check if emoji has VARIANT_SELECTOR_CODE_POINT (e.g., ⭕️,⛺️,⛔️)
+        if code_point_split[-1] == VARIANT_SELECTOR_CODE_POINT:
+            renwed_code_point = '-'.join(code_point_split[:-1])
+            if renwed_code_point in UNIFIED_CODE_POINTS:
+                uni_string = getEmojiFromCodePoint(renwed_code_point).decode('utf-8')
+                return uni_string, True
+    return uni_string, False
 
 # returns None if any emoji is not recognized
 def splitEmojis(text_utf, normalize=True):
@@ -77,7 +95,7 @@ def splitEmojis(text_utf, normalize=True):
     while(True):
         span = textuni[s:e]
         #print "span:{} s:{} e:{}".format(getCodePointUpper(span.encode('utf-8')), s, e)
-        span, spanIsValidEmoji = checkIfValidEmoji(span, normalize)
+        span, spanIsValidEmoji = checkIfValidSingleEmoji(span, normalize)
         if spanIsValidEmoji:
             parts.append(span.encode('utf-8'))
             if e == len(textuni):
@@ -110,7 +128,8 @@ def stringContainsAnyStandardEmoji(text):
 # EMOJI IMG UTIL FUNCTIONS
 ####################################
 
-EMOJI_PNG_URL = 'https://github.com/iamcal/emoji-data/raw/master/img-twitter-72/'
+#EMOJI_PNG_URL = 'https://github.com/iamcal/emoji-data/raw/master/img-twitter-72/'
+EMOJI_PNG_URL = 'https://github.com/iamcal/emoji-data/raw/master/img-apple-64/'
 
 def getEmojiImageDataFromUrl(e):
     codePointUpper = getCodePointUpper(e)

@@ -1,4 +1,79 @@
 {
+    "©️": [
+        "copyright"
+    ], 
+    "®️": [
+        "registered"
+    ], 
+    "‼️": [
+        "bangbang", 
+        "exclamation", 
+        "punctuation", 
+        "double exclamation mark", 
+        "mark"
+    ], 
+    "⁉️": [
+        "exclamation", 
+        "exclamation question mark", 
+        "punctuation", 
+        "question", 
+        "mark", 
+        "interrobang"
+    ], 
+    "™️": [
+        "tm", 
+        "trademark", 
+        "trade mark", 
+        "mark"
+    ], 
+    "ℹ️": [
+        "i", 
+        "information"
+    ], 
+    "↔️": [
+        "left-right arrow", 
+        "arrow"
+    ], 
+    "↕️": [
+        "up-down arrow", 
+        "arrow"
+    ], 
+    "↖️": [
+        "direction", 
+        "intercardinal", 
+        "northwest", 
+        "arrow", 
+        "up-left arrow"
+    ], 
+    "↗️": [
+        "northeast", 
+        "direction", 
+        "intercardinal", 
+        "arrow", 
+        "up-right arrow"
+    ], 
+    "↘️": [
+        "southeast", 
+        "direction", 
+        "intercardinal", 
+        "down-right arrow", 
+        "arrow"
+    ], 
+    "↙️": [
+        "direction", 
+        "intercardinal", 
+        "down-left arrow", 
+        "arrow", 
+        "southwest"
+    ], 
+    "↩️": [
+        "right arrow curving left", 
+        "arrow"
+    ], 
+    "↪️": [
+        "left arrow curving right", 
+        "arrow"
+    ], 
     "⌚": [
         "watch", 
         "clock"
@@ -7,6 +82,14 @@
         "sand", 
         "hourglass done", 
         "timer"
+    ], 
+    "⌨️": [
+        "computer", 
+        "keyboard"
+    ], 
+    "⏏️": [
+        "eject button", 
+        "eject"
     ], 
     "⏩": [
         "forward", 
@@ -32,9 +115,40 @@
         "fast down button", 
         "arrow"
     ], 
+    "⏭️": [
+        "triangle", 
+        "next scene", 
+        "next track button", 
+        "next track", 
+        "arrow"
+    ], 
+    "⏮️": [
+        "triangle", 
+        "previous scene", 
+        "last track button", 
+        "previous track", 
+        "arrow"
+    ], 
+    "⏯️": [
+        "play", 
+        "pause", 
+        "triangle", 
+        "right", 
+        "arrow", 
+        "play or pause button"
+    ], 
     "⏰": [
         "alarm", 
         "alarm clock", 
+        "clock"
+    ], 
+    "⏱️": [
+        "stopwatch", 
+        "clock"
+    ], 
+    "⏲️": [
+        "timer clock", 
+        "timer", 
         "clock"
     ], 
     "⏳": [
@@ -42,6 +156,62 @@
         "hourglass not done", 
         "timer", 
         "hourglass"
+    ], 
+    "⏸️": [
+        "double", 
+        "pause", 
+        "bar", 
+        "vertical", 
+        "pause button"
+    ], 
+    "⏹️": [
+        "square", 
+        "stop", 
+        "stop button"
+    ], 
+    "⏺️": [
+        "record button", 
+        "record", 
+        "circle"
+    ], 
+    "Ⓜ️": [
+        "m", 
+        "circle", 
+        "circled M"
+    ], 
+    "▪️": [
+        "geometric", 
+        "square", 
+        "black small square"
+    ], 
+    "▫️": [
+        "white small square", 
+        "geometric", 
+        "square"
+    ], 
+    "▶️": [
+        "play button", 
+        "play", 
+        "right", 
+        "triangle", 
+        "arrow"
+    ], 
+    "◀️": [
+        "reverse button", 
+        "triangle", 
+        "reverse", 
+        "arrow", 
+        "left"
+    ], 
+    "◻️": [
+        "geometric", 
+        "square", 
+        "white medium square"
+    ], 
+    "◼️": [
+        "geometric", 
+        "square", 
+        "black medium square"
     ], 
     "◽": [
         "geometric", 
@@ -52,6 +222,40 @@
         "black medium-small square", 
         "geometric", 
         "square"
+    ], 
+    "☀️": [
+        "sun", 
+        "bright", 
+        "rays", 
+        "sunny"
+    ], 
+    "☁️": [
+        "weather", 
+        "cloud"
+    ], 
+    "☂️": [
+        "umbrella", 
+        "clothing", 
+        "rain"
+    ], 
+    "☃️": [
+        "snowman", 
+        "cold", 
+        "snow"
+    ], 
+    "☄️": [
+        "comet", 
+        "space"
+    ], 
+    "☎️": [
+        "phone", 
+        "telephone"
+    ], 
+    "☑️": [
+        "box", 
+        "ballot box with check", 
+        "ballot", 
+        "check"
     ], 
     "☔": [
         "umbrella with rain drops", 
@@ -68,6 +272,85 @@
         "hot", 
         "beverage", 
         "hot beverage"
+    ], 
+    "☘️": [
+        "shamrock", 
+        "plant"
+    ], 
+    "☝️": [
+        "index", 
+        "index pointing up", 
+        "point", 
+        "up", 
+        "hand", 
+        "finger"
+    ], 
+    "☠️": [
+        "death", 
+        "monster", 
+        "skull", 
+        "face", 
+        "skull and crossbones", 
+        "crossbones"
+    ], 
+    "☢️": [
+        "radioactive", 
+        "sign"
+    ], 
+    "☣️": [
+        "biohazard", 
+        "sign"
+    ], 
+    "☦️": [
+        "orthodox cross", 
+        "Christian", 
+        "cross", 
+        "religion"
+    ], 
+    "☪️": [
+        "religion", 
+        "Muslim", 
+        "star and crescent", 
+        "islam"
+    ], 
+    "☮️": [
+        "peace", 
+        "peace symbol"
+    ], 
+    "☯️": [
+        "taoist", 
+        "yin yang", 
+        "yin", 
+        "religion", 
+        "yang", 
+        "tao"
+    ], 
+    "☸️": [
+        "wheel", 
+        "dharma", 
+        "Buddhist", 
+        "wheel of dharma", 
+        "religion"
+    ], 
+    "☹️": [
+        "frown", 
+        "frowning face", 
+        "face"
+    ], 
+    "☺️": [
+        "smiling face", 
+        "smile", 
+        "outlined", 
+        "relaxed", 
+        "face"
+    ], 
+    "♀️": [
+        "female sign", 
+        "woman"
+    ], 
+    "♂️": [
+        "man", 
+        "male sign"
     ], 
     "♈": [
         "zodiac", 
@@ -133,14 +416,95 @@
         "fish", 
         "zodiac"
     ], 
+    "♠️": [
+        "game", 
+        "spade suit", 
+        "card"
+    ], 
+    "♣️": [
+        "game", 
+        "club suit", 
+        "card"
+    ], 
+    "♥️": [
+        "game", 
+        "heart suit", 
+        "card"
+    ], 
+    "♦️": [
+        "game", 
+        "diamond suit", 
+        "card"
+    ], 
+    "♨️": [
+        "steaming", 
+        "springs", 
+        "hot", 
+        "hotsprings", 
+        "hot springs"
+    ], 
+    "♻️": [
+        "recycle", 
+        "recycling symbol"
+    ], 
     "♿": [
         "access", 
         "wheelchair symbol"
+    ], 
+    "⚒️": [
+        "tool", 
+        "hammer and pick", 
+        "hammer", 
+        "pick"
     ], 
     "⚓": [
         "ship", 
         "tool", 
         "anchor"
+    ], 
+    "⚔️": [
+        "swords", 
+        "weapon", 
+        "crossed", 
+        "crossed swords"
+    ], 
+    "⚕️": [
+        "medicine", 
+        "aesculapius", 
+        "medical symbol", 
+        "staff"
+    ], 
+    "⚖️": [
+        "weight", 
+        "scales", 
+        "justice", 
+        "tool", 
+        "balance scale", 
+        "Libra", 
+        "zodiac", 
+        "balance"
+    ], 
+    "⚗️": [
+        "tool", 
+        "chemistry", 
+        "alembic"
+    ], 
+    "⚙️": [
+        "cogwheel", 
+        "tool", 
+        "gear", 
+        "cog"
+    ], 
+    "⚛️": [
+        "atheist", 
+        "atom symbol", 
+        "atom"
+    ], 
+    "⚜️": [
+        "fleur-de-lis"
+    ], 
+    "⚠️": [
+        "warning"
     ], 
     "⚡": [
         "electric", 
@@ -160,6 +524,17 @@
         "circle", 
         "black circle", 
         "geometric"
+    ], 
+    "⚰️": [
+        "death", 
+        "coffin"
+    ], 
+    "⚱️": [
+        "ashes", 
+        "funeral", 
+        "death", 
+        "urn", 
+        "funeral urn"
     ], 
     "⚽": [
         "soccer", 
@@ -182,12 +557,35 @@
         "sun behind cloud", 
         "cloud"
     ], 
+    "⛈️": [
+        "thunder", 
+        "cloud with lightning and rain", 
+        "rain", 
+        "cloud"
+    ], 
     "⛎": [
         "snake", 
         "zodiac", 
         "bearer", 
         "serpent", 
         "Ophiuchus"
+    ], 
+    "⛏️": [
+        "mining", 
+        "tool", 
+        "pick"
+    ], 
+    "⛑️": [
+        "rescue worker’s helmet", 
+        "helmet", 
+        "cross", 
+        "face", 
+        "aid", 
+        "hat"
+    ], 
+    "⛓️": [
+        "chains", 
+        "chain"
     ], 
     "⛔": [
         "no entry", 
@@ -198,11 +596,26 @@
         "not", 
         "entry"
     ], 
+    "⛩️": [
+        "religion", 
+        "shrine", 
+        "shinto", 
+        "shinto shrine"
+    ], 
     "⛪": [
         "religion", 
         "Christian", 
         "cross", 
         "church"
+    ], 
+    "⛰️": [
+        "mountain"
+    ], 
+    "⛱️": [
+        "sun", 
+        "umbrella on ground", 
+        "umbrella", 
+        "rain"
     ], 
     "⛲": [
         "fountain"
@@ -212,12 +625,31 @@
         "flag in hole", 
         "golf"
     ], 
+    "⛴️": [
+        "ferry", 
+        "boat", 
+        "passenger"
+    ], 
     "⛵": [
         "resort", 
         "yacht", 
         "sea", 
         "boat", 
         "sailboat"
+    ], 
+    "⛷️": [
+        "ski", 
+        "snow", 
+        "skier"
+    ], 
+    "⛸️": [
+        "ice skate", 
+        "skate", 
+        "ice"
+    ], 
+    "⛹️‍♂️": [
+        "ball", 
+        "person bouncing ball"
     ], 
     "⛺": [
         "camping", 
@@ -232,10 +664,24 @@
         "station", 
         "fuel"
     ], 
+    "✂️": [
+        "scissors", 
+        "tool", 
+        "cutting"
+    ], 
     "✅": [
         "white heavy check mark", 
         "check", 
         "mark"
+    ], 
+    "✈️": [
+        "airplane", 
+        "aeroplane"
+    ], 
+    "✉️": [
+        "envelope", 
+        "email", 
+        "letter"
     ], 
     "✊": [
         "raised fist", 
@@ -248,10 +694,71 @@
         "raised hand", 
         "hand"
     ], 
+    "✌️": [
+        "victory hand", 
+        "v", 
+        "victory", 
+        "hand"
+    ], 
+    "✍️": [
+        "write", 
+        "writing hand", 
+        "hand"
+    ], 
+    "✏️": [
+        "pencil"
+    ], 
+    "✒️": [
+        "nib", 
+        "pen", 
+        "black nib"
+    ], 
+    "✔️": [
+        "heavy check mark", 
+        "check", 
+        "mark"
+    ], 
+    "✖️": [
+        "cancel", 
+        "multiplication", 
+        "multiply", 
+        "x", 
+        "heavy multiplication x"
+    ], 
+    "✝️": [
+        "latin cross", 
+        "Christian", 
+        "cross", 
+        "religion"
+    ], 
+    "✡️": [
+        "star", 
+        "Jew", 
+        "Jewish", 
+        "star of David", 
+        "David", 
+        "religion"
+    ], 
     "✨": [
         "sparkle", 
         "star", 
         "sparkles"
+    ], 
+    "✳️": [
+        "eight-spoked asterisk", 
+        "asterisk"
+    ], 
+    "✴️": [
+        "eight-pointed star", 
+        "star"
+    ], 
+    "❄️": [
+        "cold", 
+        "snow", 
+        "snowflake"
+    ], 
+    "❇️": [
+        "sparkle"
     ], 
     "❌": [
         "multiplication", 
@@ -292,6 +799,16 @@
         "punctuation", 
         "mark"
     ], 
+    "❣️": [
+        "exclamation", 
+        "heavy heart exclamation", 
+        "punctuation", 
+        "mark"
+    ], 
+    "❤️": [
+        "red heart", 
+        "heart"
+    ], 
     "➕": [
         "heavy plus sign", 
         "plus", 
@@ -307,6 +824,13 @@
         "math", 
         "heavy division sign"
     ], 
+    "➡️": [
+        "direction", 
+        "east", 
+        "cardinal", 
+        "right arrow", 
+        "arrow"
+    ], 
     "➰": [
         "curly loop", 
         "curl", 
@@ -317,6 +841,37 @@
         "curl", 
         "loop", 
         "double curly loop"
+    ], 
+    "⤴️": [
+        "right arrow curving up", 
+        "arrow"
+    ], 
+    "⤵️": [
+        "down", 
+        "right arrow curving down", 
+        "arrow"
+    ], 
+    "⬅️": [
+        "west", 
+        "direction", 
+        "cardinal", 
+        "left arrow", 
+        "arrow"
+    ], 
+    "⬆️": [
+        "up arrow", 
+        "north", 
+        "direction", 
+        "cardinal", 
+        "arrow"
+    ], 
+    "⬇️": [
+        "direction", 
+        "down arrow", 
+        "down", 
+        "cardinal", 
+        "arrow", 
+        "south"
     ], 
     "⬛": [
         "geometric", 
@@ -336,6 +891,31 @@
         "heavy large circle", 
         "o"
     ], 
+    "〰️": [
+        "dash", 
+        "wavy dash", 
+        "wavy", 
+        "punctuation"
+    ], 
+    "〽️": [
+        "part alternation mark", 
+        "part", 
+        "mark"
+    ], 
+    "㊗️": [
+        "Japanese “congratulations” button", 
+        "ideograph", 
+        "Japanese", 
+        "祝", 
+        "“congratulations”"
+    ], 
+    "㊙️": [
+        "“secret”", 
+        "Japanese “secret” button", 
+        "ideograph", 
+        "Japanese", 
+        "秘"
+    ], 
     "🀄": [
         "game", 
         "mahjong", 
@@ -347,6 +927,25 @@
         "game", 
         "wildcard", 
         "card"
+    ], 
+    "🅰️": [
+        "a", 
+        "A button (blood type)", 
+        "blood type"
+    ], 
+    "🅱️": [
+        "B button (blood type)", 
+        "b", 
+        "blood type"
+    ], 
+    "🅾️": [
+        "blood type", 
+        "o", 
+        "O button (blood type)"
+    ], 
+    "🅿️": [
+        "P button", 
+        "parking"
     ], 
     "🆎": [
         "AB button (blood type)", 
@@ -397,1044 +996,19 @@
         "vs", 
         "VS button"
     ], 
-    "🇦🇨": [
-        "Ascension Island", 
-        "flag"
-    ], 
-    "🇦🇩": [
-        "Andorra", 
-        "flag"
-    ], 
-    "🇦🇪": [
-        "United Arab Emirates", 
-        "flag"
-    ], 
-    "🇦🇫": [
-        "Afghanistan", 
-        "flag"
-    ], 
-    "🇦🇬": [
-        "flag", 
-        "Antigua & Barbuda"
-    ], 
-    "🇦🇮": [
-        "flag", 
-        "Anguilla"
-    ], 
-    "🇦🇱": [
-        "flag", 
-        "Albania"
-    ], 
-    "🇦🇲": [
-        "flag", 
-        "Armenia"
-    ], 
-    "🇦🇴": [
-        "flag", 
-        "Angola"
-    ], 
-    "🇦🇶": [
-        "flag", 
-        "Antarctica"
-    ], 
-    "🇦🇷": [
-        "flag", 
-        "Argentina"
-    ], 
-    "🇦🇸": [
-        "flag", 
-        "American Samoa"
-    ], 
-    "🇦🇹": [
-        "flag", 
-        "Austria"
-    ], 
-    "🇦🇺": [
-        "flag", 
-        "Australia"
-    ], 
-    "🇦🇼": [
-        "flag", 
-        "Aruba"
-    ], 
-    "🇦🇽": [
-        "flag", 
-        "Åland Islands"
-    ], 
-    "🇦🇿": [
-        "flag", 
-        "Azerbaijan"
-    ], 
-    "🇧🇦": [
-        "flag", 
-        "Bosnia & Herzegovina"
-    ], 
-    "🇧🇧": [
-        "flag", 
-        "Barbados"
-    ], 
-    "🇧🇩": [
-        "flag", 
-        "Bangladesh"
-    ], 
-    "🇧🇪": [
-        "Belgium", 
-        "flag"
-    ], 
-    "🇧🇫": [
-        "flag", 
-        "Burkina Faso"
-    ], 
-    "🇧🇬": [
-        "flag", 
-        "Bulgaria"
-    ], 
-    "🇧🇭": [
-        "Bahrain", 
-        "flag"
-    ], 
-    "🇧🇮": [
-        "Burundi", 
-        "flag"
-    ], 
-    "🇧🇯": [
-        "flag", 
-        "Benin"
-    ], 
-    "🇧🇱": [
-        "flag", 
-        "St. Barthélemy"
-    ], 
-    "🇧🇲": [
-        "flag", 
-        "Bermuda"
-    ], 
-    "🇧🇳": [
-        "Brunei", 
-        "flag"
-    ], 
-    "🇧🇴": [
-        "flag", 
-        "Bolivia"
-    ], 
-    "🇧🇶": [
-        "flag", 
-        "Caribbean Netherlands"
-    ], 
-    "🇧🇷": [
-        "Brazil", 
-        "flag"
-    ], 
-    "🇧🇸": [
-        "Bahamas", 
-        "flag"
-    ], 
-    "🇧🇹": [
-        "flag", 
-        "Bhutan"
-    ], 
-    "🇧🇻": [
-        "flag", 
-        "Bouvet Island"
-    ], 
-    "🇧🇼": [
-        "flag", 
-        "Botswana"
-    ], 
-    "🇧🇾": [
-        "flag", 
-        "Belarus"
-    ], 
-    "🇧🇿": [
-        "flag", 
-        "Belize"
-    ], 
-    "🇨🇦": [
-        "Canada", 
-        "flag"
-    ], 
-    "🇨🇨": [
-        "Cocos (Keeling) Islands", 
-        "flag"
-    ], 
-    "🇨🇩": [
-        "flag", 
-        "Congo - Kinshasa"
-    ], 
-    "🇨🇫": [
-        "flag", 
-        "Central African Republic"
-    ], 
-    "🇨🇬": [
-        "flag", 
-        "Congo - Brazzaville"
-    ], 
-    "🇨🇭": [
-        "Switzerland", 
-        "flag"
-    ], 
-    "🇨🇮": [
-        "Côte d’Ivoire", 
-        "flag"
-    ], 
-    "🇨🇰": [
-        "flag", 
-        "Cook Islands"
-    ], 
-    "🇨🇱": [
-        "flag", 
-        "Chile"
-    ], 
-    "🇨🇲": [
-        "flag", 
-        "Cameroon"
-    ], 
-    "🇨🇳": [
-        "flag", 
-        "China"
-    ], 
-    "🇨🇴": [
-        "flag", 
-        "Colombia"
-    ], 
-    "🇨🇵": [
-        "flag", 
-        "Clipperton Island"
-    ], 
-    "🇨🇷": [
-        "flag", 
-        "Costa Rica"
-    ], 
-    "🇨🇺": [
-        "flag", 
-        "Cuba"
-    ], 
-    "🇨🇻": [
-        "flag", 
-        "Cape Verde"
-    ], 
-    "🇨🇼": [
-        "Curaçao", 
-        "flag"
-    ], 
-    "🇨🇽": [
-        "flag", 
-        "Christmas Island"
-    ], 
-    "🇨🇾": [
-        "flag", 
-        "Cyprus"
-    ], 
-    "🇨🇿": [
-        "flag", 
-        "Czechia"
-    ], 
-    "🇩🇪": [
-        "flag", 
-        "Germany"
-    ], 
-    "🇩🇬": [
-        "flag", 
-        "Diego Garcia"
-    ], 
-    "🇩🇯": [
-        "flag", 
-        "Djibouti"
-    ], 
-    "🇩🇰": [
-        "Denmark", 
-        "flag"
-    ], 
-    "🇩🇲": [
-        "flag", 
-        "Dominica"
-    ], 
-    "🇩🇴": [
-        "flag", 
-        "Dominican Republic"
-    ], 
-    "🇩🇿": [
-        "flag", 
-        "Algeria"
-    ], 
-    "🇪🇦": [
-        "Ceuta & Melilla", 
-        "flag"
-    ], 
-    "🇪🇨": [
-        "flag", 
-        "Ecuador"
-    ], 
-    "🇪🇪": [
-        "flag", 
-        "Estonia"
-    ], 
-    "🇪🇬": [
-        "Egypt", 
-        "flag"
-    ], 
-    "🇪🇭": [
-        "flag", 
-        "Western Sahara"
-    ], 
-    "🇪🇷": [
-        "Eritrea", 
-        "flag"
-    ], 
-    "🇪🇸": [
-        "flag", 
-        "Spain"
-    ], 
-    "🇪🇹": [
-        "Ethiopia", 
-        "flag"
-    ], 
-    "🇪🇺": [
-        "flag", 
-        "European Union"
-    ], 
-    "🇫🇮": [
-        "flag", 
-        "Finland"
-    ], 
-    "🇫🇯": [
-        "flag", 
-        "Fiji"
-    ], 
-    "🇫🇰": [
-        "Falkland Islands", 
-        "flag"
-    ], 
-    "🇫🇲": [
-        "flag", 
-        "Micronesia"
-    ], 
-    "🇫🇴": [
-        "Faroe Islands", 
-        "flag"
-    ], 
-    "🇫🇷": [
-        "flag", 
-        "France"
-    ], 
-    "🇬🇦": [
-        "flag", 
-        "Gabon"
-    ], 
-    "🇬🇧": [
-        "United Kingdom", 
-        "flag"
-    ], 
-    "🇬🇩": [
-        "Grenada", 
-        "flag"
-    ], 
-    "🇬🇪": [
-        "flag", 
-        "Georgia"
-    ], 
-    "🇬🇫": [
-        "flag", 
-        "French Guiana"
-    ], 
-    "🇬🇬": [
-        "flag", 
-        "Guernsey"
-    ], 
-    "🇬🇭": [
-        "Ghana", 
-        "flag"
-    ], 
-    "🇬🇮": [
-        "flag", 
-        "Gibraltar"
-    ], 
-    "🇬🇱": [
-        "flag", 
-        "Greenland"
-    ], 
-    "🇬🇲": [
-        "Gambia", 
-        "flag"
-    ], 
-    "🇬🇳": [
-        "Guinea", 
-        "flag"
-    ], 
-    "🇬🇵": [
-        "flag", 
-        "Guadeloupe"
-    ], 
-    "🇬🇶": [
-        "flag", 
-        "Equatorial Guinea"
-    ], 
-    "🇬🇷": [
-        "flag", 
-        "Greece"
-    ], 
-    "🇬🇸": [
-        "South Georgia & South Sandwich Islands", 
-        "flag"
-    ], 
-    "🇬🇹": [
-        "flag", 
-        "Guatemala"
-    ], 
-    "🇬🇺": [
-        "flag", 
-        "Guam"
-    ], 
-    "🇬🇼": [
-        "flag", 
-        "Guinea-Bissau"
-    ], 
-    "🇬🇾": [
-        "flag", 
-        "Guyana"
-    ], 
-    "🇭🇰": [
-        "flag", 
-        "Hong Kong SAR China"
-    ], 
-    "🇭🇲": [
-        "flag", 
-        "Heard & McDonald Islands"
-    ], 
-    "🇭🇳": [
-        "flag", 
-        "Honduras"
-    ], 
-    "🇭🇷": [
-        "flag", 
-        "Croatia"
-    ], 
-    "🇭🇹": [
-        "flag", 
-        "Haiti"
-    ], 
-    "🇭🇺": [
-        "Hungary", 
-        "flag"
-    ], 
-    "🇮🇨": [
-        "Canary Islands", 
-        "flag"
-    ], 
-    "🇮🇩": [
-        "flag", 
-        "Indonesia"
-    ], 
-    "🇮🇪": [
-        "flag", 
-        "Ireland"
-    ], 
-    "🇮🇱": [
-        "flag", 
-        "Israel"
-    ], 
-    "🇮🇲": [
-        "flag", 
-        "Isle of Man"
-    ], 
-    "🇮🇳": [
-        "flag", 
-        "India"
-    ], 
-    "🇮🇴": [
-        "British Indian Ocean Territory", 
-        "flag"
-    ], 
-    "🇮🇶": [
-        "flag", 
-        "Iraq"
-    ], 
-    "🇮🇷": [
-        "flag", 
-        "Iran"
-    ], 
-    "🇮🇸": [
-        "Iceland", 
-        "flag"
-    ], 
-    "🇮🇹": [
-        "flag", 
-        "Italy"
-    ], 
-    "🇯🇪": [
-        "flag", 
-        "Jersey"
-    ], 
-    "🇯🇲": [
-        "Jamaica", 
-        "flag"
-    ], 
-    "🇯🇴": [
-        "flag", 
-        "Jordan"
-    ], 
-    "🇯🇵": [
-        "Japan", 
-        "flag"
-    ], 
-    "🇰🇪": [
-        "Kenya", 
-        "flag"
-    ], 
-    "🇰🇬": [
-        "flag", 
-        "Kyrgyzstan"
-    ], 
-    "🇰🇭": [
-        "flag", 
-        "Cambodia"
-    ], 
-    "🇰🇮": [
-        "Kiribati", 
-        "flag"
-    ], 
-    "🇰🇲": [
-        "flag", 
-        "Comoros"
-    ], 
-    "🇰🇳": [
-        "flag", 
-        "St. Kitts & Nevis"
-    ], 
-    "🇰🇵": [
-        "North Korea", 
-        "flag"
-    ], 
-    "🇰🇷": [
-        "flag", 
-        "South Korea"
-    ], 
-    "🇰🇼": [
-        "Kuwait", 
-        "flag"
-    ], 
-    "🇰🇾": [
-        "flag", 
-        "Cayman Islands"
-    ], 
-    "🇰🇿": [
-        "flag", 
-        "Kazakhstan"
-    ], 
-    "🇱🇦": [
-        "flag", 
-        "Laos"
-    ], 
-    "🇱🇧": [
-        "flag", 
-        "Lebanon"
-    ], 
-    "🇱🇨": [
-        "flag", 
-        "St. Lucia"
-    ], 
-    "🇱🇮": [
-        "flag", 
-        "Liechtenstein"
-    ], 
-    "🇱🇰": [
-        "Sri Lanka", 
-        "flag"
-    ], 
-    "🇱🇷": [
-        "Liberia", 
-        "flag"
-    ], 
-    "🇱🇸": [
-        "Lesotho", 
-        "flag"
-    ], 
-    "🇱🇹": [
-        "flag", 
-        "Lithuania"
-    ], 
-    "🇱🇺": [
-        "flag", 
-        "Luxembourg"
-    ], 
-    "🇱🇻": [
-        "flag", 
-        "Latvia"
-    ], 
-    "🇱🇾": [
-        "flag", 
-        "Libya"
-    ], 
-    "🇲🇦": [
-        "Morocco", 
-        "flag"
-    ], 
-    "🇲🇨": [
-        "flag", 
-        "Monaco"
-    ], 
-    "🇲🇩": [
-        "flag", 
-        "Moldova"
-    ], 
-    "🇲🇪": [
-        "flag", 
-        "Montenegro"
-    ], 
-    "🇲🇫": [
-        "flag", 
-        "St. Martin"
-    ], 
-    "🇲🇬": [
-        "flag", 
-        "Madagascar"
-    ], 
-    "🇲🇭": [
-        "flag", 
-        "Marshall Islands"
-    ], 
-    "🇲🇰": [
-        "flag", 
-        "Macedonia"
-    ], 
-    "🇲🇱": [
-        "flag", 
-        "Mali"
-    ], 
-    "🇲🇲": [
-        "flag", 
-        "Myanmar (Burma)"
-    ], 
-    "🇲🇳": [
-        "flag", 
-        "Mongolia"
-    ], 
-    "🇲🇴": [
-        "flag", 
-        "Macau SAR China"
-    ], 
-    "🇲🇵": [
-        "flag", 
-        "Northern Mariana Islands"
-    ], 
-    "🇲🇶": [
-        "flag", 
-        "Martinique"
-    ], 
-    "🇲🇷": [
-        "Mauritania", 
-        "flag"
-    ], 
-    "🇲🇸": [
-        "flag", 
-        "Montserrat"
-    ], 
-    "🇲🇹": [
-        "flag", 
-        "Malta"
-    ], 
-    "🇲🇺": [
-        "Mauritius", 
-        "flag"
-    ], 
-    "🇲🇻": [
-        "flag", 
-        "Maldives"
-    ], 
-    "🇲🇼": [
-        "flag", 
-        "Malawi"
-    ], 
-    "🇲🇽": [
-        "flag", 
-        "Mexico"
-    ], 
-    "🇲🇾": [
-        "Malaysia", 
-        "flag"
-    ], 
-    "🇲🇿": [
-        "flag", 
-        "Mozambique"
-    ], 
-    "🇳🇦": [
-        "flag", 
-        "Namibia"
-    ], 
-    "🇳🇨": [
-        "flag", 
-        "New Caledonia"
-    ], 
-    "🇳🇪": [
-        "flag", 
-        "Niger"
-    ], 
-    "🇳🇫": [
-        "Norfolk Island", 
-        "flag"
-    ], 
-    "🇳🇬": [
-        "flag", 
-        "Nigeria"
-    ], 
-    "🇳🇮": [
-        "flag", 
-        "Nicaragua"
-    ], 
-    "🇳🇱": [
-        "flag", 
-        "Netherlands"
-    ], 
-    "🇳🇴": [
-        "flag", 
-        "Norway"
-    ], 
-    "🇳🇵": [
-        "flag", 
-        "Nepal"
-    ], 
-    "🇳🇷": [
-        "flag", 
-        "Nauru"
-    ], 
-    "🇳🇺": [
-        "flag", 
-        "Niue"
-    ], 
-    "🇳🇿": [
-        "flag", 
-        "New Zealand"
-    ], 
-    "🇴🇲": [
-        "Oman", 
-        "flag"
-    ], 
-    "🇵🇦": [
-        "flag", 
-        "Panama"
-    ], 
-    "🇵🇪": [
-        "flag", 
-        "Peru"
-    ], 
-    "🇵🇫": [
-        "flag", 
-        "French Polynesia"
-    ], 
-    "🇵🇬": [
-        "flag", 
-        "Papua New Guinea"
-    ], 
-    "🇵🇭": [
-        "flag", 
-        "Philippines"
-    ], 
-    "🇵🇰": [
-        "Pakistan", 
-        "flag"
-    ], 
-    "🇵🇱": [
-        "flag", 
-        "Poland"
-    ], 
-    "🇵🇲": [
-        "flag", 
-        "St. Pierre & Miquelon"
-    ], 
-    "🇵🇳": [
-        "flag", 
-        "Pitcairn Islands"
-    ], 
-    "🇵🇷": [
-        "flag", 
-        "Puerto Rico"
-    ], 
-    "🇵🇸": [
-        "Palestinian Territories", 
-        "flag"
-    ], 
-    "🇵🇹": [
-        "flag", 
-        "Portugal"
-    ], 
-    "🇵🇼": [
-        "flag", 
-        "Palau"
-    ], 
-    "🇵🇾": [
-        "Paraguay", 
-        "flag"
-    ], 
-    "🇶🇦": [
-        "flag", 
-        "Qatar"
-    ], 
-    "🇷🇪": [
-        "flag", 
-        "Réunion"
-    ], 
-    "🇷🇴": [
-        "flag", 
-        "Romania"
-    ], 
-    "🇷🇸": [
-        "flag", 
-        "Serbia"
-    ], 
-    "🇷🇺": [
-        "flag", 
-        "Russia"
-    ], 
-    "🇷🇼": [
-        "flag", 
-        "Rwanda"
-    ], 
-    "🇸🇦": [
-        "flag", 
-        "Saudi Arabia"
-    ], 
-    "🇸🇧": [
-        "Solomon Islands", 
-        "flag"
-    ], 
-    "🇸🇨": [
-        "flag", 
-        "Seychelles"
-    ], 
-    "🇸🇩": [
-        "Sudan", 
-        "flag"
-    ], 
-    "🇸🇪": [
-        "flag", 
-        "Sweden"
-    ], 
-    "🇸🇬": [
-        "flag", 
-        "Singapore"
-    ], 
-    "🇸🇭": [
-        "flag", 
-        "St. Helena"
-    ], 
-    "🇸🇮": [
-        "Slovenia", 
-        "flag"
-    ], 
-    "🇸🇯": [
-        "flag", 
-        "Svalbard & Jan Mayen"
-    ], 
-    "🇸🇰": [
-        "flag", 
-        "Slovakia"
-    ], 
-    "🇸🇱": [
-        "flag", 
-        "Sierra Leone"
-    ], 
-    "🇸🇲": [
-        "flag", 
-        "San Marino"
-    ], 
-    "🇸🇳": [
-        "flag", 
-        "Senegal"
-    ], 
-    "🇸🇴": [
-        "flag", 
-        "Somalia"
-    ], 
-    "🇸🇷": [
-        "flag", 
-        "Suriname"
-    ], 
-    "🇸🇸": [
-        "flag", 
-        "South Sudan"
-    ], 
-    "🇸🇹": [
-        "São Tomé & Príncipe", 
-        "flag"
-    ], 
-    "🇸🇻": [
-        "El Salvador", 
-        "flag"
-    ], 
-    "🇸🇽": [
-        "flag", 
-        "Sint Maarten"
-    ], 
-    "🇸🇾": [
-        "Syria", 
-        "flag"
-    ], 
-    "🇸🇿": [
-        "flag", 
-        "Swaziland"
-    ], 
-    "🇹🇦": [
-        "flag", 
-        "Tristan da Cunha"
-    ], 
-    "🇹🇨": [
-        "flag", 
-        "Turks & Caicos Islands"
-    ], 
-    "🇹🇩": [
-        "flag", 
-        "Chad"
-    ], 
-    "🇹🇫": [
-        "flag", 
-        "French Southern Territories"
-    ], 
-    "🇹🇬": [
-        "Togo", 
-        "flag"
-    ], 
-    "🇹🇭": [
-        "Thailand", 
-        "flag"
-    ], 
-    "🇹🇯": [
-        "flag", 
-        "Tajikistan"
-    ], 
-    "🇹🇰": [
-        "Tokelau", 
-        "flag"
-    ], 
-    "🇹🇱": [
-        "flag", 
-        "Timor-Leste"
-    ], 
-    "🇹🇲": [
-        "flag", 
-        "Turkmenistan"
-    ], 
-    "🇹🇳": [
-        "Tunisia", 
-        "flag"
-    ], 
-    "🇹🇴": [
-        "flag", 
-        "Tonga"
-    ], 
-    "🇹🇷": [
-        "Turkey", 
-        "flag"
-    ], 
-    "🇹🇹": [
-        "Trinidad & Tobago", 
-        "flag"
-    ], 
-    "🇹🇻": [
-        "Tuvalu", 
-        "flag"
-    ], 
-    "🇹🇼": [
-        "flag", 
-        "Taiwan"
-    ], 
-    "🇹🇿": [
-        "flag", 
-        "Tanzania"
-    ], 
-    "🇺🇦": [
-        "Ukraine", 
-        "flag"
-    ], 
-    "🇺🇬": [
-        "flag", 
-        "Uganda"
-    ], 
-    "🇺🇲": [
-        "flag", 
-        "U.S. Outlying Islands"
-    ], 
-    "🇺🇳": [
-        "flag", 
-        "United Nations"
-    ], 
-    "🇺🇸": [
-        "United States", 
-        "flag"
-    ], 
-    "🇺🇾": [
-        "flag", 
-        "Uruguay"
-    ], 
-    "🇺🇿": [
-        "Uzbekistan", 
-        "flag"
-    ], 
-    "🇻🇦": [
-        "Vatican City", 
-        "flag"
-    ], 
-    "🇻🇨": [
-        "flag", 
-        "St. Vincent & Grenadines"
-    ], 
-    "🇻🇪": [
-        "flag", 
-        "Venezuela"
-    ], 
-    "🇻🇬": [
-        "flag", 
-        "British Virgin Islands"
-    ], 
-    "🇻🇮": [
-        "U.S. Virgin Islands", 
-        "flag"
-    ], 
-    "🇻🇳": [
-        "flag", 
-        "Vietnam"
-    ], 
-    "🇻🇺": [
-        "flag", 
-        "Vanuatu"
-    ], 
-    "🇼🇫": [
-        "flag", 
-        "Wallis & Futuna"
-    ], 
-    "🇼🇸": [
-        "flag", 
-        "Samoa"
-    ], 
-    "🇽🇰": [
-        "flag", 
-        "Kosovo"
-    ], 
-    "🇾🇪": [
-        "flag", 
-        "Yemen"
-    ], 
-    "🇾🇹": [
-        "Mayotte", 
-        "flag"
-    ], 
-    "🇿🇦": [
-        "flag", 
-        "South Africa"
-    ], 
-    "🇿🇲": [
-        "flag", 
-        "Zambia"
-    ], 
-    "🇿🇼": [
-        "flag", 
-        "Zimbabwe"
-    ], 
     "🈁": [
         "“here”", 
         "katakana", 
         "ココ", 
         "Japanese", 
         "Japanese “here” button"
+    ], 
+    "🈂️": [
+        "“service charge”", 
+        "katakana", 
+        "サ", 
+        "Japanese", 
+        "Japanese “service charge” button"
     ], 
     "🈚": [
         "“free of charge”", 
@@ -1484,6 +1058,13 @@
         "ideograph", 
         "Japanese", 
         "“not free of charge”"
+    ], 
+    "🈷️": [
+        "月", 
+        "ideograph", 
+        "Japanese", 
+        "“monthly amount”", 
+        "Japanese “monthly amount” button"
     ], 
     "🈸": [
         "申", 
@@ -1715,6 +1296,58 @@
         "shooting", 
         "star"
     ], 
+    "🌡️": [
+        "weather", 
+        "thermometer"
+    ], 
+    "🌤️": [
+        "sun", 
+        "sun behind small cloud", 
+        "cloud"
+    ], 
+    "🌥️": [
+        "sun", 
+        "sun behind large cloud", 
+        "cloud"
+    ], 
+    "🌦️": [
+        "sun", 
+        "sun behind rain cloud", 
+        "rain", 
+        "cloud"
+    ], 
+    "🌧️": [
+        "cloud with rain", 
+        "rain", 
+        "cloud"
+    ], 
+    "🌨️": [
+        "cold", 
+        "cloud with snow", 
+        "cloud", 
+        "snow"
+    ], 
+    "🌩️": [
+        "lightning", 
+        "cloud", 
+        "cloud with lightning"
+    ], 
+    "🌪️": [
+        "tornado", 
+        "cloud", 
+        "whirlwind"
+    ], 
+    "🌫️": [
+        "fog", 
+        "cloud"
+    ], 
+    "🌬️": [
+        "blow", 
+        "wind face", 
+        "wind", 
+        "cloud", 
+        "face"
+    ], 
     "🌭": [
         "hot dog", 
         "sausage", 
@@ -1756,6 +1389,11 @@
     "🌵": [
         "plant", 
         "cactus"
+    ], 
+    "🌶️": [
+        "hot", 
+        "pepper", 
+        "hot pepper"
     ], 
     "🌷": [
         "tulip", 
@@ -2160,6 +1798,13 @@
         "bottle", 
         "baby bottle"
     ], 
+    "🍽️": [
+        "fork", 
+        "fork and knife with plate", 
+        "cooking", 
+        "knife", 
+        "plate"
+    ], 
     "🍾": [
         "bottle with popping cork", 
         "bar", 
@@ -2301,6 +1946,49 @@
         "graduation", 
         "hat", 
         "celebration"
+    ], 
+    "🎖️": [
+        "military", 
+        "medal", 
+        "military medal", 
+        "celebration"
+    ], 
+    "🎗️": [
+        "reminder", 
+        "reminder ribbon", 
+        "ribbon", 
+        "celebration"
+    ], 
+    "🎙️": [
+        "studio", 
+        "mic", 
+        "studio microphone", 
+        "music", 
+        "microphone"
+    ], 
+    "🎚️": [
+        "slider", 
+        "music", 
+        "level slider", 
+        "level"
+    ], 
+    "🎛️": [
+        "control", 
+        "knobs", 
+        "music", 
+        "control knobs"
+    ], 
+    "🎞️": [
+        "frames", 
+        "movie", 
+        "film frames", 
+        "film", 
+        "cinema"
+    ], 
+    "🎟️": [
+        "admission tickets", 
+        "admission", 
+        "ticket"
     ], 
     "🎠": [
         "horse", 
@@ -2506,14 +2194,31 @@
         "snow", 
         "snowboarder"
     ], 
-    "🏃": [
+    "🏃‍♀️": [
         "running", 
-        "person running", 
+        "woman", 
+        "racing", 
+        "woman running", 
         "marathon"
     ], 
-    "🏄": [
+    "🏃‍♂️": [
+        "person running", 
+        "man running", 
+        "running", 
+        "racing", 
+        "marathon", 
+        "man"
+    ], 
+    "🏄‍♀️": [
+        "woman", 
         "surfing", 
-        "person surfing"
+        "woman surfing"
+    ], 
+    "🏄‍♂️": [
+        "man surfing", 
+        "surfing", 
+        "person surfing", 
+        "man"
     ], 
     "🏅": [
         "sports medal", 
@@ -2542,9 +2247,35 @@
         "rugby", 
         "football"
     ], 
-    "🏊": [
+    "🏊‍♀️": [
         "swim", 
-        "person swimming"
+        "woman", 
+        "woman swimming"
+    ], 
+    "🏊‍♂️": [
+        "swim", 
+        "person swimming", 
+        "man swimming", 
+        "man"
+    ], 
+    "🏋️‍♂️": [
+        "lifter", 
+        "weight", 
+        "person lifting weights"
+    ], 
+    "🏌️‍♂️": [
+        "ball", 
+        "golf", 
+        "person golfing"
+    ], 
+    "🏍️": [
+        "racing", 
+        "motorcycle"
+    ], 
+    "🏎️": [
+        "car", 
+        "racing", 
+        "racing car"
     ], 
     "🏏": [
         "cricket game", 
@@ -2580,6 +2311,55 @@
         "paddle", 
         "game", 
         "ping pong"
+    ], 
+    "🏔️": [
+        "mountain", 
+        "cold", 
+        "snow-capped mountain", 
+        "snow"
+    ], 
+    "🏕️": [
+        "camping"
+    ], 
+    "🏖️": [
+        "umbrella", 
+        "beach", 
+        "beach with umbrella"
+    ], 
+    "🏗️": [
+        "building construction", 
+        "construction"
+    ], 
+    "🏘️": [
+        "houses"
+    ], 
+    "🏙️": [
+        "cityscape", 
+        "city"
+    ], 
+    "🏚️": [
+        "derelict house", 
+        "house", 
+        "derelict"
+    ], 
+    "🏛️": [
+        "classical building", 
+        "classical"
+    ], 
+    "🏜️": [
+        "desert"
+    ], 
+    "🏝️": [
+        "island", 
+        "desert island", 
+        "desert"
+    ], 
+    "🏞️": [
+        "national park", 
+        "park"
+    ], 
+    "🏟️": [
+        "stadium"
     ], 
     "🏠": [
         "home", 
@@ -2664,21 +2444,24 @@
         "castle", 
         "European"
     ], 
+    "🏳️": [
+        "waving", 
+        "white flag"
+    ], 
+    "🏳️‍🌈": [
+        "rainbow", 
+        "rainbow flag"
+    ], 
     "🏴": [
         "waving", 
         "black flag"
     ], 
-    "🏴󠁧󠁢󠁥󠁮󠁧󠁿": [
-        "flag", 
-        "England"
+    "🏵️": [
+        "plant", 
+        "rosette"
     ], 
-    "🏴󠁧󠁢󠁳󠁣󠁴󠁿": [
-        "flag", 
-        "Scotland"
-    ], 
-    "🏴󠁧󠁢󠁷󠁬󠁳󠁿": [
-        "Wales", 
-        "flag"
+    "🏷️": [
+        "label"
     ], 
     "🏸": [
         "racquet", 
@@ -2709,19 +2492,29 @@
         "drink"
     ], 
     "🏻": [
-        "type 1–2"
+        "skin tone", 
+        "type 1–2", 
+        "light skin tone"
     ], 
     "🏼": [
+        "medium-light skin tone", 
+        "skin tone", 
         "type 3"
     ], 
     "🏽": [
-        "type 4"
+        "medium skin tone", 
+        "type 4", 
+        "skin tone"
     ], 
     "🏾": [
-        "type 5"
+        "medium-dark skin tone", 
+        "type 5", 
+        "skin tone"
     ], 
     "🏿": [
-        "type 6"
+        "type 6", 
+        "skin tone", 
+        "dark skin tone"
     ], 
     "🐀": [
         "rat"
@@ -3022,10 +2815,18 @@
         "paw prints", 
         "paw"
     ], 
+    "🐿️": [
+        "chipmunk", 
+        "squirrel"
+    ], 
     "👀": [
         "eyes", 
         "eye", 
         "face"
+    ], 
+    "👁️": [
+        "body", 
+        "eye"
     ], 
     "👂": [
         "body", 
@@ -3253,6 +3054,26 @@
     "👨": [
         "man"
     ], 
+    "👨‍⚕️": [
+        "doctor", 
+        "man health worker", 
+        "therapist", 
+        "healthcare", 
+        "nurse", 
+        "man"
+    ], 
+    "👨‍⚖️": [
+        "justice", 
+        "man judge", 
+        "scales", 
+        "man"
+    ], 
+    "👨‍✈️": [
+        "pilot", 
+        "man pilot", 
+        "plane", 
+        "man"
+    ], 
     "👨‍🌾": [
         "rancher", 
         "man", 
@@ -3302,103 +3123,8 @@
         "factory", 
         "man"
     ], 
-    "👨‍👦": [
-        "boy", 
-        "family: man, boy", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👦‍👦": [
-        "boy", 
-        "family: man, boy, boy", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👧": [
-        "girl", 
-        "family: man, girl", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👧‍👦": [
-        "boy", 
-        "girl", 
-        "family: man, girl, boy", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👧‍👧": [
-        "family: man, girl, girl", 
-        "girl", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👨‍👦": [
-        "boy", 
-        "family: man, man, boy", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👨‍👦‍👦": [
-        "family: man, man, boy, boy", 
-        "boy", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👨‍👧": [
-        "girl", 
-        "family: man, man, girl", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👨‍👧‍👦": [
-        "boy", 
-        "girl", 
-        "family: man, man, girl, boy", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👨‍👧‍👧": [
-        "girl", 
-        "family: man, man, girl, girl", 
-        "family", 
-        "man"
-    ], 
     "👨‍👩‍👦": [
-        "boy", 
-        "woman", 
-        "family: man, woman, boy", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👩‍👦‍👦": [
-        "family: man, woman, boy, boy", 
-        "boy", 
-        "woman", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👩‍👧": [
-        "girl", 
-        "woman", 
-        "family: man, woman, girl", 
-        "family", 
-        "man"
-    ], 
-    "👨‍👩‍👧‍👦": [
-        "boy", 
-        "woman", 
-        "family", 
-        "family: man, woman, girl, boy", 
-        "girl", 
-        "man"
-    ], 
-    "👨‍👩‍👧‍👧": [
-        "girl", 
-        "woman", 
-        "family: man, woman, girl, girl", 
-        "family", 
-        "man"
+        "family"
     ], 
     "👨‍💻": [
         "coder", 
@@ -3451,6 +3177,35 @@
     "👩": [
         "woman"
     ], 
+    "👩‍⚕️": [
+        "woman", 
+        "woman health worker", 
+        "doctor", 
+        "therapist", 
+        "healthcare", 
+        "nurse"
+    ], 
+    "👩‍⚖️": [
+        "judge", 
+        "woman judge", 
+        "woman", 
+        "scales"
+    ], 
+    "👩‍✈️": [
+        "woman", 
+        "plane", 
+        "woman pilot", 
+        "pilot"
+    ], 
+    "👩‍❤️‍👨": [
+        "couple with heart", 
+        "couple", 
+        "love"
+    ], 
+    "👩‍❤️‍💋‍👨": [
+        "couple", 
+        "kiss"
+    ], 
     "👩‍🌾": [
         "rancher", 
         "woman", 
@@ -3500,68 +3255,6 @@
         "industrial", 
         "woman factory worker"
     ], 
-    "👩‍👦": [
-        "family: woman, boy", 
-        "boy", 
-        "woman", 
-        "family"
-    ], 
-    "👩‍👦‍👦": [
-        "boy", 
-        "woman", 
-        "family", 
-        "family: woman, boy, boy"
-    ], 
-    "👩‍👧": [
-        "girl", 
-        "woman", 
-        "family: woman, girl", 
-        "family"
-    ], 
-    "👩‍👧‍👦": [
-        "family: woman, girl, boy", 
-        "boy", 
-        "girl", 
-        "woman", 
-        "family"
-    ], 
-    "👩‍👧‍👧": [
-        "family: woman, girl, girl", 
-        "girl", 
-        "woman", 
-        "family"
-    ], 
-    "👩‍👩‍👦": [
-        "boy", 
-        "woman", 
-        "family", 
-        "family: woman, woman, boy"
-    ], 
-    "👩‍👩‍👦‍👦": [
-        "family: woman, woman, boy, boy", 
-        "boy", 
-        "woman", 
-        "family"
-    ], 
-    "👩‍👩‍👧": [
-        "girl", 
-        "woman", 
-        "family: woman, woman, girl", 
-        "family"
-    ], 
-    "👩‍👩‍👧‍👦": [
-        "boy", 
-        "girl", 
-        "woman", 
-        "family", 
-        "family: woman, woman, girl, boy"
-    ], 
-    "👩‍👩‍👧‍👧": [
-        "girl", 
-        "woman", 
-        "family: woman, woman, girl, girl", 
-        "family"
-    ], 
     "👩‍💻": [
         "coder", 
         "technologist", 
@@ -3610,9 +3303,6 @@
         "woman", 
         "firefighter"
     ], 
-    "👪": [
-        "family"
-    ], 
     "👫": [
         "woman", 
         "man and woman holding hands", 
@@ -3638,17 +3328,35 @@
         "woman", 
         "hand"
     ], 
-    "👮": [
+    "👮‍♀️": [
+        "cop", 
+        "woman police officer", 
+        "woman", 
+        "police", 
+        "officer"
+    ], 
+    "👮‍♂️": [
         "cop", 
         "police", 
+        "police officer", 
+        "man police officer", 
         "officer", 
-        "police officer"
+        "man"
     ], 
-    "👯": [
+    "👯‍♀️": [
+        "partying", 
+        "women with bunny ears", 
+        "dancer", 
+        "bunny ear", 
+        "people with bunny ears", 
+        "women"
+    ], 
+    "👯‍♂️": [
+        "men with bunny ears", 
         "bunny ear", 
         "dancer", 
         "partying", 
-        "people with bunny ears"
+        "men"
     ], 
     "👰": [
         "bride", 
@@ -3656,9 +3364,16 @@
         "veil", 
         "wedding"
     ], 
-    "👱": [
+    "👱‍♀️": [
+        "blonde", 
+        "blond-haired woman", 
+        "woman"
+    ], 
+    "👱‍♂️": [
         "blond-haired person", 
-        "blond"
+        "man", 
+        "blond", 
+        "blond-haired man"
     ], 
     "👲": [
         "gua pi mao", 
@@ -3666,9 +3381,16 @@
         "man with Chinese cap", 
         "man"
     ], 
-    "👳": [
+    "👳‍♀️": [
+        "woman", 
+        "turban", 
+        "woman wearing turban"
+    ], 
+    "👳‍♂️": [
+        "man wearing turban", 
         "person wearing turban", 
-        "turban"
+        "turban", 
+        "man"
     ], 
     "👴": [
         "old man", 
@@ -3684,11 +3406,19 @@
         "baby", 
         "young"
     ], 
-    "👷": [
-        "construction worker", 
+    "👷‍♀️": [
+        "woman construction worker", 
+        "woman", 
+        "construction", 
+        "worker"
+    ], 
+    "👷‍♂️": [
+        "man construction worker", 
         "worker", 
         "construction", 
-        "hat"
+        "construction worker", 
+        "hat", 
+        "man"
     ], 
     "👸": [
         "fantasy", 
@@ -3764,16 +3494,32 @@
         "skull", 
         "face"
     ], 
-    "💁": [
+    "💁‍♀️": [
         "information", 
+        "woman", 
         "help", 
+        "woman tipping hand", 
         "hand", 
+        "tipping hand", 
         "person tipping hand", 
         "sassy", 
         "tipping"
     ], 
-    "💂": [
-        "guard"
+    "💁‍♂️": [
+        "man tipping hand", 
+        "tipping hand", 
+        "sassy", 
+        "man"
+    ], 
+    "💂‍♀️": [
+        "guard", 
+        "woman", 
+        "woman guard"
+    ], 
+    "💂‍♂️": [
+        "guard", 
+        "man guard", 
+        "man"
     ], 
     "💃": [
         "woman dancing", 
@@ -3793,18 +3539,33 @@
         "polish", 
         "care"
     ], 
-    "💆": [
+    "💆‍♀️": [
         "salon", 
+        "woman", 
         "person getting massage", 
+        "woman getting massage", 
+        "face", 
+        "massage"
+    ], 
+    "💆‍♂️": [
+        "man", 
         "massage", 
+        "man getting massage", 
         "face"
     ], 
-    "💇": [
-        "parlor", 
-        "haircut", 
-        "barber", 
+    "💇‍♀️": [
+        "woman", 
         "person getting haircut", 
-        "beauty"
+        "beauty", 
+        "haircut", 
+        "parlor", 
+        "woman getting haircut", 
+        "barber"
+    ], 
+    "💇‍♂️": [
+        "man getting haircut", 
+        "haircut", 
+        "man"
     ], 
     "💈": [
         "pole", 
@@ -3849,18 +3610,9 @@
         "gem", 
         "gem stone"
     ], 
-    "💏": [
-        "couple", 
-        "kiss"
-    ], 
     "💐": [
         "bouquet", 
         "flower"
-    ], 
-    "💑": [
-        "couple with heart", 
-        "couple", 
-        "love"
     ], 
     "💒": [
         "romance", 
@@ -4517,6 +4269,14 @@
         "videocassette", 
         "vhs"
     ], 
+    "📽️": [
+        "film projector", 
+        "projector", 
+        "cinema", 
+        "movie", 
+        "video", 
+        "film"
+    ], 
     "📿": [
         "beads", 
         "prayer beads", 
@@ -4702,10 +4462,6 @@
         "eighteen", 
         "prohibited", 
         "not"
-    ], 
-    "🔟": [
-        "keycap: 10", 
-        "keycap"
     ], 
     "🔠": [
         "ABCD", 
@@ -4899,6 +4655,17 @@
         "downwards button", 
         "red", 
         "arrow"
+    ], 
+    "🕉️": [
+        "Hindu", 
+        "om", 
+        "religion"
+    ], 
+    "🕊️": [
+        "fly", 
+        "peace", 
+        "dove", 
+        "bird"
     ], 
     "🕋": [
         "Muslim", 
@@ -5141,10 +4908,80 @@
         "30", 
         "12:30"
     ], 
+    "🕯️": [
+        "candle", 
+        "light"
+    ], 
+    "🕰️": [
+        "mantelpiece clock", 
+        "clock"
+    ], 
+    "🕳️": [
+        "hole"
+    ], 
+    "🕴️": [
+        "man in suit levitating", 
+        "suit", 
+        "business", 
+        "man"
+    ], 
+    "🕵️‍♂️": [
+        "detective", 
+        "sleuth", 
+        "spy"
+    ], 
+    "🕶️": [
+        "dark", 
+        "sunglasses", 
+        "eye", 
+        "eyewear", 
+        "glasses"
+    ], 
+    "🕷️": [
+        "insect", 
+        "spider"
+    ], 
+    "🕸️": [
+        "web", 
+        "spider web", 
+        "spider"
+    ], 
+    "🕹️": [
+        "game", 
+        "video game", 
+        "joystick"
+    ], 
     "🕺": [
         "dance", 
         "man dancing", 
         "man"
+    ], 
+    "🖇️": [
+        "linked paperclips", 
+        "link", 
+        "paperclip"
+    ], 
+    "🖊️": [
+        "ballpoint", 
+        "pen"
+    ], 
+    "🖋️": [
+        "fountain pen", 
+        "pen", 
+        "fountain"
+    ], 
+    "🖌️": [
+        "painting", 
+        "paintbrush"
+    ], 
+    "🖍️": [
+        "crayon"
+    ], 
+    "🖐️": [
+        "hand with fingers splayed", 
+        "splayed", 
+        "finger", 
+        "hand"
     ], 
     "🖕": [
         "middle finger", 
@@ -5163,6 +5000,119 @@
         "evil", 
         "black heart", 
         "wicked"
+    ], 
+    "🖥️": [
+        "computer", 
+        "desktop computer", 
+        "desktop"
+    ], 
+    "🖨️": [
+        "computer", 
+        "printer"
+    ], 
+    "🖱️": [
+        "computer", 
+        "computer mouse"
+    ], 
+    "🖲️": [
+        "computer", 
+        "trackball"
+    ], 
+    "🖼️": [
+        "picture", 
+        "art", 
+        "frame", 
+        "framed picture", 
+        "painting", 
+        "museum"
+    ], 
+    "🗂️": [
+        "index", 
+        "dividers", 
+        "card", 
+        "card index dividers"
+    ], 
+    "🗃️": [
+        "box", 
+        "card file box", 
+        "file", 
+        "card"
+    ], 
+    "🗄️": [
+        "file cabinet", 
+        "filing", 
+        "file", 
+        "cabinet"
+    ], 
+    "🗑️": [
+        "wastebasket"
+    ], 
+    "🗒️": [
+        "note", 
+        "spiral notepad", 
+        "pad", 
+        "spiral"
+    ], 
+    "🗓️": [
+        "spiral calendar", 
+        "calendar", 
+        "pad", 
+        "spiral"
+    ], 
+    "🗜️": [
+        "clamp", 
+        "tool", 
+        "compress", 
+        "vice"
+    ], 
+    "🗝️": [
+        "lock", 
+        "old", 
+        "old key", 
+        "key", 
+        "clue"
+    ], 
+    "🗞️": [
+        "newspaper", 
+        "news", 
+        "rolled-up newspaper", 
+        "paper", 
+        "rolled"
+    ], 
+    "🗡️": [
+        "weapon", 
+        "dagger", 
+        "knife"
+    ], 
+    "🗣️": [
+        "head", 
+        "silhouette", 
+        "speaking head", 
+        "face", 
+        "speaking", 
+        "speak"
+    ], 
+    "🗨️": [
+        "speech", 
+        "left speech bubble", 
+        "dialog"
+    ], 
+    "🗯️": [
+        "angry", 
+        "bubble", 
+        "balloon", 
+        "right anger bubble", 
+        "mad"
+    ], 
+    "🗳️": [
+        "box", 
+        "ballot box with ballot", 
+        "ballot"
+    ], 
+    "🗺️": [
+        "map", 
+        "world map", 
+        "world"
     ], 
     "🗻": [
         "fuji", 
@@ -5655,27 +5605,60 @@
         "face with rolling eyes", 
         "face"
     ], 
-    "🙅": [
+    "🙅‍♀️": [
+        "woman", 
         "no", 
         "forbidden", 
         "hand", 
         "person gesturing NO", 
         "prohibited", 
         "not", 
+        "woman gesturing NO", 
         "gesture"
     ], 
-    "🙆": [
-        "person gesturing OK", 
+    "🙅‍♂️": [
+        "man gesturing NO", 
+        "no", 
+        "forbidden", 
+        "hand", 
+        "prohibited", 
+        "gesture", 
+        "man"
+    ], 
+    "🙆‍♀️": [
+        "woman", 
         "OK", 
+        "hand", 
+        "person gesturing OK", 
+        "woman gesturing OK", 
+        "gesture"
+    ], 
+    "🙆‍♂️": [
+        "man", 
+        "OK", 
+        "man gesturing OK", 
         "gesture", 
         "hand"
     ], 
-    "🙇": [
-        "sorry", 
-        "person bowing", 
-        "gesture", 
+    "🙇‍♀️": [
+        "woman", 
         "apology", 
-        "bow"
+        "favor", 
+        "woman bowing", 
+        "bowing", 
+        "sorry", 
+        "gesture"
+    ], 
+    "🙇‍♂️": [
+        "man bowing", 
+        "apology", 
+        "person bowing", 
+        "bow", 
+        "favor", 
+        "bowing", 
+        "sorry", 
+        "gesture", 
+        "man"
     ], 
     "🙈": [
         "monkey", 
@@ -5713,12 +5696,21 @@
         "gesture", 
         "speak"
     ], 
-    "🙋": [
-        "person raising hand", 
-        "happy", 
+    "🙋‍♀️": [
         "raised", 
+        "woman", 
+        "raising hand", 
+        "hand", 
+        "person raising hand", 
+        "woman raising hand", 
         "gesture", 
-        "hand"
+        "happy"
+    ], 
+    "🙋‍♂️": [
+        "man raising hand", 
+        "raising hand", 
+        "gesture", 
+        "man"
     ], 
     "🙌": [
         "raised", 
@@ -5728,15 +5720,32 @@
         "gesture", 
         "celebration"
     ], 
-    "🙍": [
-        "person frowning", 
+    "🙍‍♀️": [
+        "woman", 
         "frown", 
+        "woman frowning", 
+        "person frowning", 
+        "frowning", 
         "gesture"
     ], 
-    "🙎": [
+    "🙍‍♂️": [
+        "frowning", 
+        "man frowning", 
+        "gesture", 
+        "man"
+    ], 
+    "🙎‍♀️": [
+        "woman", 
         "pouting", 
         "person pouting", 
-        "gesture"
+        "gesture", 
+        "woman pouting"
+    ], 
+    "🙎‍♂️": [
+        "pouting", 
+        "man pouting", 
+        "gesture", 
+        "man"
     ], 
     "🙏": [
         "pray", 
@@ -5935,8 +5944,16 @@
         "ship", 
         "boat"
     ], 
-    "🚣": [
+    "🚣‍♀️": [
         "rowboat", 
+        "woman", 
+        "boat", 
+        "woman rowing boat"
+    ], 
+    "🚣‍♂️": [
+        "rowboat", 
+        "man", 
+        "man rowing boat", 
         "boat", 
         "person rowing boat"
     ], 
@@ -6032,25 +6049,53 @@
         "not", 
         "no bicycles"
     ], 
-    "🚴": [
+    "🚴‍♀️": [
         "cyclist", 
         "biking", 
-        "person biking", 
+        "woman biking", 
+        "woman", 
         "bicycle"
     ], 
-    "🚵": [
+    "🚴‍♂️": [
+        "cyclist", 
+        "bicycle", 
+        "man biking", 
+        "person biking", 
+        "biking", 
+        "man"
+    ], 
+    "🚵‍♀️": [
+        "cyclist", 
+        "mountain", 
+        "woman", 
+        "bicycle", 
+        "woman mountain biking", 
+        "bike", 
+        "biking"
+    ], 
+    "🚵‍♂️": [
         "cyclist", 
         "mountain", 
         "bicycle", 
         "bicyclist", 
+        "man mountain biking", 
         "bike", 
-        "person mountain biking"
+        "person mountain biking", 
+        "man"
     ], 
-    "🚶": [
+    "🚶‍♀️": [
         "hike", 
-        "walking", 
-        "person walking", 
+        "woman", 
+        "woman walking", 
         "walk"
+    ], 
+    "🚶‍♂️": [
+        "walking", 
+        "hike", 
+        "man walking", 
+        "walk", 
+        "person walking", 
+        "man"
     ], 
     "🚷": [
         "no", 
@@ -6134,10 +6179,33 @@
         "luggage", 
         "left luggage"
     ], 
+    "🛋️": [
+        "hotel", 
+        "couch and lamp", 
+        "lamp", 
+        "couch"
+    ], 
     "🛌": [
         "sleep", 
         "hotel", 
         "person in bed"
+    ], 
+    "🛍️": [
+        "shopping bags", 
+        "bag", 
+        "hotel", 
+        "shopping"
+    ], 
+    "🛎️": [
+        "hotel", 
+        "bellhop", 
+        "bellhop bell", 
+        "bell"
+    ], 
+    "🛏️": [
+        "hotel", 
+        "sleep", 
+        "bed"
     ], 
     "🛐": [
         "religion", 
@@ -6156,6 +6224,42 @@
         "shopping", 
         "cart"
     ], 
+    "🛠️": [
+        "spanner", 
+        "hammer and wrench", 
+        "tool", 
+        "hammer", 
+        "wrench"
+    ], 
+    "🛡️": [
+        "weapon", 
+        "shield"
+    ], 
+    "🛢️": [
+        "oil drum", 
+        "oil", 
+        "drum"
+    ], 
+    "🛣️": [
+        "motorway", 
+        "road", 
+        "highway"
+    ], 
+    "🛤️": [
+        "railway track", 
+        "railway", 
+        "train"
+    ], 
+    "🛥️": [
+        "motor boat", 
+        "motorboat", 
+        "boat"
+    ], 
+    "🛩️": [
+        "airplane", 
+        "small airplane", 
+        "aeroplane"
+    ], 
     "🛫": [
         "departure", 
         "airplane departure", 
@@ -6171,6 +6275,15 @@
         "arriving", 
         "airplane", 
         "airplane arrival"
+    ], 
+    "🛰️": [
+        "satellite", 
+        "space"
+    ], 
+    "🛳️": [
+        "passenger ship", 
+        "passenger", 
+        "ship"
     ], 
     "🛴": [
         "scooter", 
@@ -6333,6 +6446,20 @@
         "disbelief", 
         "exasperation"
     ], 
+    "🤦‍♀️": [
+        "woman", 
+        "facepalm", 
+        "woman facepalming", 
+        "disbelief", 
+        "exasperation"
+    ], 
+    "🤦‍♂️": [
+        "man", 
+        "facepalm", 
+        "man facepalming", 
+        "disbelief", 
+        "exasperation"
+    ], 
     "🤧": [
         "gesundheit", 
         "sneezing face", 
@@ -6424,10 +6551,38 @@
         "ignorance", 
         "person shrugging"
     ], 
+    "🤷‍♀️": [
+        "shrug", 
+        "woman", 
+        "ignorance", 
+        "woman shrugging", 
+        "doubt", 
+        "indifference"
+    ], 
+    "🤷‍♂️": [
+        "shrug", 
+        "man shrugging", 
+        "ignorance", 
+        "doubt", 
+        "indifference", 
+        "man"
+    ], 
     "🤸": [
         "person cartwheeling", 
         "gymnastics", 
         "cartwheel"
+    ], 
+    "🤸‍♀️": [
+        "woman", 
+        "gymnastics", 
+        "woman cartwheeling", 
+        "cartwheel"
+    ], 
+    "🤸‍♂️": [
+        "gymnastics", 
+        "man cartwheeling", 
+        "cartwheel", 
+        "man"
     ], 
     "🤹": [
         "skill", 
@@ -6435,6 +6590,18 @@
         "balance", 
         "multitask", 
         "person juggling"
+    ], 
+    "🤹‍♀️": [
+        "woman juggling", 
+        "woman", 
+        "juggling", 
+        "multitask"
+    ], 
+    "🤹‍♂️": [
+        "multitask", 
+        "juggling", 
+        "man juggling", 
+        "man"
     ], 
     "🤺": [
         "fencing", 
@@ -6447,15 +6614,45 @@
         "people wrestling", 
         "wrestler"
     ], 
+    "🤼‍♀️": [
+        "wrestle", 
+        "women wrestling", 
+        "women"
+    ], 
+    "🤼‍♂️": [
+        "men wrestling", 
+        "men", 
+        "wrestle"
+    ], 
     "🤽": [
         "polo", 
         "person playing water polo", 
         "water"
     ], 
+    "🤽‍♀️": [
+        "water polo", 
+        "woman", 
+        "woman playing water polo"
+    ], 
+    "🤽‍♂️": [
+        "water polo", 
+        "man playing water polo", 
+        "man"
+    ], 
     "🤾": [
         "handball", 
         "ball", 
         "person playing handball"
+    ], 
+    "🤾‍♀️": [
+        "handball", 
+        "woman", 
+        "woman playing handball"
+    ], 
+    "🤾‍♂️": [
+        "handball", 
+        "man playing handball", 
+        "man"
     ], 
     "🥀": [
         "wilted", 
@@ -6825,55 +7022,111 @@
         "headscarf", 
         "tichel"
     ], 
-    "🧖": [
+    "🧖‍♀️": [
         "steam room", 
-        "person in steamy room", 
+        "woman in steamy room", 
         "sauna"
     ], 
-    "🧗": [
+    "🧖‍♂️": [
+        "steam room", 
+        "person in steamy room", 
+        "man in steamy room", 
+        "sauna"
+    ], 
+    "🧗‍♀️": [
+        "woman climbing", 
         "climber", 
         "person climbing"
     ], 
-    "🧘": [
+    "🧗‍♂️": [
+        "man climbing", 
+        "climber"
+    ], 
+    "🧘‍♀️": [
+        "woman in lotus position", 
         "meditation", 
         "yoga", 
         "person in lotus position"
     ], 
-    "🧙": [
-        "sorceress", 
+    "🧘‍♂️": [
+        "yoga", 
+        "meditation", 
+        "man in lotus position"
+    ], 
+    "🧙‍♀️": [
+        "woman mage", 
         "wizard", 
         "witch", 
+        "sorceress", 
         "mage", 
         "sorcerer"
     ], 
-    "🧚": [
+    "🧙‍♂️": [
+        "wizard", 
+        "man mage", 
+        "sorcerer"
+    ], 
+    "🧚‍♀️": [
         "Puck", 
         "fairy", 
         "Oberon", 
+        "woman fairy", 
         "Titania"
     ], 
-    "🧛": [
+    "🧚‍♂️": [
+        "Puck", 
+        "man fairy", 
+        "Oberon"
+    ], 
+    "🧛‍♀️": [
         "Dracula", 
+        "woman vampire", 
         "vampire", 
         "undead"
     ], 
-    "🧜": [
+    "🧛‍♂️": [
+        "Dracula", 
+        "man vampire", 
+        "undead"
+    ], 
+    "🧜‍♀️": [
+        "merwoman", 
+        "mermaid"
+    ], 
+    "🧜‍♂️": [
+        "Triton", 
         "merperson", 
         "merman", 
         "mermaid", 
         "merwoman"
     ], 
-    "🧝": [
+    "🧝‍♀️": [
+        "woman elf", 
+        "magical"
+    ], 
+    "🧝‍♂️": [
+        "man elf", 
         "elf", 
         "magical"
     ], 
-    "🧞": [
-        "genie", 
+    "🧞‍♀️": [
+        "woman genie", 
         "djinn"
     ], 
-    "🧟": [
+    "🧞‍♂️": [
+        "genie", 
+        "djinn", 
+        "man genie"
+    ], 
+    "🧟‍♀️": [
+        "woman zombie", 
+        "undead", 
+        "walking dead"
+    ], 
+    "🧟‍♂️": [
         "zombie", 
         "undead", 
+        "man zombie", 
         "walking dead"
     ], 
     "🧠": [

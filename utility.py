@@ -65,8 +65,8 @@ def unindent(s):
 #####
 
 def isAlphaAndNotEmoji(uchr):
-    import emoji_tables
-    return uchr.isalpha() and not uchr in emoji_tables.ALL_EMOJIS
+    import emojiUtil
+    return uchr.isalpha() and not uchr in emojiUtil.ALL_EMOJIS
 
 def allAlpha(str):
     unistr = str.decode('utf-8')

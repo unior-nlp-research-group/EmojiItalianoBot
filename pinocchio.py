@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import logging
 
 # titoli: https://docs.google.com/spreadsheets/d/1EviZIbjoK9x3WV65S18KYZO3u39NrFsfGpbBofABN9c/edit?usp=sharing
 
@@ -25,7 +26,7 @@ PINOCCHIO_CHAPTERS_DOC_KEYS = [
 
 PINOCCHIO_CHAPTER_URL = "https://docs.google.com/spreadsheets/d/{0}/export?format=tsv&gid=0"
 
-ASCII_PUNCTS = "_,;.:!?\"'()="
+ASCII_PUNCTS = "_,;.:!?\"'()\[\]="
 PUNCT_RE_MATCH = "^[{}]$".format(ASCII_PUNCTS)
 TOKEN_RE_SPLIT = "([\s{}])".format(ASCII_PUNCTS)
 UNDER_OPEN = '⌊'
@@ -112,10 +113,10 @@ def buildPinocchioChapters():
             line_num += 1
         PINOCCHIO_CHAPTERS.append(chapterSentences)
 
-def formatEmojiText(emojiText):
-    emoji_sentence = convertPunctuation(emojiText)
+def formatEmojiText(emojiText, ch_num=1, line_num=1):
+    emoji_sentence = convertPunctuation(emojiText, ch_num, line_num)
     emojis_tokens = tokenize(emoji_sentence)
-    emojis_tokens = fixPunctuationInGroups(emojis_tokens)
+    emojis_tokens = fixPunctuationInGroups(emojis_tokens, ch_num, line_num)
     groups = getEmojiSpacingGroups(emojis_tokens)
     return ' '.join([''.join(g) for g in groups])
 
@@ -128,6 +129,7 @@ def convertPunctuation(text, ch_num=1, line_num=1):
         text = text.replace(p, ' {} '.format(p))
     newChars = []
     underscore_was_opened, quotation_was_opened = False, False
+    sq_par_open_count, sq_par_error = 0, False
     for ch in text:
         if isPunctuation(ch):
             if ch == '_':
@@ -136,12 +138,26 @@ def convertPunctuation(text, ch_num=1, line_num=1):
             elif ch == '"':
                 ch = QUOTE_OPEN if not quotation_was_opened else QUOTE_CLOSE
                 quotation_was_opened = not quotation_was_opened
+            elif ch == '[':
+                ch = UNDER_OPEN
+                sq_par_open_count += 1
+                if sq_par_open_count>1:
+                    sq_par_error = True
+                sq_par_was_open = True
+            elif ch == ']':
+                ch = UNDER_CLOSE
+                sq_par_open_count -= 1
+                if sq_par_open_count<0:
+                    sq_par_error = True
+                sq_par_was_open = True
             ch = ' {} '.format(ch)
         newChars.append(ch)
     if underscore_was_opened:
         print "Uneven underscores in ch {} line {}".format(ch_num, line_num)
     if quotation_was_opened:
         print "Uneven quotation in ch {} line {}".format(ch_num, line_num)
+    if sq_par_open_count != 0 or sq_par_error:
+        print "Wrong square parenthesis in ch {} line {}".format(ch_num, line_num)
     return ''.join(newChars)
 
 # separate emoji from punctuation
@@ -252,6 +268,7 @@ def parseChLineIndex(chLineIndex):
 
 # idString is of type 1:1
 def getSentenceEmojiString(chLineIndex):
+    logging.debug('in getSentenceEmojiString with chLineIndex={}'.format(chLineIndex))
     ch_num, line_num = parseChLineIndex(chLineIndex)
     if ch_num is None:
         return None
