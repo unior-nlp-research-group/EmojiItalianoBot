@@ -322,7 +322,7 @@ class GlossarioTableJson(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
         self.response.out.write(json.dumps(result, indent=4, ensure_ascii=False))
 
-def getGlossarioHtml(inverted=False):
+def getGlossarioHtml(inverted=False, multi_row=False):
     import date_util
     fileds = ['Emoji','Parola']
     if inverted:
@@ -340,28 +340,34 @@ def getGlossarioHtml(inverted=False):
         </tr>
         """.format(fileds[0],fileds[1])
     table = getGlossTableRowsInverted() if inverted else getGlossTableRows()
+    html_row = \
+        """
+        <tr>
+            <td width="100px">{}</td>
+            <td width="400px">{}</td>
+            <td width="100px">{}</td>
+        </tr>
+        """
     for row in table:
-        htmlText += \
-            """
-            <table border = "1">
-            <tr>
-                <td width="100px">{}</td>
-                <td width="400px">{}</td>
-                <td width="100px">{}</td>
-            </tr>
-            """.format(row[0], row[1], row[2])
+        if multi_row:
+            mappings = [x.strip() for x in row[1].split(',')]
+            for n,x in enumerate(mappings,1):
+                first_field = '{} ({})'.format(row[0],n) if len(mappings)>1 else row[0]
+                htmlText += html_row.format(first_field, x, row[2])
+        else:
+            htmlText += html_row.format(row[0], row[1], row[2])
     htmlText += '</table>'
     htmlText += "</body></html>"
     return htmlText
 
 class GlossarioTableHtml(webapp2.RequestHandler):
     def get(self):
-        htmlText = getGlossarioHtml()
+        htmlText = getGlossarioHtml(multi_row=True)
         self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
         self.response.out.write(htmlText)
 
 class GlossarioTableHtmlInverted(webapp2.RequestHandler):
     def get(self):
-        htmlText = getGlossarioHtml(inverted=True)
+        htmlText = getGlossarioHtml(inverted=True, multi_row=True)
         self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
         self.response.out.write(htmlText)
