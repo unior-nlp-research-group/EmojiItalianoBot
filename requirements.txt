@@ -1,13 +1,12 @@
 emoji_unicode==0.2
 gaepytz==2011rc0
-requests==2.12.5
+requests==2.20.0
 requests_toolbelt==0.8.0
 pylint
-TwitterAPI==2.5.4
-#tweepy
+#TwitterAPI==2.5.4
 python_twitter
 
 # not necessary in gae
-#webapp2==2.5.2
-#WebOb==1.8.4
-#PyYAML
+webapp2==2.5.2
+WebOb==1.8.4
+PyYAML
