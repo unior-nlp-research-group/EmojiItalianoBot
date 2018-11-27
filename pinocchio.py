@@ -222,12 +222,12 @@ def findEmojiInPinocchio(inputEmojiText, deepSearch=False):
             for ew in emojiWords:
                 emojiWord = ''.join(ew)
                 if inputEmojiText == emojiWord:
-                    result.append("{0}.{1}".format(str(ch_num),str(line_num)))
+                    result.append("/{0}_{1}".format(str(ch_num),str(line_num)))
                     break
                 elif deepSearch:
                     line = ''.join(charList)
                     if line.find(inputEmojiText)>=0:
-                        result.append("{0}.{1}".format(str(ch_num), str(line_num)))
+                        result.append("/{0}_{1}".format(str(ch_num), str(line_num)))
                         break
     return result
 
@@ -238,7 +238,7 @@ def findTextInPinocchio(text):
         for line_num, row in enumerate(chapter, 1):
             line = row[0]
             if line.find(text) >= 0:
-                result.append("{0}.{1}".format(str(ch_num), str(line_num)))
+                result.append("/{0}_{1}".format(str(ch_num), str(line_num)))
     return result
 
 ##########################

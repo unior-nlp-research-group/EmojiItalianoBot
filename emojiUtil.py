@@ -10,6 +10,9 @@ EMOJI_INFO = jsonUtil.json_load_byteified_file(EMOJI_JSON_FILE)
 EMOJI_INFO_NO_OBSOLETE = [entry for entry in EMOJI_INFO if entry.get("obsoleted_by",None)==None]
 
 def getEmojiFromCodePoint(code_point, separator='-'):
+    # see also 
+    # - unicode(text_input,"unicode_escape").encode("utf8")
+    # - text_input.decode('unicode-escape')
     codes = code_point.split(separator)
     emoji_uni = ''.join(unichr(int(c,16)) for c in codes)
     emoji_utf = emoji_uni.encode('utf-8')
