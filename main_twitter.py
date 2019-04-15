@@ -7,6 +7,10 @@ import key
 import json
 import logging
 
+import requests_toolbelt.adapters.appengine
+requests_toolbelt.adapters.appengine.monkeypatch()
+
+
 class WebhookHandler(webapp2.RequestHandler):
     def post(self):
         from google.appengine.api import urlfetch
@@ -111,6 +115,20 @@ def post_retweet(message_text, original_tweet_id=None):
 
 ''' 
 
+# https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#put-account-activity-all-env-name-webhooks-webhook-id
+# ok
+def trigger_CRC_request():    
+    from TwitterAPI import TwitterAPI
+    twAPI = TwitterAPI(
+        key.TWITTER_CUSUMER_API_KEY, key.TWITTER_CUSUMER_API_SECRET,
+        key.TWITTER_ACCESS_TOKEN, key.TWITTER_ACCESS_TOKEN_SECRET
+    )
+    r = twAPI.request(
+        'account_activity/all/:{}/webhooks/:{}'.format(key.TWITTER_ENVNAME, 1066955205047173120), 
+        method_override='PUT'
+    )
+    return r.text
+
 def solve_crc_challenge(crc_token):
     # https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/guides/securing-webhooks.html
     # https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/guides/getting-started-with-webhooks
@@ -127,6 +145,8 @@ def solve_crc_challenge(crc_token):
 
     return 'sha256=' + base64.b64encode(sha256_hash_digest).decode('utf-8')
 
+def test():
+    api.PostDirectMessage(user_id=key.TWITTER_FEDE_ID, text='test')    
 
 def get_user_info(key, value):
     assert key in ['user_id', 'screen_name']
@@ -151,6 +171,7 @@ def deal_with_event(event_json):
 
 def build_response(text_input):    
     import gloss
+    import emojiUtil
     from utility import has_roman_chars    
     logging.debug('input text type: {}'.format(type(text_input)))
     if has_roman_chars(text_input):
@@ -163,7 +184,8 @@ def build_response(text_input):
                 else:
                     return 'Le possibili traduzioni di "{}" in emojitaliano sono: {}'.format(text_input, translation_str)
     else:
-        # emoji -> text        
+        # emoji -> text      
+        text_input = emojiUtil.normalizeEmojiText(text_input)  
         translation_list = gloss.getTextFromEmoji(text_input)
         translation_str = ', '.join([x.encode('utf-8') for x in translation_list])            
         if translation_str:

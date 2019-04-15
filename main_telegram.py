@@ -1465,11 +1465,14 @@ class WebhookHandler(webapp2.RequestHandler):
                 if text == BOTTONE_INDIETRO:
                     restart(p)
                 else:
-                    if utility.has_roman_chars(text):
-                        emoji = getEmojiFromString(text, italian=True, pinocchioSearch=p.isAdmin())
+                    ps = p.isAdmin()
+                    if ps:
+                        reply('Ricerca avanzata in corso...', markdown=False)
+                    if utility.has_roman_chars(text):                        
+                        emoji = getEmojiFromString(text, italian=True, pinocchioSearch=ps)
                         reply(emoji, kb=[[BOTTONE_INDIETRO]], markdown=False)
-                    else:
-                        string = getStringFromEmoji(text, italian=True, normalization_warning=p.isAdmin(), pinocchioSearch=p.isAdmin())
+                    else:                        
+                        string = getStringFromEmoji(text, italian=True, normalization_warning=p.isAdmin(), pinocchioSearch=ps)
                         reply(string, kb = [[BOTTONE_INDIETRO]], markdown=False)
             elif p.state == 21:
                 # EN <-> EMOJI
