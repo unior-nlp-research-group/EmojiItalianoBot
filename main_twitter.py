@@ -234,3 +234,6 @@ def process_tweet_post(event_json):
             #        reply_text += ' ' + ' '.join(['@{}'.format(x) for x in mentions_screen_name])                        
             logging.debug('TWITTER Reply to direct message from @{} with text {} -> {}'.format(sender_screen_name, message_text, reply_text))        
             api.PostUpdate(status=reply_text.decode('utf-8'), in_reply_to_status_id=tweet_id, auto_populate_reply_metadata=True)            
+
+def daylyTweet(msg):
+    api.PostUpdate(status=msg.decode('utf-8'))            

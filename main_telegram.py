@@ -295,7 +295,7 @@ def broadcast(sender_id, msg, restart_user=False, markdown=False, curs=None, ena
 
 def getInfoCount():
     c = Person.query().count()
-    msg = "Attualmente siamo in *{0}* persone iscritte a @emojitalianobot! " \
+    msg = "Siamo in *{0}* persone iscritte a @emojitalianobot! " \
           "Vogliamo crescere insieme, aiutaci a far conoscere questo bot invitando altri amici e " \
           "votandolo su [storebot](telegram.me/storebot?start=emojitalianobot) e su " \
           "[telegramitalia](telegramitalia.it/emojitalianobot)!".format(str(c))
@@ -1383,6 +1383,16 @@ class InfouserAllHandler(webapp2.RequestHandler):
         msg = getInfoCount()
         #broadcast(key.FEDE_CHAT_ID, msg, markdown=True)
         tell(key.FEDE_CHAT_ID, msg, markdown=True)
+
+class TweeetDayly(webapp2.RequestHandler):
+    def get(self):
+        from main_twitter import daylyTweet
+        randomGlossMultiEmoji = gloss.getRandomGlossMultiEmoji()
+        randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
+        randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()        
+        msg = 'La traduzione di "{}" in emojitaliano è {}'.format(randomGlossMultiEmoji_translation, randomGlossMultiEmoji_emoji)
+        logging.debug("Dayly Tweet: {}".format(msg))
+        daylyTweet(msg)
 
 # ================================
 # ================================

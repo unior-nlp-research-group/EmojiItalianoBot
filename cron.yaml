@@ -5,3 +5,7 @@ cron:
   url: /infouser_weekly_all
   schedule: every saturday 14:00
   timezone: Europe/Rome
+- description: tweet dayly
+  url: /tweet_dayly
+  schedule: every day 18:00
+  timezone: Europe/Rome
