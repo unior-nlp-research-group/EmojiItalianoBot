@@ -180,9 +180,9 @@ def build_response(text_input):
         translation_str = ', '.join(translation_list)
         if translation_str:
                 if len(translation_list)==1:
-                    return 'La traduzione di "{}" in emojitaliano è {}'.format(text_input, translation_str)
+                    return 'La traduzione di "{}" in #emojitaliano è {}'.format(text_input, translation_str)
                 else:
-                    return 'Le possibili traduzioni di "{}" in emojitaliano sono: {}'.format(text_input, translation_str)
+                    return 'Le possibili traduzioni di "{}" in #emojitaliano sono: {}'.format(text_input, translation_str)
     else:
         # emoji -> text      
         text_input = emojiUtil.normalizeEmojiText(text_input)  
@@ -190,9 +190,9 @@ def build_response(text_input):
         translation_str = ', '.join([x.encode('utf-8') for x in translation_list])            
         if translation_str:
                 if len(translation_list)==1:
-                    return "La traduzione di {} da emojitaliano è {}".format(text_input, translation_str)
+                    return "La traduzione di {} da #emojitaliano è {}".format(text_input, translation_str)
                 else:
-                    return "Le possibili traduzioni di {} da emojitaliano sono: {}".format(text_input, translation_str)
+                    return "Le possibili traduzioni di {} da #emojitaliano sono: {}".format(text_input, translation_str)
     return None
 
 def process_direct_message(event_json):
