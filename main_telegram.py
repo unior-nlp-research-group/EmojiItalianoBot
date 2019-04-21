@@ -1384,15 +1384,29 @@ class InfouserAllHandler(webapp2.RequestHandler):
         #broadcast(key.FEDE_CHAT_ID, msg, markdown=True)
         tell(key.FEDE_CHAT_ID, msg, markdown=True)
 
-class TweeetDayly(webapp2.RequestHandler):
+class TweeetMorning(webapp2.RequestHandler):
     def get(self):
         from main_twitter import daylyTweet
-        randomGlossMultiEmoji = gloss.getRandomGlossMultiEmoji()
-        randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
-        randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()        
-        msg = 'La traduzione di "{}" in emojitaliano è {}'.format(randomGlossMultiEmoji_translation, randomGlossMultiEmoji_emoji)
-        logging.debug("Dayly Tweet: {}".format(msg))
-        daylyTweet(msg)
+        for _ in range(3):
+            randomGlossMultiEmoji = gloss.getRandomGlossMultiEmoji()
+            randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
+            randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()        
+            msg = 'La traduzione di {} da #emojitaliano in italiano è "{}"'.format(randomGlossMultiEmoji_emoji, randomGlossMultiEmoji_translation)
+            logging.debug("Morning Tweet: {}".format(msg))
+            daylyTweet(msg)
+            sleep(2)
+
+class TweeetEvening(webapp2.RequestHandler):
+    def get(self):
+        from main_twitter import daylyTweet
+        for _ in range(3):
+            randomGlossMultiEmoji = gloss.getRandomGlossMultiEmoji()
+            randomGlossMultiEmoji_emoji = randomGlossMultiEmoji.getEmoji()
+            randomGlossMultiEmoji_translation = randomGlossMultiEmoji.getFirstTranslation()        
+            msg = 'La traduzione di "{}" in #emojitaliano è {}'.format(randomGlossMultiEmoji_translation, randomGlossMultiEmoji_emoji)
+            logging.debug("Evening Tweet: {}".format(msg))
+            daylyTweet(msg)
+            sleep(2)
 
 # ================================
 # ================================

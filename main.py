@@ -13,7 +13,8 @@ app = webapp2.WSGIApplication([
     ('/delete_webhook', 'main_telegram.DeleteWebhook'),
     (key.TELEGRAM_WEBHOOK_PATH, 'main_telegram.WebhookHandler'),
     ('/infouser_weekly_all', 'main_telegram.InfouserAllHandler'),
-    ('/tweet_dayly', 'main_telegram.TweeetDayly'),
+    ('/tweet_morning', 'main_telegram.TweeetMorning'),
+    ('/tweet_evening', 'main_telegram.TweeetEvening'),
     ('/glossario', 'gloss.GlossarioTableHtml'),
     ('/glossario_invertito', 'gloss.GlossarioTableHtmlInverted'),
     (key.TWITTER_WEBHOOK_PATH, 'main_twitter.WebhookHandler')
