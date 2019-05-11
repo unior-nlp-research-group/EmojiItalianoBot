@@ -2,22 +2,24 @@ application: emojitalianobot
 version: 6
 runtime: python27
 api_version: 1
-threadsafe: true
+threadsafe: false
 
 #inbound_services:
 #- channel_presence
 
-instance_class: B4
-basic_scaling:
-  max_instances: 1
-  idle_timeout: 5m
+# Fx: auto scaling
+# Bx: manual or basic scaling
+# instance_class: B4
+# basic_scaling:
+#   max_instances: 2
+#   idle_timeout: 5m
 
 builtins:
 - remote_api: on
 - deferred: on
 
-env_variables:
-    GAE_USE_SOCKETS_HTTPLIB : 'true'
+# env_variables:
+#     GAE_USE_SOCKETS_HTTPLIB : 'true'
 
 handlers:
 - url: /favicon\.ico

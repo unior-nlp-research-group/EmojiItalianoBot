@@ -16,8 +16,7 @@ class WebhookHandler(webapp2.RequestHandler):
         from google.appengine.api import urlfetch
         urlfetch.set_default_fetch_deadline(60)
         body = json.loads(self.request.body)
-        logging.info('request body:')
-        logging.info(body)
+        logging.debug('twitter post request: {}'.format(body))
         deal_with_event(body)
         #return ('',200)
 
@@ -173,7 +172,7 @@ def build_response(text_input):
     import gloss
     import emojiUtil
     from utility import has_roman_chars    
-    logging.debug('input text type: {}'.format(type(text_input)))
+    logging.debug('build_response for "{}" ({})'.format(text_input, type(text_input)))
     if has_roman_chars(text_input):
         # text -> emoji        
         translation_list = gloss.getEmojiListFromText(text_input)
@@ -222,8 +221,7 @@ def process_tweet_post(event_json):
     #    for x in tweet_info['entities']['user_mentions'] 
     #    if x['screen_name']!=key.TWITTER_BOT_SCREEN_NAME
     #]
-    if sender_screen_name != key.TWITTER_BOT_SCREEN_NAME:  
-        logging.debug("TWITTER POST REQUEST: {}".format(json.dumps(event_json)))        
+    if sender_screen_name != key.TWITTER_BOT_SCREEN_NAME:          
         message_text = re.sub(r'(#|@)\w+','',message_text).strip()        
         reply_text = build_response(message_text)
         if reply_text:            
@@ -232,8 +230,10 @@ def process_tweet_post(event_json):
             tweet_id = int(tweet_info['id'])
             #if mentions_screen_name:
             #        reply_text += ' ' + ' '.join(['@{}'.format(x) for x in mentions_screen_name])                        
-            logging.debug('TWITTER Reply to direct message from @{} with text {} -> {}'.format(sender_screen_name, message_text, reply_text))        
+            logging.debug('TWITTER Reply to post from @{} with text {} -> {}'.format(sender_screen_name, message_text, reply_text))        
             api.PostUpdate(status=reply_text.decode('utf-8'), in_reply_to_status_id=tweet_id, auto_populate_reply_metadata=True)            
+    else:
+        logging.debug("Detected TWITTER_BOT_SCREEN_NAME")        
 
 def daylyTweet(msg):
     api.PostUpdate(status=msg.decode('utf-8'))            

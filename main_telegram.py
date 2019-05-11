@@ -305,8 +305,11 @@ def tellmyself(p, msg):
     tell(p.chat_id, "Udiete udite... " + msg)
 
 def tell_masters(msg, markdown=False, one_time_keyboard=False):
-    for id in key.MASTER_CHAT_ID:
-        tell(id, msg, markdown=markdown, one_time_keyboard = one_time_keyboard, sleepDelay=True)
+    for chat_id in key.MASTER_CHAT_ID:
+        tell(chat_id, msg, markdown=markdown, one_time_keyboard = one_time_keyboard, sleepDelay=True)
+
+def tell_emojitalia_group(msg, markdown=False):
+    tell(key.EMOJITALIA_GROUP_ID, msg, markdown=markdown)
 
 def tell_fede(msg):
     for i in range(100):
@@ -1394,6 +1397,7 @@ class TweeetMorning(webapp2.RequestHandler):
             msg = 'La traduzione di {} da #emojitaliano in italiano è "{}"'.format(randomGlossMultiEmoji_emoji, randomGlossMultiEmoji_translation)
             logging.debug("Morning Tweet: {}".format(msg))
             daylyTweet(msg)
+            tell_emojitalia_group(msg)
             sleep(2)
 
 class TweeetEvening(webapp2.RequestHandler):
@@ -1406,6 +1410,7 @@ class TweeetEvening(webapp2.RequestHandler):
             msg = 'La traduzione di "{}" in #emojitaliano è {}'.format(randomGlossMultiEmoji_translation, randomGlossMultiEmoji_emoji)
             logging.debug("Evening Tweet: {}".format(msg))
             daylyTweet(msg)
+            tell_emojitalia_group(msg)
             sleep(2)
 
 # ================================
@@ -1419,8 +1424,7 @@ class WebhookHandler(webapp2.RequestHandler):
         from google.appengine.api import urlfetch
         urlfetch.set_default_fetch_deadline(60)
         body = json.loads(self.request.body)
-        logging.info('request body:')
-        logging.info(body)
+        logging.debug('Telegram post request: {}'.format(body))
         #self.response.write(json.dumps(body))
 
         # update_id = body['update_id']
