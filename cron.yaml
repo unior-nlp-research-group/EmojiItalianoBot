@@ -9,6 +9,10 @@ cron:
   url: /tweet_morning
   schedule: every day 11:00
   timezone: Europe/Rome
+- description: noon tweet
+  url: /tweet_noon
+  schedule: every day 12:30
+  timezone: Europe/Rome
 - description: evening tweet
   url: /tweet_evening
   schedule: every day 18:00

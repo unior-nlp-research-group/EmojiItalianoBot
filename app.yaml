@@ -1,5 +1,5 @@
-application: emojitalianobot
-version: 6
+# application: emojitalianobot
+# version: 6
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -73,6 +73,8 @@ libraries:
 skip_files:
   - ^Makefile$
   - env/
+  - .vscode
+  - .git
   # Defaults
   - ^(.*/)?#.*#$
   - ^(.*/)?.*~$

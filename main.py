@@ -14,6 +14,7 @@ app = webapp2.WSGIApplication([
     (key.TELEGRAM_WEBHOOK_PATH, 'main_telegram.WebhookHandler'),
     ('/infouser_weekly_all', 'main_telegram.InfouserAllHandler'),
     ('/tweet_morning', 'main_telegram.TweeetMorning'),
+    ('/tweet_noon', 'main_telegram.TweeetNoon'),
     ('/tweet_evening', 'main_telegram.TweeetEvening'),
     ('/glossario', 'gloss.GlossarioTableHtml'),
     ('/glossario_invertito', 'gloss.GlossarioTableHtmlInverted'),

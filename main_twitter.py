@@ -235,5 +235,6 @@ def process_tweet_post(event_json):
     else:
         logging.debug("Detected TWITTER_BOT_SCREEN_NAME")        
 
-def daylyTweet(msg):
-    api.PostUpdate(status=msg.decode('utf-8'))            
+def tweet_message(msg):
+    api.PostUpdate(status=msg.decode('utf-8'))    
+            
