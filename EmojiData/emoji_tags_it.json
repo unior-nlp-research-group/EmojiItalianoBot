@@ -1,10 +1,123 @@
 {
+    "£": [
+        "EGP", 
+        "GBP", 
+        "sterlina", 
+        "valuta", 
+        "simbolo della sterlina"
+    ], 
+    "¥": [
+        "CNY", 
+        "JPY", 
+        "valuta", 
+        "yen", 
+        "yuan", 
+        "simbolo dello yen"
+    ], 
+    "§": [
+        "paragrafo", 
+        "parte", 
+        "sezione", 
+        "simbolo di sezione"
+    ], 
     "©": [
         "copyright"
+    ], 
+    "«": [
+        "apertura", 
+        "caporali", 
+        "francesi", 
+        "parentesi", 
+        "virgolette", 
+        "virgolette basse aperte", 
+        "virgolette basse doppie aperte"
     ], 
     "®": [
         "marchio registrato", 
         "marchio registrato cerchiato"
+    ], 
+    "°": [
+        "grado", 
+        "ora", 
+        "proof", 
+        "simbolo di grado"
+    ], 
+    "²": [
+        "apice", 
+        "due", 
+        "valore al quadrato", 
+        "numero due in apice"
+    ], 
+    "³": [
+        "apice", 
+        "tre", 
+        "valore al cubo", 
+        "numero tre in apice"
+    ], 
+    "µ": [
+        "simbolo del micron", 
+        "unità di misura"
+    ], 
+    "·": [
+        "centrato", 
+        "mediano", 
+        "punto", 
+        "segno di interpunzione", 
+        "punto mediano"
+    ], 
+    "¹": [
+        "apice", 
+        "uno", 
+        "numero uno in apice"
+    ], 
+    "»": [
+        "caporali", 
+        "chiusura", 
+        "francesi", 
+        "parentesi", 
+        "virgolette", 
+        "virgolette basse chiuse", 
+        "virgolette basse doppie chiuse"
+    ], 
+    "×": [
+        "moltiplicare", 
+        "moltiplicazione", 
+        "per", 
+        "segno della moltiplicazione", 
+        "segno di moltiplicazione"
+    ], 
+    "÷": [
+        "dividere", 
+        "divisione", 
+        "obelo", 
+        "segno della divisione", 
+        "segno di divisione"
+    ], 
+    "–": [
+        "corto", 
+        "trattino", 
+        "trattino corto"
+    ], 
+    "—": [
+        "lungo", 
+        "trattino", 
+        "trattino lungo"
+    ], 
+    "†": [
+        "obelisco", 
+        "òbelo", 
+        "simbolo dell’obelisco"
+    ], 
+    "‡": [
+        "doppio", 
+        "obelisco", 
+        "òbelo", 
+        "simbolo del doppio obelisco"
+    ], 
+    "•": [
+        "elenco", 
+        "punto", 
+        "punto elenco"
     ], 
     "‼": [
         "doppio punto esclamativo", 
@@ -18,6 +131,34 @@
         "punto esclamativo e interrogativo", 
         "punto interrogativo"
     ], 
+    "⁻": [
+        "apice", 
+        "meno", 
+        "segno meno in apice"
+    ], 
+    "€": [
+        "EUR", 
+        "euro", 
+        "valuta", 
+        "simbolo dell’euro"
+    ], 
+    "₹": [
+        "rupia", 
+        "rupia indiana", 
+        "valuta", 
+        "simbolo della rupia indiana"
+    ], 
+    "₽": [
+        "rublo", 
+        "valuta", 
+        "simbolo del rublo"
+    ], 
+    "℗": [
+        "copyright", 
+        "registrazione", 
+        "sonora", 
+        "simbolo di copyright della registrazione sonora"
+    ], 
     "™": [
         "marchio", 
         "marchio commerciale", 
@@ -30,6 +171,30 @@
         "i", 
         "informazioni", 
         "punto informazioni"
+    ], 
+    "←": [
+        "freccia", 
+        "freccia a sinistra", 
+        "sinistra", 
+        "freccia verso sinistra"
+    ], 
+    "↑": [
+        "freccia", 
+        "freccia in alto", 
+        "in alto", 
+        "freccia verso l’alto"
+    ], 
+    "→": [
+        "destra", 
+        "freccia", 
+        "freccia a destra", 
+        "freccia verso destra"
+    ], 
+    "↓": [
+        "freccia", 
+        "freccia in basso", 
+        "in basso", 
+        "freccia verso il basso"
     ], 
     "↔": [
         "destra", 
@@ -84,6 +249,74 @@
         "freccia", 
         "freccia curva a destra", 
         "verso destra"
+    ], 
+    "⇅": [
+        "freccia", 
+        "freccia in alto e in basso", 
+        "in alto", 
+        "in basso", 
+        "freccia verso l’alto e freccia verso il basso"
+    ], 
+    "⇆": [
+        "destra", 
+        "freccia", 
+        "freccia a sinistra su freccia a destra", 
+        "sinistra", 
+        "freccia verso sinistra su freccia verso destra"
+    ], 
+    "∆": [
+        "delta", 
+        "incremento", 
+        "triangolo", 
+        "simbolo di incremento"
+    ], 
+    "∇": [
+        "delta rovesciato", 
+        "nabla", 
+        "triangolo rovesciato"
+    ], 
+    "∈": [
+        "appartenente a", 
+        "contiene", 
+        "elemento", 
+        "insieme", 
+        "relazione", 
+        "simbolo di appartenenza"
+    ], 
+    "√": [
+        "numero irrazionale", 
+        "quadrata", 
+        "radicale", 
+        "radice", 
+        "radice quadrata"
+    ], 
+    "∞": [
+        "infinito", 
+        "simbolo di infinito"
+    ], 
+    "∩": [
+        "insieme", 
+        "intersezione", 
+        "simbolo di intersezione"
+    ], 
+    "∪": [
+        "insieme", 
+        "raccolta", 
+        "unione", 
+        "simbolo di unione"
+    ], 
+    "≡": [
+        "coincidente", 
+        "esatto", 
+        "identico", 
+        "tre lineette", 
+        "simbolo di coincidenza"
+    ], 
+    "⊂": [
+        "insieme", 
+        "sottoinsieme", 
+        "sottoinsieme di", 
+        "simbolo di sottoinsieme"
     ], 
     "⌚": [
         "orologio", 
@@ -204,6 +437,14 @@
         "quadrato", 
         "quadrato bianco piccolo"
     ], 
+    "▲": [
+        "freccia", 
+        "in alto", 
+        "pieno", 
+        "triangolo", 
+        "triangolo pieno con punta verso l’alto", 
+        "triangolo pieno rivolto verso l’alto"
+    ], 
     "▶": [
         "freccia", 
         "play", 
@@ -212,12 +453,39 @@
         "riproduzione", 
         "triangolo"
     ], 
+    "▼": [
+        "freccia", 
+        "in basso", 
+        "pieno", 
+        "triangolo", 
+        "triangolo pieno con punta verso il basso", 
+        "triangolo pieno capovolto"
+    ], 
     "◀": [
         "pulsante", 
         "pulsante di riavvolgimento", 
         "pulsante riavvolgimento", 
         "sinistra", 
         "triangolo"
+    ], 
+    "◊": [
+        "diamante", 
+        "losanga", 
+        "rombo"
+    ], 
+    "○": [
+        "anello", 
+        "cerchio", 
+        "cerchio vuoto"
+    ], 
+    "●": [
+        "cerchio", 
+        "cerchio pieno"
+    ], 
+    "◯": [
+        "anello", 
+        "cerchio", 
+        "cerchio vuoto grande"
     ], 
     "◻": [
         "geometria", 
@@ -564,6 +832,10 @@
         "tensione", 
         "alta tensione"
     ], 
+    "⚧": [
+        "simbolo transgender", 
+        "transgender"
+    ], 
     "⚪": [
         "bianco", 
         "cerchio", 
@@ -791,7 +1063,8 @@
         "pennino"
     ], 
     "✔": [
-        "nero", 
+        "baffo", 
+        "segno di spunta", 
         "segno di spunta nero", 
         "spunta"
     ], 
@@ -1279,7 +1552,7 @@
         "crescente", 
         "gibbosa", 
         "luna", 
-        "gibbosa crescente"
+        "luna gibbosa crescente"
     ], 
     "🌕": [
         "luna", 
@@ -1291,7 +1564,7 @@
         "calante", 
         "gibbosa", 
         "luna", 
-        "gibbosa calante"
+        "luna gibbosa calante"
     ], 
     "🌗": [
         "luna", 
@@ -1614,9 +1887,9 @@
         "riso"
     ], 
     "🍙": [
-        "arancino di riso", 
+        "arancino di riso giapponese", 
         "onigiri", 
-        "riso", 
+        "polpetta di riso giapponese", 
         "ristorante"
     ], 
     "🍚": [
@@ -1886,7 +2159,7 @@
     "🎇": [
         "festa", 
         "fuoco d’artificio", 
-        "stella filante", 
+        "stellina scintillante", 
         "stelline scintillanti"
     ], 
     "🎈": [
@@ -1918,10 +2191,8 @@
     "🎍": [
         "bambù", 
         "bambù decorato", 
-        "Capodanno", 
-        "festa", 
-        "giapponese", 
-        "pino"
+        "decorazione kadomatsu", 
+        "giapponese"
     ], 
     "🎎": [
         "bambole", 
@@ -2552,7 +2823,6 @@
     ], 
     "🏯": [
         "casa", 
-        "casa giapponese", 
         "castello giapponese", 
         "edificio"
     ], 
@@ -2565,6 +2835,14 @@
         "bandiera bianca", 
         "bandiera che sventola", 
         "sventolare bandiera bianca"
+    ], 
+    "🏳‍⚧": [
+        "azzurro", 
+        "bandiera", 
+        "bianco", 
+        "rosa", 
+        "transgender", 
+        "bandiera transgender"
     ], 
     "🏳‍🌈": [
         "bandiera arcobaleno", 
@@ -2681,6 +2959,12 @@
         "animale", 
         "gatto"
     ], 
+    "🐈‍⬛": [
+        "gatto", 
+        "nero", 
+        "sfortuna", 
+        "gatto nero"
+    ], 
     "🐉": [
         "animale", 
         "drago"
@@ -2733,6 +3017,12 @@
         "animale", 
         "cane", 
         "cucciolo"
+    ], 
+    "🐕‍🦺": [
+        "accessibilità", 
+        "cane d’assistenza", 
+        "cane da assistenza", 
+        "cane di servizio"
     ], 
     "🐖": [
         "animale", 
@@ -2931,6 +3221,12 @@
         "faccina", 
         "muso di orso", 
         "orso"
+    ], 
+    "🐻‍❄": [
+        "bianco", 
+        "orso", 
+        "polare", 
+        "orso polare"
     ], 
     "🐼": [
         "animale", 
@@ -3218,11 +3514,19 @@
         "cuoco", 
         "uomo"
     ], 
+    "👨‍🍼": [
+        "allattamento", 
+        "bebè", 
+        "nutrire", 
+        "uomo", 
+        "uomo che allatta"
+    ], 
     "👨‍🎓": [
         "laurea", 
         "maschio", 
         "ragazzo", 
-        "studente"
+        "studente", 
+        "studente maschio"
     ], 
     "👨‍🎤": [
         "attore", 
@@ -3292,6 +3596,30 @@
         "vigile del fuoco", 
         "pompiere uomo"
     ], 
+    "👨‍🦯": [
+        "accessibilità", 
+        "cecità", 
+        "ciechi", 
+        "cieco", 
+        "ipovedente", 
+        "ipovedenti", 
+        "non vedente", 
+        "non vedenti", 
+        "uomo", 
+        "uomo con bastone bianco di orientamento"
+    ], 
+    "👨‍🦼": [
+        "accessibilità", 
+        "uomo in carrozzina", 
+        "uomo in sedia a rotelle", 
+        "uomo su sedia a rotelle motorizzata"
+    ], 
+    "👨‍🦽": [
+        "accessibilità", 
+        "uomo in carrozzina", 
+        "uomo in sedia a rotelle", 
+        "uomo su sedia a rotelle manuale"
+    ], 
     "👩": [
         "donna", 
         "femmina", 
@@ -3329,6 +3657,13 @@
         "cucinare", 
         "cuoca", 
         "donna"
+    ], 
+    "👩‍🍼": [
+        "allattamento", 
+        "bebè", 
+        "donna", 
+        "nutrire", 
+        "donna che allatta"
     ], 
     "👩‍🎓": [
         "femmina", 
@@ -3404,6 +3739,29 @@
         "vigile del fuoco", 
         "pompiere donna"
     ], 
+    "👩‍🦯": [
+        "accessibilità", 
+        "cecità", 
+        "cieca", 
+        "cieche", 
+        "donna con bastone bianco di orientamento", 
+        "donna non vedente", 
+        "donne non vedenti", 
+        "ipovedente", 
+        "ipovedenti"
+    ], 
+    "👩‍🦼": [
+        "accessibilità", 
+        "donna in carrozzina", 
+        "donna in sedia a rotelle", 
+        "donna su sedia a rotelle motorizzata"
+    ], 
+    "👩‍🦽": [
+        "accessibilità", 
+        "donna in carrozzina", 
+        "donna in sedia a rotelle", 
+        "donna su sedia a rotelle manuale"
+    ], 
     "👪": [
         "bambino", 
         "famiglia", 
@@ -3477,6 +3835,17 @@
         "matrimonio persone", 
         "sposa", 
         "sposa con il velo", 
+        "velo", 
+        "persona con velo"
+    ], 
+    "👰‍♀": [
+        "sposa", 
+        "sposa con velo", 
+        "velo"
+    ], 
+    "👰‍♂": [
+        "sposo", 
+        "sposo con velo", 
         "velo"
     ], 
     "👱": [
@@ -3487,12 +3856,14 @@
     "👱‍♀": [
         "bionda", 
         "donna", 
-        "femmina"
+        "femmina", 
+        "donna bionda"
     ], 
     "👱‍♂": [
         "biondo", 
         "maschio", 
-        "uomo"
+        "uomo", 
+        "uomo biondo"
     ], 
     "👲": [
         "persone", 
@@ -3593,7 +3964,6 @@
         "alieno", 
         "extraterrestre", 
         "faccina", 
-        "favola", 
         "UFO"
     ], 
     "👾": [
@@ -5451,6 +5821,7 @@
     "😡": [
         "arrabbiata", 
         "broncio", 
+        "faccina accigliata", 
         "faccina rossa", 
         "imbronciata", 
         "muso"
@@ -5544,6 +5915,7 @@
         "faccina", 
         "faccina blu sudata", 
         "faccina frettolosa", 
+        "faccina sudata in ansia", 
         "sudata"
     ], 
     "😱": [
@@ -5597,6 +5969,7 @@
     "😹": [
         "faccina", 
         "gatto", 
+        "gatto con lacrime di gioia", 
         "gatto lacrime di gioia", 
         "gioia", 
         "lacrime", 
@@ -5620,6 +5993,7 @@
     "😼": [
         "faccina", 
         "gatto", 
+        "gatto con sorriso sarcastico", 
         "gatto sorriso sarcastico", 
         "sarcastico", 
         "sorriso ironico"
@@ -6302,6 +6676,21 @@
         "fare la spesa", 
         "supermercato"
     ], 
+    "🛕": [
+        "induismo", 
+        "tempio indù", 
+        "tempio induista"
+    ], 
+    "🛖": [
+        "capanna", 
+        "capanno", 
+        "iurta"
+    ], 
+    "🛗": [
+        "accessibilità", 
+        "ascensore", 
+        "montacarichi"
+    ], 
     "🛠": [
         "attrezzi", 
         "martello e chiave inglese", 
@@ -6361,6 +6750,7 @@
     "🛳": [
         "crociera", 
         "nave", 
+        "nave da crociera", 
         "vacanza"
     ], 
     "🛴": [
@@ -6375,7 +6765,8 @@
         "imbarcazione"
     ], 
     "🛷": [
-        "slitta"
+        "slitta", 
+        "slittino"
     ], 
     "🛸": [
         "disco volante", 
@@ -6384,6 +6775,115 @@
     "🛹": [
         "skateboard", 
         "tavola da skateboard"
+    ], 
+    "🛺": [
+        "risciò a motore", 
+        "tuk tuk"
+    ], 
+    "🛻": [
+        "camioncino", 
+        "pick-up", 
+        "pickup"
+    ], 
+    "🛼": [
+        "pattini", 
+        "pattini a rotelle", 
+        "rotelle"
+    ], 
+    "🟠": [
+        "cerchio", 
+        "cerchio arancio", 
+        "cerchio arancione"
+    ], 
+    "🟡": [
+        "cerchio", 
+        "cerchio di colore giallo", 
+        "cerchio giallo"
+    ], 
+    "🟢": [
+        "cerchio", 
+        "cerchio di colore verde", 
+        "cerchio verde"
+    ], 
+    "🟣": [
+        "cerchio", 
+        "cerchio di colore viola", 
+        "cerchio viola"
+    ], 
+    "🟤": [
+        "cerchio di colore marrone", 
+        "cerchio marron", 
+        "cerchio marrone", 
+        "marrone"
+    ], 
+    "🟥": [
+        "quadrato", 
+        "quadrato di colore rosso", 
+        "rosso", 
+        "quadrato rosso"
+    ], 
+    "🟦": [
+        "blu", 
+        "quadrato", 
+        "quadrato di colore blu", 
+        "quadrato blu"
+    ], 
+    "🟧": [
+        "arancione", 
+        "quadrato", 
+        "quadrato di colore arancione", 
+        "quadrato arancione"
+    ], 
+    "🟨": [
+        "giallo", 
+        "quadrato", 
+        "quadrato di colore giallo", 
+        "quadrato giallo"
+    ], 
+    "🟩": [
+        "quadrato", 
+        "quadrato di colore verde", 
+        "verde", 
+        "quadrato verde"
+    ], 
+    "🟪": [
+        "quadrato", 
+        "quadrato di colore viola", 
+        "viola", 
+        "quadrato viola"
+    ], 
+    "🟫": [
+        "quadrato", 
+        "quadrato di colore marrone", 
+        "quadrato marron", 
+        "quadrato marrone"
+    ], 
+    "🤌": [
+        "dita", 
+        "dita unite", 
+        "gesto della mano", 
+        "interrogativo", 
+        "mano a pigna", 
+        "sarcastico"
+    ], 
+    "🤍": [
+        "bianco", 
+        "cuore", 
+        "emozione", 
+        "cuore bianco"
+    ], 
+    "🤎": [
+        "cuore", 
+        "emozione", 
+        "marrone", 
+        "cuore marrone"
+    ], 
+    "🤏": [
+        "mano che fa il gesto del pizzico", 
+        "piccola quantità", 
+        "poco", 
+        "un po’", 
+        "un pochino"
     ], 
     "🤐": [
         "bocca cucita", 
@@ -6424,6 +6924,7 @@
         "dolore", 
         "faccina", 
         "faccina bendata", 
+        "faccina con la testa bendata", 
         "farsi male", 
         "fasciarsi la testa"
     ], 
@@ -6609,8 +7110,18 @@
         "principe"
     ], 
     "🤵": [
+        "persona", 
+        "persona in smoking", 
         "smoking", 
-        "sposo", 
+        "sposo"
+    ], 
+    "🤵‍♀": [
+        "donna", 
+        "donna in smoking", 
+        "smoking"
+    ], 
+    "🤵‍♂": [
+        "smoking", 
         "uomo", 
         "uomo in smoking"
     ], 
@@ -6748,6 +7259,13 @@
         "pallamano", 
         "sport", 
         "uomo"
+    ], 
+    "🤿": [
+        "diving", 
+        "fare immersioni", 
+        "immersioni", 
+        "maschera da sub", 
+        "snorkeling"
     ], 
     "🥀": [
         "appassito", 
@@ -7013,6 +7531,32 @@
         "faccina con cuoricini", 
         "faccina innamorata"
     ], 
+    "🥱": [
+        "annoiata", 
+        "annoiate", 
+        "annoiati", 
+        "annoiato", 
+        "faccina che sbadiglia", 
+        "mi annoio", 
+        "noia", 
+        "sbadigliare", 
+        "sbadiglio", 
+        "sonno", 
+        "stanca", 
+        "stanche", 
+        "stanchezza", 
+        "stanchi", 
+        "stanco"
+    ], 
+    "🥲": [
+        "emozionato", 
+        "faccina sorridente con lacrima", 
+        "grato", 
+        "lacrima", 
+        "orgoglioso", 
+        "rincuorato", 
+        "sorridente"
+    ], 
     "🥳": [
         "cappellino", 
         "faccina che festeggia", 
@@ -7041,11 +7585,32 @@
         "gelone", 
         "ipotermia"
     ], 
+    "🥷": [
+        "guerriero", 
+        "invisibile", 
+        "nascosto", 
+        "ninja"
+    ], 
+    "🥸": [
+        "faccina", 
+        "faccina travestita", 
+        "incognito", 
+        "naso", 
+        "occhiali", 
+        "travestimento"
+    ], 
     "🥺": [
         "faccina sull’orlo delle lacrime", 
+        "faccina supplichevole", 
         "implorare", 
         "lacrime", 
         "quasi in lacrime"
+    ], 
+    "🥻": [
+        "abbigliamento", 
+        "abito tradizionale indiano", 
+        "sari", 
+        "vestito tradizionale"
     ], 
     "🥼": [
         "camice", 
@@ -7054,6 +7619,7 @@
         "scienziato"
     ], 
     "🥽": [
+        "maschera", 
         "nuoto", 
         "occhiali di protezione", 
         "occhialini", 
@@ -7253,6 +7819,83 @@
         "uccello", 
         "volatile"
     ], 
+    "🦣": [
+        "estinzione", 
+        "grande", 
+        "lanoso", 
+        "mammut", 
+        "zanna"
+    ], 
+    "🦤": [
+        "dodo", 
+        "estinzione", 
+        "grande", 
+        "Mauritius"
+    ], 
+    "🦥": [
+        "bradipo", 
+        "calma", 
+        "lenta", 
+        "lente", 
+        "lentezza", 
+        "lenti", 
+        "lento", 
+        "pigra", 
+        "pigre", 
+        "pigri", 
+        "pigrizia", 
+        "pigro"
+    ], 
+    "🦦": [
+        "lontra", 
+        "lontra marina"
+    ], 
+    "🦧": [
+        "orango", 
+        "orangotango", 
+        "scimmia", 
+        "scimmione"
+    ], 
+    "🦨": [
+        "puzza", 
+        "puzzola"
+    ], 
+    "🦩": [
+        "fenicottero", 
+        "fenicottero rosa", 
+        "flamingo", 
+        "tropicale"
+    ], 
+    "🦪": [
+        "ostrea", 
+        "ostrica", 
+        "perla"
+    ], 
+    "🦫": [
+        "castoro", 
+        "diga"
+    ], 
+    "🦬": [
+        "bisonte", 
+        "mandria"
+    ], 
+    "🦭": [
+        "foca", 
+        "leone marino", 
+        "otaria"
+    ], 
+    "🦮": [
+        "accessibilità", 
+        "cane da accompagnamento", 
+        "cane guida", 
+        "non vedenti"
+    ], 
+    "🦯": [
+        "accessibilità", 
+        "bastone bianco", 
+        "bastone per ipovedenti", 
+        "bastone per non vedenti"
+    ], 
     "🦰": [
         "capelli rossi", 
         "pel di carota", 
@@ -7333,6 +7976,40 @@
         "superpotere", 
         "uomo"
     ], 
+    "🦺": [
+        "antinfortunistica", 
+        "emergenza", 
+        "gilet antinfortunistica", 
+        "gilet di sicurezza"
+    ], 
+    "🦻": [
+        "accessibilità", 
+        "apparecchio acustico", 
+        "non udente", 
+        "non udenti", 
+        "orecchio con apparecchio acustico", 
+        "protesi acustica"
+    ], 
+    "🦼": [
+        "accessibilità", 
+        "carrozzina motorizzata", 
+        "sedia a rotelle motorizzata"
+    ], 
+    "🦽": [
+        "accessibilità", 
+        "carrozzina manuale", 
+        "sedia a rotelle manuale"
+    ], 
+    "🦾": [
+        "accessibilità", 
+        "protesi", 
+        "protesi robotica per il braccio"
+    ], 
+    "🦿": [
+        "accessibilità", 
+        "protesi", 
+        "protesi robotica per la gamba"
+    ], 
     "🧀": [
         "fetta di formaggio", 
         "formaggio"
@@ -7347,6 +8024,108 @@
         "sale", 
         "saliera"
     ], 
+    "🧃": [
+        "bevanda in brick", 
+        "bevanda monodose", 
+        "succo di frutta in cartone"
+    ], 
+    "🧄": [
+        "aglio", 
+        "insaporire", 
+        "insaporitore", 
+        "spicchio d’aglio"
+    ], 
+    "🧅": [
+        "cipolla", 
+        "insaporire", 
+        "insaporitore", 
+        "soffritto"
+    ], 
+    "🧆": [
+        "ceci", 
+        "falafel", 
+        "polpette di ceci"
+    ], 
+    "🧇": [
+        "gaufre", 
+        "waffle"
+    ], 
+    "🧈": [
+        "burro", 
+        "latticini", 
+        "latticino"
+    ], 
+    "🧉": [
+        "bevanda", 
+        "erba Mate", 
+        "mate"
+    ], 
+    "🧊": [
+        "cubetto di ghiaccio", 
+        "ghiaccio in cubetti", 
+        "ghiaccio in cubi"
+    ], 
+    "🧋": [
+        "bolla", 
+        "bubble tea", 
+        "latte", 
+        "perla", 
+        "sfera", 
+        "tè"
+    ], 
+    "🧍": [
+        "in piedi", 
+        "persona in piedi", 
+        "stare in piedi"
+    ], 
+    "🧍‍♀": [
+        "donna", 
+        "donna in piedi", 
+        "in piedi"
+    ], 
+    "🧍‍♂": [
+        "in piedi", 
+        "uomo", 
+        "uomo in piedi"
+    ], 
+    "🧎": [
+        "in ginocchio", 
+        "inginocchiarsi", 
+        "persona inginocchiata"
+    ], 
+    "🧎‍♀": [
+        "donna", 
+        "donna inginocchiata", 
+        "in ginocchio", 
+        "inginocchiarsi"
+    ], 
+    "🧎‍♂": [
+        "in ginocchio", 
+        "inginocchiarsi", 
+        "uomo", 
+        "uomo inginocchiato"
+    ], 
+    "🧏": [
+        "accessibilità", 
+        "difficoltà uditive", 
+        "persona con problemi di udito", 
+        "problemi di udito", 
+        "sordità"
+    ], 
+    "🧏‍♀": [
+        "donna con difficoltà uditive", 
+        "donna con problemi di udito", 
+        "donna sorda", 
+        "sorda", 
+        "sordità"
+    ], 
+    "🧏‍♂": [
+        "sordità", 
+        "sordo", 
+        "uomo con difficoltà uditive", 
+        "uomo con problemi di udito", 
+        "uomo sordo"
+    ], 
     "🧐": [
         "faccina con monocolo", 
         "sospetto"
@@ -7355,13 +8134,138 @@
         "adulto", 
         "persona"
     ], 
+    "🧑‍⚕": [
+        "infermiera", 
+        "infermiere", 
+        "medico", 
+        "persona che lavora nella sanità", 
+        "sanità", 
+        "terapista"
+    ], 
+    "🧑‍⚖": [
+        "bilancia", 
+        "giudice", 
+        "giustizia"
+    ], 
+    "🧑‍✈": [
+        "aereo", 
+        "pilota"
+    ], 
+    "🧑‍🌾": [
+        "agricoltore", 
+        "allevatore", 
+        "contadino", 
+        "giardiniere"
+    ], 
+    "🧑‍🍳": [
+        "chef", 
+        "cuoco", 
+        "persona che cucina"
+    ], 
+    "🧑‍🍼": [
+        "bebè, allattamento, nutrire, persona", 
+        "persona che allatta"
+    ], 
+    "🧑‍🎄": [
+        "Claus, Natale", 
+        "Santa Claus"
+    ], 
+    "🧑‍🎓": [
+        "diploma", 
+        "studente", 
+        "studentessa"
+    ], 
+    "🧑‍🎤": [
+        "attore", 
+        "cantante", 
+        "intrattenitore", 
+        "rock", 
+        "star"
+    ], 
+    "🧑‍🎨": [
+        "artista", 
+        "tavolozza"
+    ], 
+    "🧑‍🏫": [
+        "insegnante", 
+        "maestra", 
+        "maestro", 
+        "professore", 
+        "professoressa"
+    ], 
+    "🧑‍🏭": [
+        "assemblaggio", 
+        "fabbrica", 
+        "industria", 
+        "operaio", 
+        "persona che lavora in fabbrica"
+    ], 
+    "🧑‍💻": [
+        "inventore", 
+        "persona esperta di tecnologia", 
+        "programmatore", 
+        "software", 
+        "sviluppatore", 
+        "tecnologo"
+    ], 
+    "🧑‍💼": [
+        "architetto", 
+        "business", 
+        "impiegato", 
+        "manager", 
+        "persona che fa un lavoro d’ufficio"
+    ], 
+    "🧑‍🔧": [
+        "elettricista", 
+        "idraulico", 
+        "meccanico"
+    ], 
+    "🧑‍🔬": [
+        "biologo", 
+        "chimico", 
+        "fisico", 
+        "ingegnere", 
+        "persona che lavora in campo scientifico", 
+        "scienziato"
+    ], 
+    "🧑‍🚀": [
+        "astronauta", 
+        "razzo"
+    ], 
+    "🧑‍🚒": [
+        "pompiere", 
+        "vigile del fuoco"
+    ], 
+    "🧑‍🤝‍🧑": [
+        "coppia", 
+        "coppia che si tiene per mano", 
+        "coppia per mano", 
+        "persone che si tengono per mano", 
+        "tenersi per mano"
+    ], 
+    "🧑‍🦯": [
+        "accessibilità", 
+        "cecità", 
+        "persona con bastone di orientamento"
+    ], 
+    "🧑‍🦼": [
+        "accessibilità", 
+        "persona su sedia a rotelle motorizzata", 
+        "sedia a rotelle"
+    ], 
+    "🧑‍🦽": [
+        "accessibilità", 
+        "persona su sedia a rotelle manuale", 
+        "sedia a rotelle"
+    ], 
     "🧒": [
         "bimbo", 
         "giovane"
     ], 
     "🧓": [
         "adulto anziano", 
-        "anziano"
+        "anziano", 
+        "persona anziana"
     ], 
     "🧔": [
         "barba", 
@@ -7550,11 +8454,9 @@
         "petardo"
     ], 
     "🧩": [
-        "frammento", 
-        "indizio", 
         "pezzo di puzzle", 
         "puzzle", 
-        "tessera"
+        "tessera del puzzle"
     ], 
     "🧪": [
         "chimica", 
@@ -7662,7 +8564,6 @@
     ], 
     "🧻": [
         "carta igienica", 
-        "fazzoletti di carta", 
         "rotolo", 
         "rotolo di carta igienica"
     ], 
@@ -7688,5 +8589,369 @@
         "malocchio", 
         "nazar", 
         "occhio di Allah"
+    ], 
+    "🩰": [
+        "balletto", 
+        "danza", 
+        "danza classica", 
+        "scarpette da ballerina", 
+        "scarpette da ballo"
+    ], 
+    "🩱": [
+        "costume da bagno", 
+        "costume da bagno intero"
+    ], 
+    "🩲": [
+        "costume da bagno maschile", 
+        "costume da uomo", 
+        "intimo", 
+        "mutande da uomo", 
+        "slip"
+    ], 
+    "🩳": [
+        "boxer", 
+        "costume da bagno maschile", 
+        "costume da uomo", 
+        "intimo", 
+        "mutande da uomo", 
+        "pantaloncini"
+    ], 
+    "🩴": [
+        "ciabatte", 
+        "infradito", 
+        "sandali", 
+        "spiaggia"
+    ], 
+    "🩸": [
+        "ciclo mestruale", 
+        "donare il sangue", 
+        "donazione di sangue", 
+        "goccia di sangue", 
+        "medicina", 
+        "medicinale", 
+        "mestruazioni"
+    ], 
+    "🩹": [
+        "cerotto", 
+        "cerotto adesivo"
+    ], 
+    "🩺": [
+        "cardiologo", 
+        "dottore", 
+        "fonendoscopio", 
+        "medico", 
+        "stetoscopio"
+    ], 
+    "🪀": [
+        "giocattolo", 
+        "rocchetto", 
+        "yo-yo"
+    ], 
+    "🪁": [
+        "aquilone", 
+        "planare", 
+        "volare"
+    ], 
+    "🪂": [
+        "paracadute", 
+        "paracadute ascensionale", 
+        "paracadutismo", 
+        "parasailing", 
+        "skydiving"
+    ], 
+    "🪃": [
+        "australia", 
+        "boomerang", 
+        "rimbalzo", 
+        "ripercussione"
+    ], 
+    "🪄": [
+        "bacchetta magica", 
+        "maga", 
+        "magia", 
+        "mago", 
+        "strega", 
+        "stregone"
+    ], 
+    "🪅": [
+        "divertimento", 
+        "festa", 
+        "pentolaccia"
+    ], 
+    "🪆": [
+        "bambola", 
+        "matrioska", 
+        "russia"
+    ], 
+    "🪐": [
+        "pianeta con satellite", 
+        "Saturno"
+    ], 
+    "🪑": [
+        "mettersi seduti", 
+        "sedersi", 
+        "sedia"
+    ], 
+    "🪒": [
+        "farsi la barba", 
+        "lama da barba", 
+        "lama da barbiere", 
+        "radersi", 
+        "rasoio", 
+        "rasoio da barbiere"
+    ], 
+    "🪓": [
+        "accetta", 
+        "ascia", 
+        "boscaiolo", 
+        "taglialegna"
+    ], 
+    "🪔": [
+        "deepak", 
+        "deepam", 
+        "divaa", 
+        "diya", 
+        "lampada a olio tradizionale"
+    ], 
+    "🪕": [
+        "banjo", 
+        "musica", 
+        "strumento a corde"
+    ], 
+    "🪖": [
+        "elmetto", 
+        "esercito", 
+        "militare", 
+        "soldato", 
+        "elmetto militare"
+    ], 
+    "🪗": [
+        "concertina", 
+        "fisarmonica", 
+        "organetto"
+    ], 
+    "🪘": [
+        "conga", 
+        "percussioni", 
+        "ritmo", 
+        "tamburo", 
+        "tamburo lungo"
+    ], 
+    "🪙": [
+        "argento", 
+        "denaro", 
+        "metallo", 
+        "moneta", 
+        "oro", 
+        "tesoro"
+    ], 
+    "🪚": [
+        "falegname", 
+        "legname", 
+        "sega", 
+        "sega da falegname", 
+        "utensile"
+    ], 
+    "🪛": [
+        "avvitare", 
+        "cacciavite", 
+        "utensile", 
+        "vite"
+    ], 
+    "🪜": [
+        "arrampicarsi", 
+        "piolo", 
+        "scala", 
+        "scalino"
+    ], 
+    "🪝": [
+        "curva", 
+        "fermaglio", 
+        "gancio", 
+        "intrappolare", 
+        "punto vendita", 
+        "uncino"
+    ], 
+    "🪞": [
+        "riflesso", 
+        "specchio"
+    ], 
+    "🪟": [
+        "apertura", 
+        "aria fresca", 
+        "finestra", 
+        "telaio", 
+        "trasparente", 
+        "vista"
+    ], 
+    "🪠": [
+        "aspirazione", 
+        "idraulico", 
+        "scarico", 
+        "sturalavandini", 
+        "ventosa"
+    ], 
+    "🪡": [
+        "ago", 
+        "ago da cucito", 
+        "cucito", 
+        "punti", 
+        "ricamo", 
+        "sartoria", 
+        "suture"
+    ], 
+    "🪢": [
+        "annodato", 
+        "corda", 
+        "legare", 
+        "nodo", 
+        "spago"
+    ], 
+    "🪣": [
+        "secchia", 
+        "secchio"
+    ], 
+    "🪤": [
+        "esca", 
+        "trappola", 
+        "trappola per topi"
+    ], 
+    "🪥": [
+        "bagno", 
+        "dentale", 
+        "denti", 
+        "igiene", 
+        "pulito", 
+        "spazzolino", 
+        "spazzolino da denti"
+    ], 
+    "🪦": [
+        "cimitero", 
+        "lapide", 
+        "pietra tombale", 
+        "tomba"
+    ], 
+    "🪧": [
+        "cartello", 
+        "corteo", 
+        "manifestazione", 
+        "picchetto", 
+        "protesta", 
+        "striscione"
+    ], 
+    "🪨": [
+        "masso", 
+        "pesante", 
+        "pietra", 
+        "roccia", 
+        "solido"
+    ], 
+    "🪰": [
+        "decomposizione", 
+        "infestante", 
+        "larva", 
+        "malattia", 
+        "mosca"
+    ], 
+    "🪱": [
+        "anellide", 
+        "lombrico", 
+        "parassita", 
+        "verme"
+    ], 
+    "🪲": [
+        "cimice", 
+        "coleottero", 
+        "insetto"
+    ], 
+    "🪳": [
+        "blatta", 
+        "infestante", 
+        "insetto", 
+        "scarafaggio"
+    ], 
+    "🪴": [
+        "casa", 
+        "coltivare", 
+        "curare", 
+        "inutile", 
+        "noioso", 
+        "pianta", 
+        "pianta in vaso"
+    ], 
+    "🪵": [
+        "alberi", 
+        "legna", 
+        "legname", 
+        "tronco"
+    ], 
+    "🪶": [
+        "leggero", 
+        "piuma", 
+        "piumaggio", 
+        "uccello", 
+        "volo"
+    ], 
+    "🫀": [
+        "battito", 
+        "cardiologia", 
+        "cuore", 
+        "organo", 
+        "organo del cuore", 
+        "pulsazione"
+    ], 
+    "🫁": [
+        "espirazione", 
+        "inspirazione", 
+        "organo", 
+        "polmoni", 
+        "respirazione", 
+        "respiro"
+    ], 
+    "🫂": [
+        "abbraccio", 
+        "addio", 
+        "ciao", 
+        "grazie", 
+        "persone che si abbracciano"
+    ], 
+    "🫐": [
+        "bacca", 
+        "blu", 
+        "mirtilli", 
+        "mirtillo"
+    ], 
+    "🫑": [
+        "ortaggio", 
+        "peperone"
+    ], 
+    "🫒": [
+        "cibo", 
+        "oliva"
+    ], 
+    "🫓": [
+        "arepa", 
+        "focaccia", 
+        "lavash", 
+        "naan", 
+        "pita"
+    ], 
+    "🫔": [
+        "involtino", 
+        "messicano", 
+        "tamal"
+    ], 
+    "🫕": [
+        "cioccolato", 
+        "fonduta", 
+        "formaggio", 
+        "fuso", 
+        "pentola", 
+        "svizzero"
+    ], 
+    "🫖": [
+        "bere", 
+        "tè", 
+        "teiera"
     ]
 }

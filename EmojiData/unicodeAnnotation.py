@@ -6,8 +6,8 @@ import json
 def processAnnotationFromUrl(language_code):
     from xml.etree import ElementTree
     from collections import defaultdict
-    ANNOTATION_URL = 'http://unicode.org/repos/cldr/trunk/common//annotations/'
-    ANNOTATION_DERIVED_URL = 'http://unicode.org/repos/cldr/trunk/common/annotationsDerived/'
+    ANNOTATION_URL = 'https://raw.githubusercontent.com/unicode-org/cldr/master/common/annotations/'
+    # ANNOTATION_DERIVED_URL = 'http://unicode.org/repos/cldr/trunk/common/annotationsDerived/'
     annotation_dict = defaultdict(list)
     for base_url in [ANNOTATION_URL]: # [ANNOTATION_URL, ANNOTATION_DERIVED_URL]:
         url = base_url + '{}.xml'.format(language_code)

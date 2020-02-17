@@ -1,19 +1,24 @@
 #https://cloud.google.com/appengine/docs/python/config/cron?hl=en
 
+# 11:00: 3 x emoji -> italiano
+# 12:30: 3 x italiano -> emoji
+# 18:00: 3 x quiz
+
+
 cron:
 - description: info user weekly for all
   url: /infouser_weekly_all
   schedule: every saturday 14:00
   timezone: Europe/Rome
-- description: morning tweet
-  url: /tweet_morning
+- description: broadcast emoji->italian
+  url: /broadcast_emoji_italian
   schedule: every day 11:00
   timezone: Europe/Rome
-- description: noon tweet
-  url: /tweet_noon
+- description: broadcast italian->emoji
+  url: /broadcast_italian_emoji
   schedule: every day 12:30
   timezone: Europe/Rome
-- description: evening tweet
-  url: /tweet_evening
+- description: broadcast quiztime
+  url: /broadcast_quiztime
   schedule: every day 18:00
   timezone: Europe/Rome

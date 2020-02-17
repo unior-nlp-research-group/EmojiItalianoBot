@@ -4,7 +4,7 @@ import logging
 import jsonUtil
 import random
 
-# imported from https://github.com/iamcal/emoji-data/blob/master/emoji_pretty.json
+# imported from https://raw.githubusercontent.com/iamcal/emoji-data/master/emoji_pretty.json
 EMOJI_JSON_FILE = 'EmojiData/emoji_pretty.json'
 EMOJI_INFO = jsonUtil.json_load_byteified_file(EMOJI_JSON_FILE)
 EMOJI_INFO_NO_OBSOLETE = [entry for entry in EMOJI_INFO if entry.get("obsoleted_by",None)==None]
