@@ -1278,17 +1278,18 @@ def createInlineQueryResultArticle(id, tag, query_offset):
     end_index = start_index + 50
     hasMore = len(emojiList)>end_index
     emojiList = emojiList[start_index:end_index]
-    #logging.debug("Replying to inline query for tag '" + tag + "'")
+    logging.debug("Replying to inline query for tag {}: {}".format(tag, ', '.join(emojiList)))
     if emojiList:
         result = []
         i = 0
         for e in emojiList:
-            msg = e
+            msg = e            
             if ADD_TEXT_TO_EMOJI_IN_INLINE_QUERY:
                 msg += ' (' + tag + ')'
-            numberOfEmoijs = emojiUtil.getNumberOfEmojisInString(e)
-            emoji_for_thumb = e if numberOfEmoijs==1 else '🏃‍♂️'
-            thumb_url = emojiUtil.getEmojiImageDataFromUrl(emoji_for_thumb)
+            # numberOfEmoijs = emojiUtil.getNumberOfEmojisInString(e)
+            # emoji_for_thumb = e if numberOfEmoijs==1 else '🏃‍♂️'
+            # thumb_url = emojiUtil.getEmojiImageDataFromUrl(emoji_for_thumb)
+            thumb_url = emojiUtil.getEmojiImageDataFromUrl(e)
             if thumb_url == None:
                 continue
             result.append(
@@ -1336,8 +1337,8 @@ def answerInlineQuery(query_id, inlineQueryResults, next_offset):
 
 def dealWithInlineQuery(body):
     inline_query = body['inline_query']
-    query_text = inline_query['query'].encode('utf-8').strip()
-    if len(query_text)>0:
+    query_text = inline_query['query'].encode('utf-8').strip()    
+    if query_text and len(query_text)>0:
         #logging.debug('inline query text: ' + query_text)
         query_id = inline_query['id']
         query_offset = inline_query['offset']
