@@ -1,6 +1,6 @@
 emoji_unicode==0.2
 gaepytz==2011rc0
-requests==2.20.0
+requests==2.31.0
 requests_toolbelt==0.8.0
 pylint
 #TwitterAPI==2.5.4
